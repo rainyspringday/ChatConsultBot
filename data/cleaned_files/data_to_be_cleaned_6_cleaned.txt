@@ -1,0 +1,2143 @@
+[Page 1]
+2025
+
+[Page 3]
+This book, along with any associated content or subsequent updates, can be
+accessed at https://hdl.handle.net/10986/44047.
+
+[Page 4]
+A reproducibility package is available for this
+book in the Reproducible Research Repository at
+https://reproducibility.worldbank.org/index.php/catalog/study/FR_WLD_2025_523
+https://reproducibility.worldbank.org
+
+[Page 5]
+2025
+
+[Page 6]
+Development / The World Bank
+1818 H Street NW, Washington, DC 20433
+Telephone: 202-473-1000; Internet: www.worldbank.org
+Some rights reserved
+This work is a product of the staff of The World Bank
+with external contributions. The findings, interpretations,
+and conclusions expressed in this work do not necessarily
+reflect the views of The World Bank, its Board of
+Executive Directors, or the governments they represent.
+The World Bank does not guarantee the accuracy,
+completeness, or currency of the data included in
+this work and does not assume responsibility for any
+errors, omissions, or discrepancies in the information,
+or liability with respect to the use of or failure to use
+the information, methods, processes, or conclusions set
+forth. The boundaries, colors, denominations, links/
+footnotes, and other information shown in this work
+do not imply any judgment on the part of The World
+Bank concerning the legal status of any territory or the
+endorsement or acceptance of such boundaries. The
+citation of works authored by others does not mean
+The World Bank endorses the views expressed by those
+authors or the content of their works.
+Nothing herein shall constitute or be construed or
+considered to be a limitation upon or waiver of the
+privileges and immunities of The World Bank, all of
+which are specifically reserved.
+Rights and Permissions
+This work is available under the Creative Commons
+Attribution 3.0 IGO license (CC BY 3.0 IGO), http://
+creativecommons.org/licenses/by/3.0/igo. Under the
+Creative Commons Attribution license, you are free to
+copy, distribute, transmit, and adapt this work, including
+for commercial purposes, under the following conditions:
+Attribution—Please cite the work as follows: World Bank.
+2025. “Business Ready 2025.” World Bank, Washington,
+DC. License: Creative Commons Attribution CC BY 3.0 IGO
+Translations—If you create a translation of this work,
+please add the following disclaimer along with the
+attribution: This translation was not created by The
+World Bank and should not be considered an official
+World Bank translation. The World Bank shall not be
+liable for any content or error in this translation.
+Adaptations—If you create an adaptation of this work,
+please add the following disclaimer along with the
+attribution: This is an adaptation of an original work
+by The World Bank. Views and opinions expressed in
+the adaptation are the sole responsibility of the author
+or authors of the adaptation and are not endorsed by
+The World Bank.
+Third-party content—The World Bank does not
+necessarily own each component of the content
+contained within the work. The World Bank therefore
+does not warrant that the use of any third-party-owned
+individual component or part contained in the work
+will not infringe on the rights of those third parties.
+The risk of claims resulting from such infringement rests
+solely with you. If you wish to re-use a component of
+the work, it is your responsibility to determine whether
+permission is needed for that re-use and to obtain
+permission from the copyright owner. Examples of
+components can include, but are not limited to, tables,
+figures, or images.
+All queries on rights and licenses should be addressed
+to World Bank Publications, The World Bank, 1818 H
+Street NW, Washington, DC 20433, USA; e-mail:
+pubrights@worldbank.org.
+Photo credits: , © NassornSnitwong/Shutterstock;
+, © Sergii Kozii/Shutterstock; ,
+© Sarawut Kh/Shutterstock; , © Dragon Images/
+Shutterstock. All photos used with the permission of
+the photographer and Shutterstock. Further permission
+required for reuse.
+Cover design: Dania Kibbi, Base Three Studio.
+Adapted by Dorsey Bromwell Kaufmann,
+World Bank.
+Interior design: Debra Naylor, Naylor Design, Inc.
+Adapted by Dorsey Bromwell Kaufmann, World Bank.
+
+[Page 7]
+v
+CONTENTS
+Preface vii
+Acknowledgments ix
+1 Introduction 1
+Enabling more and better jobs: The role of business readiness 1
+A framework for linking jobs, growth, and business readiness 5
+2 Main Messages 9
+The three main messages of B-READY 2025 9
+3 B-READY Scores 15
+Pillar scores 15
+Topic scores 20
+Performance at the economy level 23
+General patterns in pillar scores 26
+4 Conclusion 31
+Next steps of the B-READY project 31
+Toward a more business ready world 31
+References 35
+Appendix A: Pillar Scores 37
+Appendix B: Topic Scores 41
+Boxes
+1.1 B-READY’ s approach 3
+3.1 B-READY’ s three pillars and 10 topics 15
+3.2 How B-READY data ar e collected and aggregated 29
+Figures
+B1.1.1 B-READY’ s comprehensive approach to private sector development 4
+B1.1.2 B-READY’ s processes, standards, and objectives 4
+1.1 Considering t he demographic context of each economy in addressing
+the jobs agenda 6
+
+[Page 8]
+vi • Business Ready 2025
+Tables
+A1.1 B-READY 2025 pil lar scores 37
+B1.1 B-READY 2025 perfor mance for 101 economies, by topic 42
+1.2 Wher e jobs meet growth: The matrix of workforce challenges around
+the world 7
+2.1 The economies facing t he most critical needs to create jobs are the
+least business ready 10
+2.2 Y oung workforce economies with the lowest growth and most critical
+need for reform are especially not yet business ready 11
+2.3 Al l demographic groups, regions, and income levels have a public
+services gap, but it is almost three times larger in young workforce
+economies than in mature ones 12
+2.4 Ther e is a global efficiency gap, with low-growth economies showing
+the lowest operational efficiency across all demographic groups 13
+B3.1.1 B-READY pil lars define the scope of the project 16
+B3.1.2 B-READY topics corr espond to various stages of the life cycle of a firm 16
+3.1 Publ ic Services has the widest range and weakest performance of
+the three B-READY pillars, on average 18
+3.2 Economies wit h young workforces have lower B-READY pillar scores 19
+3.3 Ther e is room for improvement in all business topics—Economies
+worldwide are only about 60 percent of the way to a favorable
+business environment 21
+3.4 Economies wit h young workforces also have lower B-READY
+topic scores 22
+3.5 Br eakdown of strong performers, by income group: Strong
+performance is most common among higher-income economies,
+with some exceptions 24
+3.6 Br eakdown of weak performers, by income group: Scaling up
+reform is most critical for lower-income economies 24
+3.7 Consistent str ong performance is rare: OECD high-income
+economies lead in consistency of strong performance, but top
+performance in individual pillars is more diverse 25
+3.8 Al l regions have top performers 26
+3.9 Labor pr oductivity is higher in stronger business environments 27
+3.10 W ealthier economies tend to have better business environments,
+but there are notable exceptions 28
+B3.2.1 B-READY builds on expert quest ionnaires and Enterprise Surveys data 30
+
+[Page 9]
+vii
+PREFACE
+This edition of Business Ready represents the middle phase of the threeyear rollout of the report that began in 2024. This gradual approach was
+designed to permit year-to-year expansion of coverage, refinement of
+methodology, and improvements in format and presentation of findings.
+Business Ready 2025, therefore, constitutes an interim exercise. The number
+of economies covered has doubled since B-READY 2024, with minor
+improvements in the methodology. Given its interim nature, it is presented
+here in short form—with fully validated data on the business readiness
+of 101 economies, accompanied by a summary of the performance of
+economies assessed from the perspective of whether they are sufficiently
+business-ready to meet the job-creation imperatives facing them.
+The full set of data and analysis—for 164 economies—will be published at
+the completion of the rollout phase, by the end of 2026.
+
+[Page 11]
+ix
+ACKNOWLEDGMENTS
+Business Ready (B-READY) is a flagship product of the World Bank
+Development Economics Vice-Presidency (DECVP), developed under the
+leadership of Indermit Gill, Senior Vice President and Chief Economist of
+the World Bank Group. The initiative is produced by the Global Indicators
+Group (DECIG), directed by Norman Loayza.
+The preparation of this report was overseen by Valeria Perotti, in
+collaboration with DECIG’s Enterprise Analysis unit, led by Jorge Rodríguez
+Meza, and Regulatory Efficiency unit, managed by Valentina Saltane.
+Project management support was provided by Santiago Croci Downes,
+Subika Farazi, Kirsten Hommann, Charlotte Nan Jiang, and Klaus KochSaldarriaga.
+The B-READY topics were led by Sarah Kouhlani Nolla (Business Entry),
+Ricardo Maia (Business Entry), Jayashree Srinivasan (Business Location),
+Viktoriya Ereshchenko (Utility Services), Dorina Peteva Georgieva (Labor),
+Israel Fierro (Labor), Maria-Magdalena Chiquier (Financial Services),
+Cyriane Marie Coste (Financial Services), Yulia Valerio (Financial Services),
+Nuno Filipe Mendes Dos Santos (International Trade), Nadia Novik
+(Taxation), Raman Maroz (Dispute Resolution), Antoni Albert Nogues
+Comas (Market Competition), Marina Kayumova (Market Competition),
+Varun Eknath (Business Insolvency), and Tiffany Rongpeng Yang
+(Data Analysis).
+The Enterprise Analysis team was instrumental in collecting firm-level
+data through the expanded World Bank Enterprise Surveys and supported
+questionnaire development and indicator design.
+Finally, B-READY 2025 was made possible thanks to the expertise and
+dedication of almost 5,000 local respondents, including legal professionals
+and sector experts, who provided insights into the legal and regulatory
+landscape in the 101 participating economies. We also extend our sincere
+appreciation to the 58,000 firms that contributed through the Enterprise
+Surveys. All of them generously dedicated their time to respond to
+questionnaires and participate in interviews. Their expertise and on-theground experiences form the backbone of the B-READY data.
+
+[Page 13]
+1
+INTRODUCTION
+Enabling more and better jobs: The role of
+business readiness
+It is impossible to overestimate how important jobs are for individuals,
+families, communities, and economies. For individuals and families, jobs
+represent not only the ability to earn a living but also to obtain a sense of
+identity and self-worth. For communities, jobs are the bedrock of peaceful
+coexistence, where collaboration leads to cultural, social, and economic
+benefits that no person alone could even begin to conceive. For economies,
+jobs are the mechanisms through which individuals and communities
+contribute to society with labor, ideas, and innovation—and, in turn, earn
+an income, participate in a multitude of markets where goods and services
+are traded, and enjoy government-provided infrastructure and services.
+Well-functioning economies are places where jobs are plentiful, suitable
+for workers’ skills, and, in short, productive. This is not often the case.
+Achieving it is a permanent goal of policy makers around the world. To
+be sure, most people in developing economies, where unemployment
+insurance is largely missing, do have a job of some sort. This is not
+enough, however. Subsistence employment, underutilized skills, and
+misallocated workers are all too common features of struggling economies.
+What is needed for development and continuous progress, even in
+advanced economies, is more and better jobs.
+This need is particularly acute in economies whose young populations are
+expanding while economic growth is low. Their vulnerability is evident:
+
+[Page 14]
+2 • Business Ready 2025
+more and more potential workers will soon enter the economy eager to find
+good jobs, while the demand for workers is constrained by disappointingly
+sluggish economic growth. While 1.2 billion young people are expected to
+join the labor force worldwide in the next decade, global GDP growth is
+projected to be only 2.3 percent in 2025—lower than in the previous year,
+lower than during the decade before the COVID-19 pandemic, and lower
+than expected at the beginning of the year (World Bank 2025c).
+Can this vulnerability be turned into an opportunity? The answer is most
+definitely yes. If the conditions for economic growth improve, the demand
+for jobs will pick up and young people will find jobs. Moreover, if these
+workers have the right skills, their jobs will be productive and innovative.
+Stronger economic growth could follow, and what could have been a
+vicious cycle could be turned into a virtuous one.
+Accelerating economic growth, however, is easier said than done. On the
+one hand, it must be well calibrated to the fiscal and monetary constraints
+of the economy. Most economies around the world have mounting fiscal
+debts and face the threat of rising inflation, which limits governments’
+abilities to conduct expansionary fiscal and monetary policies. On the other
+hand, governments may be tempted to increase growth by intervening
+directly in certain sectors and enacting policies that favor selected
+industries, without a clear economic rationale.
+A better, time-tested route is for governments to create a favorable general
+business environment where enterprises and workers can succeed and
+prosper. As Aghion and Howitt (1992) and Mokyr (1992) remind us, a
+favorable business environment for creativity, innovation, and investment
+are the drivers of economic growth. In this approach, governments play
+a supportive role creating the right conditions for a dynamic business
+environment. Well-designed regulations and effective public institutions
+reduce uncertainty and costs for businesses, enabling them to allocate
+resources efficiently and invest in innovation. The private sector—comprised
+of a host of enterprises and workers—becomes the engine of growth. Of
+course, the business environment is not a panacea: social peace and safety,
+macroeconomic stability, adequate infrastructure, and strong human capital
+are equally as important. But all these conditions can generate a virtuous
+cycle of mutual improvement, leading to development and shared prosperity.
+Business Ready is the World Bank Group’s corporate flagship report that
+assesses the state of the business environment from a microeconomic
+perspective—that is, following the life cycle of the firm. The project’s strength
+resides not only on its solid analytical framework but also on its specific,
+granular data. It is designed to inform and guide policy reform on the quality
+of regulations and the effectiveness of public services that directly affect
+how businesses and markets operate—investing, innovating, competing,
+and providing more and better jobs. Its acronym, B-READY, denotes the
+
+[Page 15]
+Introduction • 3
+importance of business readiness and serves also as a call for action: B-READY
+can and should be used by businesses, workers, civil society, and governments
+themselves to advocate for and enact targeted reforms (refer to box 1.1).
+Business Ready 2025 is the second edition of the project’s rollout phase,
+which extends from 2024 to 2026, as coverage increases. B-READY
+2024 assessed 50 economies, B-READY 2025 covers 101 economies, and
+B-READY 2026 will encompass more than 160 economies. Along with the
+increase in coverage, the B-READY methodology and processes are also
+being improved. These improvements and expanded coverage are already
+revealing a number of important findings. While the methodology is broadly
+comparable between the 2024 and 2025 editions, variations in scores should
+be interpreted with due consideration that they may reflect policy reforms,
+expanded data coverage, or methodological refinements, as detailed in the
+latest version of the Methodology Handbook (World Bank 2025a).
+The project’s website (https://www.worldbank.org/en/businessready)
+presents the granular and economy-specific data. This report summarizes
+data benchmarked as of September 1, 2024, and discusses notable trends
+and main messages gradually emerging from the business readiness
+assessment worldwide.
+BOX 1.1 B-READY’s approach
+B-READY uniquely balances analysis of formal
+rules and regulations (de jure) with the actual
+practices of businesses (de facto), ensuring
+that its data is both internationally comparable
+and locally representative. B-READY’s approach
+is comprehensive, aiming to benefit not only
+individual firms but also workers, consumers, new
+enterprises, and the environment. Its strategy is
+threefold (refer to figure B1.1.1).
+• Reform advocacy: By benchmarking
+economies worldwide, B-READY facilitates
+knowledge sharing and policy dialogue
+among governments, the private sector, and
+development institutions.
+• Policy guidance: The project provides detailed
+data to inform specific policy changes,
+highlighting where economies fall short of
+international best practices.
+• Analysis and research: B-READY offers granular
+data for in-depth research, illuminating the
+factors that drive private sector development.
+The B-READY process is distinguished by its
+rigorous development, comprehensive data
+collection, and commitment to transparency
+(refer to figure B1.1.2). Its methodology is shaped
+through extensive consultation both within
+and outside the World Bank Group, ensuring
+that the Concept Note (World Bank 2022) and
+Methodology Handbook (World Bank 2025a)
+reflect global best practices and stakeholder
+input. The 2025 edition represents the second
+of three planned reports in the project’s initial
+rollout, underscoring a phased and consultative
+approach to building a robust assessment
+framework.
+(Continued)
+
+[Page 16]
+4 • Business Ready 2025
+FIGURE B1.1.1 B-READY’ s comprehensive approach to private sector development
+Reform advocacy
+Policy guidance
+Analysis and research
+Business readiness
+assessment
+REQUIRED FEATURES
+• Quantitative
+• Comparable across
+economies
+• Representative of
+each economy
+• Microeconomic
+perspective
+• Enterprises (existing
+and potential)
+• Workers
+• Consumers
+• Ecosystem
+• Good regulations
+• Proper public services
+• Efficient
+implementation
+Favorable business
+environment
+Private sector
+development
+POSITIVE
+GOVERNMENT ROLE
+COMPREHENSIVE
+Source: B-READY project.
+FIGURE B1.1.2 B-READY’ s processes, standards, and objectives
+Rigorous development
+Concept Note and
+Methodology Handbook
+developed in extensive
+consultation within
+and outside the
+World Bank Group
+B-READY 2025 is the
+second of three editions to
+complete the rollout
+phase
+Data collection and
+validation
+In 101 economies, rigorous
+selection of 5,000 local
+experts and wide coverage
+of 58,000 nationally
+representative firms
+Meticulous data validation
+and quality assurance
+processes
+Transparency and
+reproducibility
+Commitment to
+publishing the reports
+and granular data
+All findings will be
+reproducible through
+publicly available toolkit
+on the project website
+01 02 03
+Source: B-READY project.
+BOX 1.1 B-READY’s approach (Continued)
+(Continued)
+
+[Page 17]
+Introduction • 5
+B-READY’s 2025 data collection spans 101
+economies, engaging 5,000 local experts and
+surveying 58,000 nationally representative
+firms. This breadth is matched by meticulous
+validation and quality assurance, guaranteeing
+the reliability of findings. Transparency and
+reproducibility are central to the process, with all
+reports and granular data published and made
+accessible through a public toolkit. The processes
+of collecting and aggregating data, following
+robust governance safeguards, are described in
+box 3.2. The project’s outputs are designed to be
+timely and relevant for policy reform, supporting
+World Bank Group operations, advisory services,
+policy makers, civil society, and researchers in
+advancing private sector development.
+BOX 1.1 B-READY’s approach (Continued)
+B-READY 2025 analyzes the results from a jobs perspective. To do so,
+it combines two lenses: economic and demographic. It asks whether
+economies that need more and better jobs are more business ready. It
+concludes—alarmingly—that just the opposite is happening: economies
+with the largest share of young people expected to join the labor force and
+currently suffering from low economic growth are the least business ready
+and, therefore, the most vulnerable.
+A framework for linking jobs, growth, and
+business readiness
+The report categorizes economies into three workforce groups based on
+the share of their young population (younger than 15 years old; refer to
+figure 1.1):
+• Young workforce economies: More than 31 percent of the population
+is younger than 15 years old. These economies face the challenge of
+generating sufficient job openings and equipping young people with the
+necessary skills. The private sector is pivotal in expanding labor demand
+and supporting workforce development.
+• Peak workforce economies: Eighteen percent to 31 percent of the
+population is younger than 15 years old. The focus for these economies
+is maintaining job creation while supporting productivity gains, given the
+stabilizing working-age population.
+• Mature workforce economies: Less than 18 percent of the population
+is younger than 15 years old. These economies face the challenge of
+fostering job dynamism and adaptability as the labor force shrinks,
+requiring investment in innovation, automation, and lifelong learning.
+
+[Page 18]
+6 • Business Ready 2025
+FIGURE 1.1 Considering the demographic context of each economy in addr essing
+the jobs agenda
+Young workforce
+Rapid growth of
+working-age population
+At the working-age
+population peak
+Peak workforce
+Shrinking working-age
+population
+Mature workforce
+More and better jobs
+Sources: B-READY project; World Population Prospects 2024 (UN DESA 2024).
+The report introduces a Workforce-Growth Matrix that, without suggesting
+causality, maps economies based on demographic pressure (workforce
+group) and medium-term economic growth (low, medium, high) that is
+measured by the average annual GDP growth rate from the past 10 years.
+Although fostering a conducive business environment is essential across
+all economies, this matrix identifies distinct challenges and policy priorities
+for each of them depending on their placement within the matrix (refer to
+figure 1.2):
+• Young workforce, low economic growth. These economies face the
+most vulnerable situation, with intense pressure to generate jobs amid
+sluggish growth. Overhauling the business environment is critical to
+facilitate more and better jobs.
+• Young workforce, high economic growth. These economies benefit from
+robust growth but still face demographic pressure. The key challenge is
+ensuring economic gains translate into more and better jobs, focusing on
+skills development.
+• Mature workforce, low economic growth. These economies face aging
+populations and limited growth. The priority is to spark innovation and
+reform to kickstart growth and transform it into quality jobs.
+• Mature workforce, high economic growth. These economies have a
+balance of aging populations and strong growth. The challenge is to
+sustain momentum by continuously increasing productivity and adapting
+the labor market to an older workforce.
+The B-READY framework evaluates how ready economies are to support
+businesses and job creation by looking at three key areas: the Regulatory
+Framework, Public Services, and Operational Efficiency. These three areas
+are known as pillars (refer to box 3.1).
+
+[Page 19]
+Introduction • 7
+FIGURE 1.2 Wher e jobs meet growth: The matrix of workforce challenges around the world
+Need to boost
+productivity and
+innovation
+Need to maintain
+productivity and
+technology adoption
+Enable resource and job
+reallocation to more
+productive sectors
+Overhaul business
+climate to facilitate
+more and better jobs
+Channel growth into
+more and better jobs
+Potential workforce expansion
+Share of population below age 15
+Potential for more and better jobs
+Economic growth (past 10-year average)
+Low economic
+growth
+Medium economic
+growth
+High economic
+growth
+Young
+workforce
+Peak
+workforce
+Mature
+workforce
+Sources: B-READY project; World Bank World Development Indicators 2024 (https://databank.worldbank.org/source/world
+-development-indicators); World Economic Outlook database April 2025 (https://www.imf.org/en/publications/weo/weo
+-database/2025/april); World Population Prospects 2024 (UN DESA 2024).
+
+[Page 21]
+9
+MAIN MESSAGES
+The three main messages of B-READY 2025
+The report highlights three main messages:
+1. Economies facing the most critical need to create more and better
+jobs are the least business ready (refer to figure 2.1). Young workforce
+economies, which are expected to face a significant influx of new
+workforce entrants, generally lack the supportive business environment
+necessary to deal with this surge.
+Low-growth young workforce economies are falling furthest behind.
+Almost all economies in the young workforce demographic group have
+average B-READY pillar scores that are below the global median (refer to
+figure 2.2). Critically, the gap widens depending on the growth setting:
+high-growth economies are closer to the median, but medium-growth—
+and especially low-growth—economies lag much further behind.
+Low-growth young workforce economies are the most vulnerable,
+consistently posting the lowest scores across all pillars. Sub-Saharan
+Africa is home to most young workforce economies, making the region
+especially exposed to the risks associated with a challenging business
+environment. Notably, B-READY scores are consistently lower in these
+economies than in other regions, reflecting more pronounced regulatory
+hurdles, inefficiencies, and constraints facing firms and the private
+sector. Reforms in the business environment are needed to address the
+challenge of generating more and better jobs.
+
+[Page 22]
+10 • Business Ready 2025
+FIGURE 2.1 The economies facing the most critical needs to cr eate jobs are the least
+business ready
+Potential workforce
+Young
+Peak
+Mature
+Low Medium High
+Economic growth
+Top quintile Fourth quintile Third quintile Second quintile Bottom quintile
+Sources: B-READY 2025 data; World Bank World Development Indicators 2024; World Economic Outlook database April 2025;
+World Population Prospects 2024 (UN DESA 2024).
+Note: The sample comprises 101 economies. This matrix plots economies according to their share of young population (y-axis, with
+a progressively younger population from top to bottom) and their medium-term economic growth performance (x-axis, increasing
+from left to right). The y-axis categorizes economies into young, peak, and mature workforce groups based on the proportion of
+the population under age 15 in 2023, using the sample’s 33rd and 66th percentiles: economies with >31.37 of their population
+under age 15 are classified as having a young workforce; those with between 18.36 percent and 31.37 percent as having a peak
+workforce; and those with <18.36 percent as having a mature workforce. The x-axis groups economies into low, medium, and
+high economic growth categories based on average growth during 2014–23, with thresholds calculated separately within each
+workforce group. For young workforce economies, low economic growth is <1.85 percent, medium economic growth is between
+1.85 percent and 4.17 percent, and high economic growth is >4.17 percent. For peak workforce economies, low economic
+growth is <2.59 percent, medium economic growth is between 2.59 percent and 4.40 percent, and high economic growth is
+>4.40 percent. For mature workforce economies, low economic growth is <2.09 percent, medium economic growth is between
+2.09 percent and 2.94 percent, and high economic growth is >2.94 percent. Each economy is represented by a square, and each of
+the 9 cells contains economies falling into a given demographic–growth grouping. Within each cell, economy squares are sorted by
+the average of their B-READY 2025 pillar scores, with darker shades indicating better performance. White cells reflect combinations
+that do not contain economies, due to the uneven distribution of 101 economies across the 9 cells.
+
+[Page 23]
+Main Messages • 11
+FIGURE 2.2 Y oung workforce economies with the lowest growth
+and most critical need for reform are especially not yet business
+ready
+Low growth Medium growth High growth
+40
+60
+80
+Average B-READY pillar score for young workforce economies
+Mean score Average B-READY pillar score per economy
+Median of all B-READY 2025 economies
+Sources: B-READY 2025 data; World Bank World Development Indicators 2024; World
+Population Prospects 2024 (UN DESA 2024).
+Note: The figure shows the average of pillar scores for young workforce economies by
+growth group.
+2. Economies find it harder to provide public services that support
+businesses than to enact laws and rules to regulate them—resulting
+in a persistent “public services gap.” There is a notable difference
+between the Regulatory Framework (Pillar I) and Public Services
+(Pillar II) scores across all regional and income groups (refer to
+figure 2.3) (for more on pillars and pillar scores, refer to box 3.1),
+indicating that regulations are often implemented without the necessary
+public services to support them.
+The public services gap is 2.8 times wider in young workforce
+economies than in mature economies. This gap may make it more
+challenging for firms to navigate regulations and access services
+efficiently, limiting the responsiveness of the private sector to job
+creation demands. Investing in digital infrastructure, modernizing
+government services, and making information more accessible can close
+this gap and support business growth.
+
+[Page 24]
+12 • Business Ready 2025
+FIGURE 2.3 All demographic gr oups, regions, and income levels have a public services gap,
+but it is almost three times larger in young workforce economies than in mature ones
+54
+20
+60
+Average pillar score Workforce age
+Regulatory
+Framework
+pillar
+Public
+Services
+pillar Average pillar score (0–100)
+b. Public services gap, by demographic groupa. Global public services gap
+0 10 20 30 40 50 60 70 80 90 100
+Young
+Peak
+Mature
+Regulatory Framework pillar Public Services pillar Pillar gap
+Sources: B-READY 2025 data; World Population Prospects 2024 (UN DESA 2024).
+Note: Number within the bubble shows the difference between the average Regulatory Framework and Public Services
+pillar scores.
+3. The ease of regulatory compliance and effective use of public
+services by firms are critical for growth, yet they lag behind
+regulatory strength—resulting in an “efficiency gap.” This efficiency
+gap, defined as the difference between average scores on the Regulatory
+Framework pillar (Pillar I) and Operational Efficiency pillar (Pillar III),
+is observed, on average, across all economies (refer to figure 2.4). There
+is often a mismatch between rules and how easy they are to follow. This
+gap reflects government inefficiencies that hinder firms’ ability to fully
+benefit from strong regulations. Addressing it requires holistic measures
+to strengthen institutional capacity for the effective operationalization of
+the rules on the books.
+Performance in the Operational Efficiency pillar tends to be higher in
+economies experiencing high growth, with gaps across growth groups
+most pronounced among those with a young workforce (refer to
+figure 2.4). Firms in low-growth economies face significantly more
+constraints and barriers than their counterparts in high-growth settings.
+While this association does not imply direct causation, it raises concerns
+for job creation: in low-growth contexts, these constraints hinder
+business activity and limit opportunities for generating more and better
+jobs. Easing such barriers may not instantly transform an economy, but
+it can help kickstart private sector development and set the stage for
+
+[Page 25]
+Main Messages • 13
+growth. Streamlining processes and digitalizing services, supported by
+necessary communication campaigns and training activities, can boost
+efficiency. Making it easier for businesses to comply with regulations
+and access services helps them grow and create jobs.
+By tackling these challenges, economies can unlock growth fueled by the
+private sector, helping all segments of the population access more and
+better jobs.
+FIGURE 2.4 Ther e is a global efficiency gap, with low-growth economies showing the lowest
+operational efficiency across all demographic groups
+60
+20
+60
+Average pillar score
+Regulatory
+Framework
+pillar
+Operational
+Efficiency
+pillar
+b. Operational Efficiency performance, by demographic groupa. Global efficiency gap
+60
+70
+Average pillar score
+Young Peak Mature
+Low growth Medium growth High growth Pillar gap
+57
+51
+70
+64 67
+Sources: B-READY 2025 data; World Bank World
+Development Indicators 2024; World Economic
+Outlook database April 2025; World Population
+Prospects 2024 (UN DESA 2024).
+Note: Number within the bubble shows the
+difference between the average Regulatory
+Framework and Operational Efficiency pillar scores.
+Sources: B-READY 2025 data; World Bank World Development Indicators
+2024; World Economic Outlook database April 2025; World Population
+Prospects 2024 (UN DESA 2024).
+
+[Page 27]
+15
+B-READY SCORES
+Pillar scores
+Each pillar captures a different aspect of what makes a business
+environment supportive and sustainable, helping economies create more
+and better jobs (refer to box 3.1).
+BOX 3.1 B-READY’s three pillars and 10 topics
+B-READY aggregates business environment
+indicators into three pillars (refer to figure B3.1.1)
+and 10 topics (refer to figure B3.1.2).
+The Regulatory Framework pillar focuses on
+the rules that shape business activity. This
+pillar examines the laws and regulations that
+businesses must follow, such as how to register
+a company, labor protections, and rules for
+resolving disputes. It also considers how
+governments set up these rules to promote
+transparency, fair competition, and property
+rights. Importantly, this assessment looks at the
+rules as they are written (de jure), not necessarily
+how well they are enforced. Well-designed
+regulations can encourage innovation, reduce
+uncertainty, and make it easier for businesses to
+invest and grow.
+The Public Services pillar measures the support
+governments provide to help businesses comply
+with regulations. This inc ludes the availability of
+online systems for permits, digital tax platforms,
+and infrastructure at borders for trade. The
+focus here is on how these services are actually
+delivered (de facto), not just whether they exist
+on paper. Good public services make it easier
+for businesses to operate, comply with rules,
+(Continued)
+
+[Page 28]
+16 • Business Ready 2025
+and expand. Research shows that strong public
+services—such as credit bureaus, efficient tax
+administration, and digital platforms—boost
+economic growth and job creation.
+The Operational Efficiency pillar captures how
+easy it is for businesses to comply with rules
+and use public services. This pillar looks at the
+real-world experience of firms, such as how
+long it takes to get utilities connected, how easy
+it is to participate in public procurement, and
+the reliability of digital payment systems. Lower
+compliance costs and more efficient services
+encourage investment and job creation. This pillar
+helps highlight where businesses face practical
+challenges in their day-to-day operations.
+The B-READY framework examines 10 key
+topics that span the stages of a firm’s life cycle—
+BOX 3.1 B-READY’s three pillars and 10 topics (Continued)
+FIGURE B3.1.1 B-READY pillars define the scope of the pr oject
+Rules and regulations that
+firms must follow as they
+open, operate, and close
+a business
+Regulatory Framework Public Services Operational Efficiency
+Pillar I Pillar II Pillar III
+Facilities to support
+regulatory compliance
+and institutions and
+infrastructure to enable
+business activities
+Ease of regulatory
+compliance and effective
+use of public services
+directly relevant
+to firms
+Source: B-READY project.
+FIGURE B3.1.2 B-READY topics corr espond
+to various stages of the life cycle of a firm
+Utility
+Services
+Labor
+Financial
+Services
+International
+Trade
+Taxation
+Dispute
+Resolution
+Market
+Competition
+Business
+Insolvency
+Business
+Location
+Business
+Entry
+Source: B-READY project.
+
+[Page 29]
+B-READY Scores • 17
+opening, operating or expanding, and closing or
+reorganizing a business. These topics, selected
+for their relevance to private sector development
+and their ability to address data gaps, include
+Business Entry, Business Location, Utility Services,
+Labor, Financial Services, International Trade,
+Taxation, Dispute Resolution, Market Competition,
+and Business Insolvency. They are interlinked,
+and the areas for improvement can be addressed
+through complementary reforms. For analytical
+clarity, the topics are grouped into three broad
+domains: Inputs (Business Location, Labor,
+Financial Services, Utility Services), which relate to
+the production function; Markets (Business Entry,
+International Trade, Market Competition), which
+focus on firm behavior within their operating
+environment; and Institutions (Taxation, Dispute
+Resolution, Business Insolvency), which address
+interactions between firms and the state. This
+grouping serves as a flexible framework for
+analysis rather than a rigid classification.
+BOX 3.1 B-READY’s three pillars and 10 topics (Continued)
+Variation in scores across pillars highlights where reforms are most needed
+(refer to figure 3.1). On average, economies score highest in the Regulatory
+Framework pillar (66.32 points), followed by Operational Efficiency pillar
+(60.03 points), and lowest in Public Services pillar (53.97 points). The gap
+between Regulatory Framework and Public Services pillar scores (more
+than 12 points) shows that many economies are better at writing good rules
+than delivering the services needed to support them.
+Public Services is the pillar with the widest range and weakest average
+performance. The difference between the highest and lowest scores is
+greatest for Public Services pillar (64.71 points), suggesting that some
+economies excel while others struggle to provide basic support to firms
+and entrepreneurs. The Republic of Korea leads this pillar (80.22 points)
+and stands out as an example of providing high-quality public services
+for its businesses. Regulatory Framework pillar scores are more consistent
+(with a difference of 44.7 points between the highest and lowest scores),
+likely because it is easier to update laws and regulations, especially with
+support from regional organizations and trade agreements. Czechia tops
+the Regulatory Framework pillar (80.73 points), highlighting that its
+laws and regulations comprehensively reflect internationally recognized
+good practices. The Operational Efficiency pillar exhibits the narrowest
+range in terms of scores (43.77 points) and has Singapore as the leading
+economy (79.25 points), where businesses can perform their activities
+with ease.
+
+[Page 30]
+18 • Business Ready 2025
+FIGURE 3.1 Public Services has the widest range and weakest perfor mance of the three
+B-READY pillars, on average
+10 20 30 40 50
+Regulatory Framework score (0–100)
+Public Services score (0–100)
+Operational Efficiency score (0–100)
+60 70 80 90
+a. Pillar I, Regulatory Framework
+10 20 30 40 50 60 70 80 90
+b. Pillar II, Public Services
+10 20 30 40 50 60 70 80 90
+c. Pillar III, Operational Efficiency
+Europe and Central Asia
+Middle East and North Africa
+Minimum
+Maximum
+OECD high income
+South Asia
+Mean
+East Asia and Pacific
+Latin America and the Caribbean
+Sub-Saharan Africa
+Median
+66.32 67.3236.04 80.73
+53.97 57.8215.51 80.22
+60.03 59.8835.48 79.25
+Source: B-READY 2025 data.
+Note: For each pillar, the scores are plotted with minimum, mean, median, and maximum scores indicated by vertical lines, with
+corresponding scores provided. The dots represent economies. The colors of the dots indicate an economy’s region. The blue
+panels represent quintiles (with darker shades indicating better performance). OECD = Organisation for Economic Co-operation
+and Development.
+Performance varies by region, revealing important patterns (for more
+information on B-READY’s classification of economies by region and
+income group, consult the B-READY website:
+https://www.worldbank
+.org/en/businessready/about-us/covered-economies). High-income
+economies that are members of the Organisation for Economic Cooperation
+and Development (OECD) lead across all pillars, with strong Regulatory
+Frameworks, Public Services, and Operational Efficiency scores. The high
+average pillar scores (75.78 points for Pillar I, 71.45 points for Pillar II,
+and 68.61 points for Pillar III) highlight the robustness of their regulatory
+frameworks, public services, and operational efficiency. Regions like Europe
+and Central Asia also perform well, while others, such as South Asia and
+
+[Page 31]
+B-READY Scores • 19
+Sub-Saharan Africa, score much lower, particularly in the Public Services
+pillar, with average scores of only 45.91 and 38.92 points, respectively.
+Latin America and the Caribbean ranks among the top three regions on
+Pillar I (66.28 points) and Pillar II (57.19 points) but is outperformed in
+terms of Operational Efficiency (with a Pillar III score of 55.43 points) by
+other regions. East Asia and Pacific has the widest range in scores on the
+Operational Efficiency and Public Services pillars, reflecting significant
+differences in the business environment under which firms operate.
+Income level is closely linked to performance in pillar scores. Higherincome economies tend to have better scores and less variation, while
+lower-income economies struggle more, especially in delivering public
+services and operational efficiency. Some lower-income economies do
+outperform in certain areas, showing that targeted reforms can make a
+difference.
+Economies in a mature workforce setting consistently achieve higher scores
+across all pillars, while those with a young workforce tend to score lower
+(refer to figure 3.2). Economies experiencing higher growth also tend to
+perform better within each pillar, showing greater consistency in shaping
+their business environments. Young workforce economies tend to show
+lower performance across all pillars.
+FIGURE 3.2 Economies with young workfor ces have lower B-READY pillar scores
+a. Regulatory Framework b. Public Services c. Operational Efficiency
+Mean Economy Median
+Young Peak Mature
+20
+60
+100
+Pillar score (0–100)
+Young Peak Mature
+Pillar score (0–100)
+20
+60
+100
+Young Peak Mature
+Pillar score (0–100)
+20
+60
+100
+Sources: B-READY 2025 data; World Population Prospects 2024 (UN DESA).
+Note: Each panel shows the distribution of scores across demographic groups for one of the B-READY pillars. Blue circles represent
+economies, and the orange circle denotes the average pillar score of each workforce group. The horizontal lines mark the median.
+
+[Page 32]
+20 • Business Ready 2025
+Mature workforce economies show more consistent performance
+across pillars. These economies tend to have scores concentrated in the
+higher quintiles, especially in the Regulatory Framework and Public
+Services pillars.
+Government inefficiencies can hinder business growth and innovation.
+Delays in permits, utility connections, and trade transactions raise costs and
+create uncertainty. Burdensome compliance and unreliable infrastructure
+lower productivity and discourage investment. Efficient, predictable public
+sector services are essential for a dynamic business environment that
+creates jobs and supports economic transformation.
+Topic scores
+In addition to pillars, B-READY 2025 evaluates business environments
+across 10 key topics that reflect the different stages of a firm’s life
+cycle—starting, operating, and closing or reorganizing a business. The
+10 topics are Business Entry, Business Location, Utility Services, Labor,
+Financial Services, International Trade, Taxation, Dispute Resolution,
+Market Competition, and Business Insolvency. These topics help policy
+makers pinpoint where reforms are needed most and where economies are
+excelling or lagging.
+Every economy has room to improve across all business topics (refer to
+figure 3.3). The average score across all topics is just over 60 out of 100,
+showing that economies around the world are less than two-thirds of the
+way to a favorable business environment. The highest average scores are
+in Business Entry with 71.74 points and Utility Services with 70.69 points,
+while the lowest are in Business Insolvency with 48.19 points and Market
+Competition with 50.22 points. This means that, while it is relatively easier
+to start a business or get utilities, resolving insolvency or ensuring fair
+competition remains a challenge in many places.
+Scores vary widely, highlighting both strengths and weaknesses. Some
+economies excel in certain topics but lag in others, and within each topic,
+there is a broad range of scores. For example, the gap between the best and
+worst performers is especially wide in Business Insolvency (88.59 points)
+and Utility Services (76.49 points), while the range is narrowest for Labor
+(32.95 points). This diversity points to the fact that adopting best practices
+and implementing them effectively is still a work in progress for most
+economies.
+
+[Page 33]
+B-READY Scores • 21
+FIGURE 3.3 Ther e is room for improvement in all business topics—Economies worldwide are
+only about 60 percent of the way to a favorable business environment
+60
+65
+59
+54 53 50 48
+Average Room for improvement
+100
+80
+60
+40
+20
+Business Entry
+Business Location
+Utility Services
+Labor
+Financial ServicesInternational Trade
+Taxation
+Dispute ResolutionMarket CompetitionBusiness Insolvency
+Topic score for each economy
+Source: B-READY 2025 data.
+Note: The figure displays the distribution of scores for 101 economies on each topic, with scores ranging from 0 to 100. Each topic is
+represented by a solid color, allowing for easy comparison across topics. Within each panel, the lowest score appears on the left and
+the highest score on the right. The gray shaded area indicates the gap between each economy’s score and the maximum possible
+score, highlighting the potential for improvement. The colored line shows the position of the average within the distribution.
+Performance gaps are especially pronounced in economies with young
+workforces. Economies in higher-growth settings within this demographic
+group consistently score better across all topics. This suggests that
+improvements in the business environment can help these economies move
+up the growth ladder, but those with low growth and a young population
+face the greatest challenges and pressures. Utility Services and Business
+Insolvency show the most significant performance gaps (exceeding 15 points)
+between high- and low-growth economies in this group (refer to figure 3.4).
+
+[Page 34]
+22 • Business Ready 2025
+FIGURE 3.4 Economies with young workfor ces also have lower B-READY
+topic scores
+Business Entry
+Business Location
+Utility Services
+Labor
+Financial Services
+International Trade
+Taxation
+Dispute Resolution
+Market Competition
+Business Insolvency
+Young workforce economies
+Low growth Medium growth High growth
+Sources: B-READY 2025 data; World Bank World Development Indicators 2024; World Economic Outlook
+database April 2025; World Population Prospects 2024 (UN DESA 2024).
+Note: This figure displays B-READY topic scores across low-, medium-, and high-growth economies for
+the young workforce group of economies. Each dot represents the average topic score for a given growth
+level, while the horizontal lines indicate the range between the lowest- and highest-scoring growth
+groups.
+Across all topics, top-performing economies share common practices
+that set them apart. They embrace digitalization, ensure transparency,
+and integrate government systems. For example, in Business Entry, the
+top performers offer online registration, digital identity verification, and
+seamless data sharing between agencies. This makes it easier and faster to
+start a business, encouraging entrepreneurship and formal job creation.
+Topic performance also varies by region. High-income economies,
+especially those in the OECD, lead in most topics except Labor. Europe
+and Central Asia also perform well, while Sub-Saharan Africa has the
+lowest average scores in most areas. East Asia and Pacific shows the widest
+variation within the region, indicating both high performers and laggards.
+Income level is a strong predictor of topic scores but is not the only
+factor. High-income economies consistently score higher across all topics,
+with the biggest difference in scores by level of income observed in
+Business Insolvency, International Trade, and Utility Services. However,
+some lower-income economies outperform their peers in specific
+areas, showing that targeted reforms can yield results regardless of
+income.
+
+[Page 35]
+B-READY Scores • 23
+Variability in scores is greatest among upper-middle-income economies.
+This group shows the largest differences between the highest and lowest
+performers, especially in Business Insolvency, Business Entry, and Utility
+Services. This suggests that, while some economies in this group are
+catching up with high-income peers, others are still struggling to implement
+best practices.
+Performance at the economy level
+B-READY provides a comprehensive framework for economies to
+benchmark their strengths and identify areas for improvement. By
+evaluating performance across pillars and topics, the report enables a
+holistic comparison, highlighting which economies consistently excel and
+which face persistent challenges.
+High-income economies overwhelmingly dominate the group of strong
+performers. Among economies appearing in the top two quintiles for all
+three pillars or in at least five topics (refer to figure 3.5), 62 percent are
+high-income, followed by upper-middle-income economies. Only 8 percent
+of strong performers are from lower-middle-income and low-income
+economies, underscoring the urgency for these economies to accelerate
+reforms. Nevertheless, some lower-middle-income and low-income
+economies demonstrate strong results, providing valuable examples for
+peers in similar circumstances.
+Consistent weak performance is concentrated among lower-middle-income
+and low-income economies. Economies appearing in the bottom two
+quintiles for all three pillars or in at least five topics (refer to figure 3.6)
+are predominantly lower-middle-income (48 percent) and low-income
+(32 percent), with upper-middle-income and high-income economies making
+up just 16 percent and 4 percent, respectively. This distribution highlights the
+disproportionate challenges faced by economies with lower income levels.
+OECD high-income economies set the standard for consistent strong
+performance at the regional level. Six OECD high-income economies—
+Czechia, Estonia, Republic of Korea, Latvia, the Slovak Republic, and the
+United Kingdom—rank in the top quintile across all three pillars (refer to
+figure 3.7), joined by Singapore in East Asia and Pacific and Georgia in
+Europe and Central Asia. When considering economies in the top quintile
+for at least one pillar, all regions are represented except for South Asia.
+Only one economy in each of Latin America and the Caribbean, Middle
+East and North Africa, and Sub-Saharan Africa achieves top-quintile
+performance in at least one pillar: Colombia in Public Services and Bahrain
+and Rwanda in Operational Efficiency.
+
+[Page 36]
+24 • Business Ready 2025
+FIGURE 3.5 Br eakdown of strong performers, by income group:
+Strong performance is most common among higher-income
+economies, with some exceptions
+62%
+30%
+6%
+2%
+Low income
+Lower middle income
+Upper middle income
+High income
+a. Breakdown of strong performers by income group
+Source: B-READY 2025 data.
+Note: This figure shows a breakdown of economies appearing in the top 2 quintiles
+(41 economies) for all 3 pillars or in at least 5 topics by income level. The B-READY 2025
+report sample includes 34 high-income economies, 26 upper-middle-income economies,
+30 lower-middle-income economies, and 11 low-income economies.
+FIGURE 3.6 Br eakdown of weak performers, by income group:
+Scaling up reform is most critical for lower-income economies
+4%
+16%
+48%
+32%
+Low income
+Lower middle income
+Upper middle income
+High income
+b. Breakdown of weak performers by income group
+Source: B-READY 2025 data.
+Note: This figure shows a breakdown of economies appearing in the bottom 2 quintiles
+(40 economies) for all 3 pillars and in at least 5 topics. The B-READY 2025 report sample
+includes 34 high-income economies, 26 upper-middle-income economies, 30 lower-middleincome economies, and 11 low-income economies.
+
+[Page 37]
+B-READY Scores • 25
+FIGURE 3.7 Consistent str ong performance is rare: OECD high-income economies lead in
+consistency of strong performance, but top performance in individual pillars is more diverse
+21 economies
+9 economies
+8 economies
+1 2 3
+Number of times an economy performs in the top quintile
+Viet Nam
+Taiwan, China
+Uzbekistan
+Türkiye
+Romania
+North
+Macedonia
+Montenegro
+Moldova
+Kazakhstan
+Bulgaria
+Sweden
+Slovenia
+Poland
+Israel
+Hungary
+Greece
+Belgium
+Colombia
+Bahrain
+Rwanda
+Hong Kong
+SAR, China
+Croatia
+United States
+Spain
+Portugal
+New Zealand
+Italy
+Ireland
+Canada
+Serbia Singapore
+Georgia
+United Kingdom
+Slovak Republic
+Latvia
+Korea, Rep.
+Estonia
+Czechia
+East Asia and Pacific Europe and Central Asia
+OECD high income
+Latin America and the Caribbean Middle East and North Africa
+Sub-Saharan Africa
+Source: B-READY 2025 data.
+Note: The B-READY 2025 report sample includes 14 East Asia and Pacific economies, 18 Europe and Central Asia economies,
+11 Latin America and the Caribbean economies, 6 Middle East and North Africa economies, 21 OECD high-income economies,
+4 South Asia economies, and 27 Sub-Saharan Africa economies.
+Strong performance is more widely distributed when assessed at the
+topic level. Over half of the sample—57 economies—achieve top-quintile
+scores in at least one topic (refer to figure 3.8). Three regions—East Asia
+and Pacific, Europe and Central Asia, and OECD high-income—each have
+two economies excelling in more than seven topics. Several economies
+in Latin America and the Caribbean, the Middle East and North Africa,
+and Sub-Saharan Africa demonstrate strong performance in at least four
+topics. In total, 29 economies have up to 3 topics in the top quintile, with
+all regions represented, including South Asia, which has Bangladesh and
+Pakistan in this category.
+
+[Page 38]
+26 • Business Ready 2025
+FIGURE 3.8 All r egions have top performers
+1−3 4−6 7−10
+29 economies
+Slovenia
+Portugal
+Poland
+Israel
+Viet Nam
+Malaysia
+Cambodia
+Tunisia
+Morocco
+Malta
+Togo
+Tanzania
+Mauritius
+Ghana
+Peru
+Mexico
+Jamaica
+Costa Rica
+Pakistan
+Bangladesh
+Uzbekistan
+Türkiye
+Turkmenistan
+Tajikistan
+North
+Macedonia
+Kyrgyz
+Republic
+Kazakhstan
+Bulgaria
+Armenia 22 economies
+United States
+Sweden
+Spain
+Slovak
+Republic
+New Zealand
+Korea, Rep.
+Italy
+Ireland
+Hungary
+Greece
+Estonia
+Czechia
+Canada
+Belgium
+Hong Kong
+SAR, China
+Bahrain
+Rwanda
+Colombia
+Serbia
+Romania
+Moldova
+Azerbaijan
+6 economies
+United
+Kingdom
+Latvia
+Taiwan, China
+Singapore
+Georgia
+Croatia
+Number of times an economy performs in the top quintile
+East Asia and Pacific Europe and Central Asia
+OECD high income
+Latin America and the Caribbean Middle East and North Africa
+South Asia Sub-Saharan Africa
+Source: B-READY 2025 data.
+Note: The B-READY 2025 report sample includes 14 East Asia and Pacific economies, 18 Europe and Central Asia economies,
+11 Latin America and the Caribbean economies, 6 Middle East and North Africa economies, 21 OECD high-income economies,
+4 South Asia economies, and 27 Sub-Saharan Africa economies.
+General patterns in pillar scores
+Stronger business environments are generally linked to higher firm-level
+productivity, here defined as sales per worker in 2009 US$, computed as
+the weighted average across registered firms in an economy (for further
+details, see https://www.enterprisesurveys.org/en/methodology). This
+relationship nonetheless varies by income level. Lower-income economies
+often face greater constraints and lower productivity, underscoring the
+importance of reforms to improve public services, reduce compliance
+burdens, and strengthen regulatory frameworks. Higher-income economies
+must focus on sustaining competitiveness and driving innovation (refer
+to figure 3.9).
+
+[Page 39]
+B-READY Scores • 27
+FIGURE 3.9 Labor pr oductivity is higher in stronger business environments
+Low income
+Upper middle income
+Lower middle income
+High income
+AGO
+ARM AZE
+BEL
+BEN
+BFABGD
+BGR
+BHR
+BIH
+BRB
+BTN
+BWA
+CAF
+CAN
+CIV
+CMR
+COD
+COG
+COL
+CPV
+CRI CYP
+CZE
+ECU
+ESPEST GBRGEO
+GHA
+GMB
+GNQ
+GRCHKG
+HRV
+HUN
+IDN
+IRL
+ISLISR
+ITA
+JAM JOR
+KAZ
+KGZ
+KHM
+KOR
+LAO
+LSO
+LVA
+MAR
+MDA
+MEX
+MKD
+MLI
+MLTMNEMUS
+MYS
+NAM
+NPL
+NZL
+PAK
+PERPHL
+PNG
+POL PRT
+PRY
+PSE
+ROU
+RWA
+SEN
+SGP
+SLE
+SLV
+SRB
+SSD
+SVK SVN
+SWE
+SWZ SYC
+TCD
+TGO
+TJK
+TKM
+TLS
+TON
+TTO TUN
+TUR
+TWN
+TZA URY
+USA
+UZB
+VNM
+VUT
+WSM
+Corr = 0.696
+20
+40
+60
+80
+Average of the three pillar scores
+1,000 10,000 100,000 200,000
+Labor productivity (median 2009 US$)
+Sources: B-READY 2025 data; World Bank Enterprise Surveys Firm Level Productivity Estimates 2025; World Bank World
+Development Indicators 2024.
+Note: This figure plots the relationship between the labor productivity of the median firm from each economy’s most recent
+Enterprise Survey and that economy’s average of the three B-READY pillar scores. The sample comprises 100 economies out of the
+101 surveyed for B-READY 2025. The statistical relationship between the B-READY pillar scores and labor productivity is significant
+at the 1 percent level, after controlling for gross national income per capita in US dollars. Labor productivity is defined as sales per
+worker in 2009 US$, computed as the weighted average across registered firms in an economy (for further details, see https:
+//www
+.enterprisesurveys.org/en/methodology). The data reflecting it are available for all 101 economies, but one has been excluded
+because its labor productivity value was identified as an outlier based on the extent of its deviation from the rest of the distribution.
+Each marker represents an economy, and the color indicates its income group classification. The x-axis is shown on a logarithmic
+scale to accommodate wide variation in productivity levels across economies. For economy abbreviations, refer to the International
+Organization for Standardization, https://www.iso.org/obp/ui/#search. Corr = correlation.
+B-READY scores align with other measures and economic indicators. There
+is a strong positive relationship between B-READY scores and GDP per
+capita, meaning that wealthier economies tend to have better business
+environments. Economies with higher income levels tend to have better
+regulatory frameworks, public services, and operational efficiency. The
+association is strongest for the Public Services pillar, suggesting its
+sensitivity to income levels (refer to figure 3.10).
+
+[Page 40]
+28 • Business Ready 2025
+FIGURE 3.10 W ealthier economies tend to have better business environments, but there are
+notable exceptions
+a. Business readiness is related to per capita income, with variation in all regions
+Europe and Central Asia
+South Asia
+Latin America and the Caribbean
+Middle East and North Africa
+OECD high income
+East Asia and Pacific
+Sub-Saharan Africa
+KHM
+ISRIDN
+LAO
+MYS
+PNG
+PHL
+WSM
+SGP
+TLS
+VUT
+VNM
+ARMAZE
+BIH
+BGR
+CYP
+GEO
+KAZ
+KGZ
+MDA
+MNE
+MKD
+ROUSRB
+TJK
+TKM
+TUR
+UZB
+BELCAN
+CZE
+HUN
+ISL
+IRLHKG
+KOR
+LVA
+NZL
+POL
+SVK SWEGBR
+USA
+BRB
+COL
+CRI
+ECU
+SLV
+JAM
+MEX
+PRY
+TTO
+URY
+BHR
+JOR
+MLT
+MAR
+TUN
+PSE
+BGDNPL
+PAK
+AGO
+BEN
+BWA
+BFA CPVCMR
+CAF
+TCD
+COD
+COG
+CIV
+GNQ
+SWZ
+GMB
+GHA
+LSOMDG MLI
+MUS
+NAM
+RWA
+SEN
+SYC
+SLE
+TZA
+TGO
+Corr = 0.73
+20
+40
+60
+80
+Average of the three pillar scores
+400 1,000 10,000 100,000
+GDP per capita (2023 US$)
+PER
+SVN
+ITA
+EST
+ESP
+PRT
+HRVGRC
+Sources: B-READY 2025 data; World Bank World Development Indicators 2024.
+Note: The sample comprises 101 economies. The statistical relationship between the B-READY pillar scores and GDP per capita is
+significant at the 1 percent level. The x-axis uses a log scale. A fitted regression line is included. For a list of economy codes, refer
+to https://www.iso.org/obp/ui/#search. Corr = correlation; GDP = gross domestic product; OECD = Organisation for Economic
+Co-operation and Development.
+b. Wealthier economies tend to have better
+business environments
+Low income
+Lower middle income
+Upper middle income
+High income
+0 20 40 60 80 100
+Average of pillar scores
+Economy score Average score
+67.9
+68.8
+75.1
+78.2
+32.3
+36.2
+35.3
+51.7
+47.1
+53.7
+61.0
+69.3
+Source: B-READY 2025 data.
+
+[Page 41]
+B-READY Scores • 29
+The B-READY 2025 report underscores that a dynamic business
+environment—marked by clear regulations, access to finance, reliable
+infrastructure, and fair competition—is essential for sustained economic
+growth and job creation. The findings highlight persistent gaps in public
+service delivery and operational efficiency, especially in economies with
+the greatest demographic pressure. Addressing these gaps, investing in
+digitalization, and fostering inclusive growth are critical for unlocking the
+potential of the next generation of workers and ensuring that economic
+gains translate into more and better jobs.
+BOX 3.2 How B-READY data are collected and aggregated
+B-READY’s data collection process integrates
+two main sources: (1) tailored questionnaires
+to experts in various business matters and
+(2) W orld Bank Enterprise Surveys, which
+focus on individual firms and their real-world
+experiences (refer to figure B3.2.1). Expert
+questionnaires gather detailed input from
+professionals—including lawyers, accountants,
+and engineers—mainly on the Regulatory
+Framework and Public Services pillars. These
+experts are rigorously screened to ensure relevant
+knowledge and experience. This data collection
+effort is complemented by collecting data directly
+from business owners and managers through
+Enterprise Surveys for the Operational Efficiency
+pillar, targeting formal, privately owned firms
+with five or more employees in nonextractive,
+nonagricultural sectors. Stratified random
+sampling ensures national representativeness.
+Expert data are updated annually, while
+Enterprise Survey data are refreshed every
+three years. For topics like Business Entry
+and Insolvency, where firms rarely have
+direct experience, data are collected solely
+through expert questionnaires. B-READY
+balances comparability across economies with
+representativeness within each economy, using
+broad parameters for expert input and actual
+everyday experiences from businesses.
+Robust governance underpins the processes
+of collecting and aggregating data, guided
+by transparent methodologies, documented
+protocols, and public access to data and toolkits,
+all available on the B-READY website (https://
+www.worldbank.org/en/businessready). Rigorous
+validation and quality assurance—including
+statistical tests and discrepancy checks—ensure
+data integrity. Aggregation methods transform
+individual responses into economy-level insights,
+providing a comprehensive, actionable picture of
+business environments to guide policy reforms
+and foster private sector development.
+(Continued)
+
+[Page 42]
+30 • Business Ready 2025
+FIGURE B3.2.1 B-READY builds on expert questionnair es and Enterprise Surveys data
+Expert questionnaires
+• Data from experts who regularly deal with
+business regulations and related public services
+and institutions
+• Provide mainly de jure but also de facto
+information (Pillar I) and de facto information
+(Pillars II–III)
+• Data collection through 21 questionnaires,
+filled in by 3–5 experts per questionnaire
+and economy
+• Primarily rely on data from experts in the
+private sector
+• Updated annually for each economy
+Enterprise Surveys
+• Data from a representative sample
+of registered firms
+• Provide de facto information
+• Data collection embedded in the World Bank
+Enterprise Surveys (expanded from 15 to
+about 60 surveys a year)
+• Survey data obtained from company
+owners or managers
+• Updated every 3 years for each economy
+Sources: B-READY project; World Bank 2025b.
+Note: For the B-READY report, expert consultations were conducted using September 1, 2024, as the reference point.
+Enterprise Surveys were conducted at different times between December 2021 and March 2025, in economies where
+safety and security conditions were in order.
+BOX 3.2 How B-READY data are collected and aggregated (Continued)
+
+[Page 43]
+31
+CONCLUSION
+Next steps of the B-READY project
+The first three-year cycle of B-READY serves as the project’s rollout phase.
+During this period, its methodology will continue to be refined. B-READY
+2026 will be the last edition of the rollout and will expand the economy
+coverage to more than 160 economies. The accompanying report will
+elaborate extensively on the results. The revised questionnaires and scoring
+approach across the B-READY topics will be published on the B-READY
+website (https://www.worldbank.org/en/businessready) at the beginning
+of the B-READY 2026 data collection cycle.
+Toward a more business ready world
+How business ready are economies worldwide? That is the question
+Business Ready is designed to address. The answers are emerging gradually
+but surely as the project’s rollout continues.
+Last year, the B-READY 2024 report concluded that the first 50 economies
+to be evaluated were on average 60 percent business ready. Having
+assessed 101 economies—more than twice the coverage of the previous
+report—B-READY 2025 arrives at the same conclusion: the world, as
+represented by the evaluated economies, is on average 60 percent business
+ready, which implies substantial room for improvement.
+This year, B-READY considers the state of business readiness of economies
+with various degrees of vulnerability on job creation. Using a demographic
+and economic perspective, the report identifies the most vulnerable group
+
+[Page 44]
+32 • Business Ready 2025
+of economies as those with larger young populations that are suffering from
+lower economic growth. The results are worrying. While demographically
+mature economies reach 69 percent business readiness and those at the
+peak of the demographic transition attain 62 percent, economies with
+more young people ready to join the labor market are only 49 percent
+business ready. Moreover, on average, high-growth economies outperform
+low-growth economies in the assessment score by a considerable amount:
+6 percent.
+The first main message to emerge from these results is both clear and
+distressing: Economies facing the most critical need to create more and
+better jobs are the least business ready. B-READY granular data highlight
+where targeted reforms and investments could have the greatest impact.
+B-READY 2025 confirms another important result that was featured
+in the previous report: the presence of a large and persistent public
+services gap. On average, the global score on the Public Services pillar
+is nearly 23 percent lower than the score on the Regulatory Framework
+pillar. Moreover, the public services gap is nearly three times larger in
+demographically young economies than in mature ones.
+Building on this result, B-READY 2025’s second main message is that
+economies find it harder to provide public services that support
+businesses than to enact laws and rules to regulate them. Again, this
+weakness is greatest in economies where more young people will be
+looking for a job.
+The difference between “theory” and “practice” has been often observed in
+policy evaluations. B-READY 2025 finds evidence of this shortcoming and
+calls it an efficiency gap. On average, the global score on the Operational
+Efficiency pillar is 10 percent lower than the score on the Regulatory
+Framework pillar. This gap is similar across economies with different
+demographic characteristics. Across all of them, operational efficiency
+is notably related to economic growth, with higher-growth economies
+consistently obtaining higher Operational Efficiency scores.
+These results lead to B-READY 2025’s third main message: the rules
+and regulations on the books are not matched by the actual ease of
+regulatory compliance and effective availability of public services in
+practice, with negative consequences for economic growth. For economies
+aspiring to accelerate growth, enhancing the operational efficiency of firms
+is imperative.
+Naturally, there are notable differences across economies; some have
+remarkably favorable business environments, others have mixed results,
+
+[Page 45]
+Conclusion • 33
+and others show significant gaps. Among the top performers, 92 percent
+are high- or upper-middle-income economies. At the other side of the
+spectrum, among the faltering performers, 83 percent are low- or lowermiddle-income economies. These results complement and reinforce the
+message on vulnerability by adding an income and poverty dimension
+to the demographic and growth challenges these economies face. The
+disparities across economies also point to gaps that could be mitigated by
+knowledge sharing and specific policy reforms. A business environment
+that provides more and better jobs, which in turn, can enhance private
+and public sector capabilities, can be the path to social and economic
+development. Thus, a business ready environment can help support a
+virtuous cycle of mutual improvement.
+In The Little Prince, Antoine de Saint-Exupéry (1943) wrote, “As for the
+future, your task is not to foresee it, but to enable it.” This applies to
+individuals looking for a brighter future—and even more to policy makers,
+whose priority should be to provide an enabling environment where
+workers and enterprises can thrive.
+
+[Page 47]
+35
+REFERENCES
+Aghion, Philippe, and Peter Howitt. 1992. “A Model of Growth Through Creative
+Destruction.” Econometrica 60 (2): 323–51.
+de Saint-Exupéry, Antoine. 1943. The Little Prince. Reynal & Hitchcock.
+Mokyr, Joel. 1992. The Lever of Riches: Technological Creativity and Economic
+Progress. Oxford University Press.
+UN DESA (United Nations Department of Economic and Social Affairs, Population
+Division). 2024. World Population Prospects 2024: Summary of Results.
+UN DESA/POP/2024/TR/NO. 9.
+World Bank. 2022. “Concept Note: Business Enabling Environment.” World Bank,
+Washington, DC. https://thedocs.worldbank.org/en/doc/2250b12dfe798
+507f7b42064378cc616-0540012022/original/BEE-Concept-Note-December-2022.pdf.
+World Bank. 2025a. Business Ready: Methodology Handbook. Washington, DC:
+World Bank. https://thedocs.worldbank.org/en/doc/bc6351803cb0cd5ad4aba
+96b7e4aed8c-0540012024/original/B-Ready-Methodology-Handbook-Edition-2.pdf.
+World Bank. 2025b. “Enterprise Surveys Manual and Guide.” World Bank,
+Washington, DC. https://www.worldbank.org/content/dam/enterprisesurveys
+/documents/methodology/Enterprise%20Surveys_Manual%20and%20Guide.pdf.
+World Bank. 2025c. Global Economic Prospects, June 2025. Washington,
+DC: World Bank.
+
+[Page 49]
+37
+APPENDIX A: PILLAR SCORES
+The overall pillar scores for each of the three pillars—Regulatory Framework, Public Services,
+and Operational Efficiency—calculated by taking the simple average of the corresponding scores
+across the 10 B-READY topics. B-READY pillars are scored on a scale from 0 (worst performance)
+to 100 (best performance). Table A1.1 presents the three pillar scores for each of the 101 economies
+covered in B-READY 2025.
+TABLE A1.1 B-READY 2025 pillar scor es
+(high = 100; low = 0)
+Pillar I—Regulatory Framework
+(average = 66.32)
+Pillar II—Public Services
+(average = 53.97)
+Pillar III—Operational Efficiency
+(average = 60.03)
+First quintile
+Czechia 80.73 Korea, Rep. 80.22 Singapore 79.25
+Greece 79.46 Italy 78.58 Georgia 77.96
+Spain 79.35 Spain 76.76 Estonia 76.03
+Poland 79.02 Estonia 76.11 Korea, Rep. 75.98
+United States 78.67 Latvia 75.91 Sweden 75.49
+Korea, Rep. 78.51 Croatia 75.29 Taiwan, China 75.16
+Slovak Republic 78.45 Singapore 75.27 Ireland 74.08
+Romania 78.07 Canada 74.68 Canada 73.91
+Croatia 78.05 Colombia 74.17 Latvia 72.13
+Portugal 77.93 United Kingdom 73.52 Uzbekistan 71.80
+Moldova 77.76 Türkiye 73.43 Hong Kong SAR, China 71.54
+United Kingdom 77.65 United States 73.04 Rwanda 71.47
+Singapore 77.64 New Zealand 72.55 United Kingdom 71.25
+Ireland 77.13 Czechia 72.30 Hungary 70.89
+Georgia 76.99 Portugal 72.11 Bahrain 70.76
+Bulgaria 76.98 Slovenia 72.03 Viet Nam 70.44
+Latvia 76.94 Kazakhstan 71.61 North Macedonia 70.21
+Serbia 76.23 Belgium 70.77 New Zealand 69.50
+Italy 76.18 Georgia 70.33 Serbia 69.07
+Montenegro 75.80 Slovak Republic 69.82 Slovak Republic 68.68
+Estonia 75.58 Israel 69.01
+Czechia 68.62
+(Continued)
+
+[Page 50]
+38 • Business Ready 2025
+Pillar I—Regulatory Framework
+(average = 66.32)
+Pillar II—Public Services
+(average = 53.97)
+Pillar III—Operational Efficiency
+(average = 60.03)
+Second quintile
+Slovenia 75.03 Hungary 68.42 Belgium 68.16
+Colombia 74.98 Poland 68.34 United States 68.02
+Hungary 74.71 Taiwan, China 68.03 Malaysia 67.99
+Belgium 74.08 Costa Rica 67.06 Iceland 67.97
+Philippines 73.86 Sweden 67.06 Croatia 67.82
+North Macedonia 73.62 Greece 66.91 Moldova 67.46
+Israel 73.03 Bahrain 66.89 Slovenia 67.32
+Armenia 72.91 Bulgaria 66.51 Bulgaria 66.52
+Costa Rica 72.69 Ireland 66.43 Kazakhstan 66.40
+Rwanda 72.54 Romania 66.12 Romania 66.34
+Azerbaijan 71.92 Armenia 66.05 Bhutan 66.29
+Canada 71.80 Hong Kong SAR, China 65.32 Barbados 65.64
+Hong Kong SAR, China 71.03 Uzbekistan 65.12 Mauritius 65.44
+Sweden 70.54 Morocco 64.55 Tajikistan 64.62
+Cyprus 70.43 Mexico 64.18 Spain 64.55
+Morocco 70.06 Moldova 64.05 Malta 64.35
+Mexico 69.54 Malaysia 63.41 Montenegro 64.16
+Uzbekistan 69.52 Peru 63.24 Italy 64.10
+Kazakhstan 69.51 Azerbaijan 62.68 Poland 63.63
+Taiwan, China 69.38 Indonesia 62.00 Kyrgyz Republic 63.56
+Third quintile
+New Zealand 69.22 Serbia
+61.53 Azerbaijan 63.34
+Ghana 68.88 Togo 60.92 Bosnia and Herzegovina 62.93
+Benin 68.55 Cyprus 60.53 Türkiye 62.91
+Côte d’Ivoire 68.46 Rwanda 59.81 Greece 61.64
+Peru 68.25 North Macedonia 59.75 Armenia 61.18
+Jordan 67.90 Mauritius 59.48 Eswatini 60.79
+Bahrain 67.50 Jordan 57.97 Jamaica 60.52
+Senegal 67.42 Benin 57.87 Botswana 60.37
+Iceland 67.35 Tanzania 57.87 Lao PDR 60.06
+Uruguay 67.32 Philippines 57.82 Turkmenistan 59.88
+Ecuador 67.22 Jamaica 57.07 Portugal 59.74
+Malta 67.22 Paraguay 56.11 Pakistan 59.64
+Kyrgyz Republic 67.20 Ecuador 56.02 Israel 59.18
+Viet Nam 67.03 Iceland 55.84 Jordan 59.17
+(Continued)
+TABLE A1.1 B-READY 2025 pillar scor es (Continued)
+
+[Page 51]
+Appendix A: Pillar Scores • 39
+Pillar I—Regulatory Framework
+(average = 66.32)
+Pillar II—Public Services
+(average = 53.97)
+Pillar III—Operational Efficiency
+(average = 60.03)
+Türkiye 66.81 Malta 55.59 Colombia 59.06
+Togo 66.26 Pakistan 54.58 Indonesia 59.01
+Mali 65.99 Viet Nam 53.93 Samoa 58.31
+Indonesia 65.61 Kyrgyz Republic 51.88 Bangladesh 57.77
+Malaysia 65.61 Montenegro 51.85 Togo 57.38
+Mauritius 64.69 Ghana 49.99 Seychelles 57.35
+Fourth quintile
+Botswana 64.38 El Salvador 49.40 Senegal 56.74
+Namibia 64.21 Uruguay 48.68 Cameroon 56.63
+Jamaica 64.07 Barbados 48.39 Cabo Verde 56.55
+Angola 63.88 Côte d’Ivoire 46.94 Cyprus 56.44
+Cabo Verde 63.71 Botswana 45.37 Cambodia 56.17
+Congo, Dem. Rep. 63.61 Bosnia and Herzegovina 45.25 Nepal 56.15
+Burkina Faso 63.23 Bangladesh 45.14 Morocco 55.71
+Paraguay 63.12 Trinidad and Tobago 44.83 Uruguay 55.57
+Cambodia 63.06 Namibia 44.57 Tanzania 55.25
+Tunisia 62.56 Senegal 44.00 Costa Rica 55.15
+Bosnia and Herzegovina 62.55 Cambodia 43.14 Ecuador 55.11
+Pakistan 62.31 Tunisia 43.02 Peru 54.85
+Tanzania 61.92 Nepal 42.04 Tonga 54.25
+Barbados 61.67 Bhutan 41.87 Benin 54.22
+Nepal 61.46 Eswatini 41.12
+Lesotho 54.19
+Trinidad and Tobago 61.16 Burkina Faso 40.86 Tunisia 52.46
+Madagascar 60.37 Tajikistan 40.35 Mexico 52.45
+Tajikistan 59.81 Lesotho 39.27 Ghana 51.73
+Eswatini 59.70 Seychelles 39.09 Philippines 51.45
+El Salvador 59.08 Angola 37.48 Vanuatu 51.40
+Fifth quintile
+Cameroon 58.75 Cameroon 36.30 West Bank and Gaza 51.36
+Seychelles 58.73 Lao PDR 35.62 Paraguay 51.32
+Sierra Leone 56.96 Mali 35.40 El Salvador 50.37
+Samoa 56.77 West Bank and Gaza 35.03 Burkina Faso 49.98
+Vanuatu 55.85 Cabo Verde 34.54 Madagascar 49.95
+Lesotho 55.58 Samoa 34.23 Trinidad and Tobago 49.68
+Papua New Guinea 55.28 Vanuatu 33.64 Namibia 48.90
+Gambia, The 53.97 Papua New Guinea 33.46 Côte d’Ivoire 47.90
+(Continued)
+TABLE A1.1
+B-READY 2025 pillar scor es (Continued)
+
+[Page 52]
+40 • Business Ready 2025
+Pillar I—Regulatory Framework
+(average = 66.32)
+Pillar II—Public Services
+(average = 53.97)
+Pillar III—Operational Efficiency
+(average = 60.03)
+Bangladesh 53.01 Madagascar 33.40 Mali 47.51
+Central African Republic 52.78 Tonga 32.34 Congo, Dem. Rep. 46.97
+Congo, Rep. 52.21 Sierra Leone 30.00 Angola 45.85
+Bhutan 52.19 Turkmenistan 28.60 Gambia, The 45.79
+Chad 51.78 Gambia, The 27.22 Sierra Leone 45.61
+Lao PDR 50.88 Congo, Dem. Rep. 26.56 South Sudan 45.36
+Turkmenistan 50.46 Congo, Rep. 24.90 Congo, Rep. 45.03
+West Bank and Gaza 49.67 Timor-Leste 24.20 Equatorial Guinea 44.01
+Tonga 45.35 Chad 23.40 Papua New Guinea 42.69
+Equatorial Guinea 44.93 Central African Republic 22.21 Timor-Leste 41.58
+Timor-Leste 42.78 Equatorial Guinea 16.84 Chad 40.22
+South Sudan 36.04 South Sudan 15.51 Central African Republic 35.48
+Source: B-READY 2025 data.
+Note: The economies are listed in order of their scores in each of the three pillars. Scores range from a low of 0 to a high of 100.
+Economies are further grouped in quintiles, which are marked with varying shades of blue (with darker shades representing better
+performance and higher quintiles).
+TABLE A1.1 B-READY 2025 pillar scor es (Continued)
+
+[Page 53]
+41
+Beyond the pillar performance of economies, B-READY 2025 also presents information on economy
+performance at the topic level. The 10 B-READY topics correspond to different phases in a firm’s life cycle
+and its market participation: opening, operating or expanding, and closing or reorganizing a business.
+Each topic offers a detailed view of specific policy areas within the business environment. The data
+provided by each topic aims to advocate for policy reform and inform specific policy advice while enabling
+policy makers to identify potential gaps in the regulatory framework, public services provision, and
+operational efficiency. Table B1.1 provides a visual representation that allows readers to identify specific
+topics where economies should improve. The lighter shade indicates more room for improvement, while
+the darker shade points to stronger performance.
+APPENDIX B: TOPIC SCORES
+
+[Page 54]
+42 • Business Ready 2025
+TABLE B1.1 B-READY 2025 perfor mance for 101 economies, by topic
+(high score = 100; low score = 0)
+Economy
+Business
+Entry
+Business
+Location
+Utility
+Services Labor
+Financial
+Services
+International
+Trade Taxation
+Dispute
+Resolution
+Market
+Competition
+Business
+Insolvency
+Angola 74.12 47.83 55.59 68.97 58.63 23.58 51.77 40.67 43.98 25.56
+Armenia 95.95 68.49 72.52 67.00 85.04 55.26 67.50 57.96 58.21 39.17
+Azerbaijan 86.03 70.99 83.05 64.00 87.16 54.09 67.81 65.31 45.28 36.09
+Bahrain 65.34 72.76 88.45 65.83 64.55 73.21 54.64 74.05 51.80 73.19
+Bangladesh 63.26 53.35 62.20 72.89 62.70 51.89 48.03 45.81 39.01 20.59
+Barbados 67.41 48.41 82.78 65.91 70.93 59.96 43.58 50.10 41.72 54.87
+Belgium 83.27 61.93 80.99 66.18 79.90 78.28 44.76 65.40 64.57 84.75
+Benin 84.51 63.17 73.53 54.66 66.94 58.02 63.44 41.00 39.97 56.92
+Bhutan 64.27 65.75 64.13 55.51 73.28 54.17 46.60 61.35 37.34 12.06
+Bosnia and Herzegovina 52.06 58.11 55.01 69.73 75.78 67.12 51.75 41.62 51.74 46.22
+Botswana 81.62 47.77 68.95 66.88 66.12 61.26 43.61 45.38 47.38 38.11
+Bulgaria 80.42 69.97 81.92 65.34 72.03 71.54 69.13 66.03 63.19 60.48
+Burkina Faso 60.77 48.42 59.11 59.08 59.73 52.02 50.81 39.54 42.12 41.96
+Cabo Verde 51.31 55.18 58.92 71.13 67.54 49.99 50.62 29.55 41.47 40.32
+Cambodia 55.63 52.49 63.55 71.65 84.45 51.43 68.04 36.37 38.78 18.84
+Cameroon 43.01 38.11 62.52 60.08 52.03 55.22 60.40 34.71 42.01 57.55
+Canada 79.45 61.63 87.60 78.42 81.25 72.52 64.64 68.32 58.94 81.87
+Central African Republic 39.98 38.82 40.58 51.53 39.85 23.88 24.58 43.80 34.30 30.93
+Chad 41.55 41.73 30.31 53.43 48.03 30.40 39.90 38.17 29.58 31.59
+Colombia 85.41 66.59 87.73 69.61 82.97 48.34 53.30 65.96 60.81 73.32
+Congo, Dem. Rep. 58.19 42.41 55.73 51.93 48.22 60.97 38.39 39.86 33.85 27.59
+Congo, Rep. 32.59 42.26 42.67 56.81 56.02 34.45 33.79 36.44 37.74 34.37
+Costa Rica 63.92 72.11 81.14 64.02 74.93 56.75 54.57 53.92 63.97 64.38
+Côte d’Ivoire 69.69 45.22 65.74 70.77 56.21 40.96 51.99 50.35 43.19 50.19
+Croatia 87.57 68.71 86.78 74.93 68.78 84.72 64.78 64.93 63.25 72.78
+Cyprus 82.29 61.83 83.18 65.96 65.03 62.96 55.02 49.57 51.90 46.94
+(Continued)
+
+[Page 55]
+Appendix B: Topic Scores • 43
+Economy
+Business
+Entry
+Business
+Location
+Utility
+Services Labor
+Financial
+Services
+International
+Trade Taxation
+Dispute
+Resolution
+Market
+Competition
+Business
+Insolvency
+Czechia 87.31 69.76 80.60 68.02 78.50 78.30 64.01 66.18 64.79 81.39
+Ecuador 73.99 66.94 71.38 60.99 63.45 63.37 51.77 51.08 59.60 31.95
+El Salvador 45.87 69.92 64.75 61.61 71.85 53.70 47.16 54.69 52.30 7.67
+Equatorial Guinea 32.15 38.60 34.18 57.89 44.33 33.71 28.39 33.61 20.80 28.93
+Estonia 89.45 77.81 81.81 67.17 74.56 84.54 68.41 70.61 62.31 82.40
+Eswatini 80.51 56.80 63.20 67.00 59.05 57.20 42.33 42.91 39.86 29.86
+Gambia, The 48.65 39.94 45.20 53.22 50.64 42.82 28.42 39.29 32.46 42.64
+Georgia 89.15 79.51 79.19 74.85 82.06 72.01 68.91 74.09 58.11 73.06
+Ghana 69.21 58.73 65.22 71.47 72.02 53.48 50.40 47.89 34.34 45.90
+Greece 93.78 55.07 86.63 65.65 62.60 75.92 57.38 60.19 61.92 74.24
+Hong Kong SAR, China 83.35 70.98 86.01 74.41 72.86 73.68 67.85 60.68 69.72 33.42
+Hungary 76.69 73.68 83.73 73.50 78.78 78.73 54.87 61.18 68.46 63.75
+Iceland 81.88 67.89 73.36 65.19 75.98 67.89 57.39 52.54 54.24 40.85
+Indonesia 65.82 66.94 70.30 60.37 70.05 58.15 56.70 60.00 58.74 55.03
+Ireland 88.13 63.82 80.90 77.32 75.26 79.99 71.22 63.60 64.34 60.88
+Israel 84.74 58.81 84.89 60.51 78.06 63.59 47.84 61.99 62.46 67.85
+Italy 84.57 83.59 86.21 63.15 74.00 79.43 54.48 64.52 70.67 68.91
+Jamaica 80.93 57.91 62.92 68.85 79.03 58.07 55.83 48.74 41.55 51.72
+Jordan 68.15 62.46 74.88 62.58 73.42 57.70 63.99 45.48 50.20 57.95
+Kazakhstan 85.14 68.62 83.30 75.11 71.48 67.64 55.17 67.35 54.42 63.47
+Korea, Rep. 80.94 79.86 97.99 74.55 72.83 70.60 75.16 63.73 78.10 88.59
+Kyrgyz Republic 79.66 64.26 67.59 69.85 73.41 55.29 65.10 52.04 54.97 26.63
+Lao PDR 51.35 47.44 53.03 68.78 71.35 55.25 48.17 39.33 34.86 18.95
+Latvia 88.10 78.59 91.44 64.91 81.91 75.46 67.62 66.70 67.64 67.56
+Lesotho 75.22 50.23 66.09 54.42 64.82 47.25 48.16 44.13 27.83 18.62
+Madagascar 53.48 40.61 51.69 50.45 61.32 48.35 54.38 45.62 35.61 37.56
+TABLE B1.1 B-READY 2025 perfor mance for 101 economies, by topic
+(Continued)
+(Continued)
+
+[Page 56]
+44 • Business Ready 2025
+Economy
+Business
+Entry
+Business
+Location
+Utility
+Services Labor
+Financial
+Services
+International
+Trade Taxation
+Dispute
+Resolution
+Market
+Competition
+Business
+Insolvency
+Malaysia 85.76 61.46 85.87 69.40 73.74 56.46 55.20 64.96 54.63 49.22
+Mali 41.49 48.56 62.38 57.02 60.08 54.05 54.08 37.29 39.10 42.30
+Malta 85.21 46.25 72.34 79.01 59.62 76.70 42.74 50.36 58.40 53.20
+Mauritius 82.32 63.39 52.97 69.96 67.45 59.64 65.43 45.93 59.70 65.22
+Mexico 58.47 46.51 75.79 58.72 83.53 65.22 63.52 59.87 50.51 58.44
+Moldova 86.35 68.74 71.93 72.07 76.50 76.68 65.13 57.35 65.24 57.54
+Montenegro 83.49 61.67 77.87 63.46 76.06 61.43 58.90 54.69 55.18 46.61
+Morocco 73.95 73.82 80.05 51.81 68.24 74.50 43.42 58.32 60.04 50.24
+Namibia 53.36 50.83 62.89 66.10 54.37 47.82 41.09 58.24 45.57 45.30
+Nepal 58.54 48.18 63.37 62.32 71.84 46.71 59.49 60.39 37.23 24.09
+New Zealand 82.84 75.90 77.63 72.93 84.09 60.98 73.81 69.98 56.87 49.24
+North Macedonia 88.32 61.47 83.09 73.99 82.86 64.63 51.72 53.31 61.93 57.28
+Pakistan 86.64 67.38 69.02 63.92 66.79 43.04 50.07 39.69 49.47 52.40
+Papua New Guinea 51.67 42.20 50.37 54.05 72.08 30.73 46.58 28.54 39.43 22.45
+Paraguay 58.70 52.46 66.38 59.61 66.68 56.48 59.97 50.56 54.53 43.13
+Peru 68.66 61.16 74.46 69.62 79.78 45.61 49.60 51.92 67.40 52.92
+Philippines 50.25 59.74 80.24 70.42 73.22 61.34 60.46 61.02 60.40 33.34
+Poland 80.45 65.15 84.38 70.31 76.73 70.52 56.30 61.15 61.30 77.01
+Portugal 82.44 63.23 88.13 67.63 71.17 62.25 58.53 68.33 60.07 77.47
+Romania 86.31 67.20 80.49 67.46 81.22 69.97 64.58 67.57 65.25 51.73
+Rwanda 86.70 69.62 74.26 62.39 72.96 47.47 67.78 69.49 53.95 74.76
+Samoa 69.47 52.88 62.35 64.03 56.57 56.11 42.01 40.46 41.27 12.54
+Senegal 58.56 49.13 64.25 70.89 65.82 55.31 54.17 45.63 43.90 52.88
+Serbia 93.57 74.66 69.24 73.57 81.53 62.69 61.06 65.18 64.81 43.16
+Seychelles 73.16 52.59 63.95 60.75 68.30 49.39 59.54 35.69 36.57 17.31
+Sierra Leone 52.98 46.33 49.93 66.10 57.70 34.79 40.68 40.25 26.81 26.34
+TABLE B1.1 B-READY 2025 perfor mance for 101 economies, by topic
+(Continued)
+(Continued)
+
+[Page 57]
+Appendix B: Topic Scores • 45
+Economy
+Business
+Entry
+Business
+Location
+Utility
+Services Labor
+Financial
+Services
+International
+Trade Taxation
+Dispute
+Resolution
+Market
+Competition
+Business
+Insolvency
+Singapore 94.09 80.80 92.76 63.99 78.74 82.02 70.64 67.38 63.84 79.58
+Slovak Republic 87.19 65.28 88.75 67.20 74.47 81.29 62.15 67.09 63.25 66.49
+Slovenia 79.75 66.62 77.59 67.66 75.81 82.26 57.08 59.74 65.53 82.53
+South Sudan 40.65 30.44 21.50 48.46 32.84 46.23 40.08 25.41 22.74 14.68
+Spain 76.79 75.36 89.09 68.33 76.04 83.68 51.52 71.13 72.17 71.43
+Sweden 78.49 71.76 77.47 66.62 71.17 79.94 70.52 59.87 61.60 72.85
+Taiwan, China 63.11 78.46 87.60 81.41 71.98 74.34 70.73 66.50 69.55 44.92
+Tajikistan 71.24 52.90 53.53 66.28 79.91 52.51 52.70 40.86 39.90 39.48
+Tanzania 71.58 49.00 72.75 73.43 62.19 55.72 59.38 61.32 48.53 29.56
+Timor-Leste 63.05 48.78 47.95 55.19 29.65 40.35 27.42 34.20 15.28 —
+Togo 85.77 58.16 62.97 66.31 66.62 49.63 59.35 56.33 41.67 68.38
+Tonga 60.17 54.40 52.19 49.15 58.04 54.56 39.01 33.24 23.70 15.36
+Trinidad and Tobago 72.17 43.37 64.94 65.86 68.95 42.42 24.88 42.04 43.96 50.32
+Tunisia 87.01 49.18 72.22 53.46 51.64 52.91 46.71 34.83 42.39 36.45
+Türkiye 80.40 72.28 86.55 67.15 75.92 58.14 46.40 60.91 57.94 71.46
+Turkmenistan 43.32 54.11 68.67 71.37 47.60 55.22 43.62 31.46 28.47 19.30
+United Kingdom 91.31 70.80 82.46 73.38 84.58 72.69 60.64 66.04 69.47 70.05
+United States 75.12 77.69 88.36 71.94 81.18 69.58 58.41 75.32 59.53 75.33
+Uruguay 51.40 61.91 66.38 57.58 74.43 59.36 51.61 45.85 53.08 50.31
+Uzbekistan 90.73 77.83 75.66 70.46 74.25 64.89 70.67 60.66 52.77 50.18
+Vanuatu 67.64 46.92 52.52 58.33 57.01 38.14 46.55 41.64 25.29 35.60
+Viet Nam 76.62 60.49 90.03 69.63 80.32 62.48 59.22 55.94 47.61 35.66
+West Bank and Gaza 70.99 44.14 63.21 61.07 64.19 40.53 37.59 31.76 28.36 11.70
+Source: B-READY 2025 data.
+Note: — = not available.
+TABLE B1.1 B-READY 2025 perfor mance for 101 economies, by topic
+(Continued)
+
+[Page 60]
+Business Ready (B-READY) is a World Bank Group corporate flag ship report
+that provides a quantitative assessment of the business and investment
+climate worldwide. It offers a comprehensive data set and analysis of the
+factors that strengthen the private sector, by advancing the interests of
+individual firms as well as those of workers, consumers, potential new
+enterprises, and the natural environment. The B-READY methodological
+framework rests on three pillars that form the foundation for assessing
+economies: Regulatory Framework, Public Services, and Operational
+Efficiency. The analysis is structured around 10 topics that correspond
+to different stages of the life cycle of a firm. B-READY draws on a robust
+primary data collection process that includes specially tailored expert
+questionnaires and firm-level surveys. As a new project, B-READY is in a
+three-year rollout phase, spanning 2024 to 2026. The 2025 report is an
+interim edition presenting data and emerging messages from 101 economies
+that represent all income levels and geographic regions. A full edition in
+2026 will provide expanded global coverage and conclude the rollout period.
+www.worldbank.org/businessready
+Reproducible Research Repository
+https://reproducibility.worldbank.org
+A reproducibility package is available for this book in the Reproducible Research Repository at
+https://reproducibility.worldbank.org/index.php/catalog/study/FR_WLD_2025_523.
+SKU 33860
+
