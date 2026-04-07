@@ -3,9 +3,7 @@ import os
 import unicodedata
 from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader
-from dotenv import load_dotenv
-
-load_dotenv('.env.example')
+from config import Config
 
 def clean_text(text):
     # Normalize unicode
@@ -57,8 +55,8 @@ def clean_pdf_file(pdf_path, output_path):
 
 def clean_all_pdfs():
     project_root = Path(__file__).parent.parent
-    input_dir = os.getenv("INPUT_DIR", "data/input_files")
-    output_dir = os.getenv("OUTPUT_DIR", "data/cleaned_files")
+    input_dir = Config.output_dir
+    output_dir = Config.output_dir
     input_path = project_root/input_dir
     output_path = project_root/output_dir
 
