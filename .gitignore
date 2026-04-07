@@ -19,3 +19,10 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Env
+.env
+.env.local
+.env.*.local
+*.key
+*secret*

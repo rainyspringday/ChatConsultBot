@@ -52,10 +52,12 @@ def clean_pdf_file(pdf_path, output_path):
     return output_path
 
 
-def clean_all_pdfs(input_dir, output_dir):
+def clean_all_pdfs():
+    project_root = Path(__file__).parent.parent
+    input_dir = str(project_root / "data" / "input_files")
+    output_dir = str(project_root / "data" / "cleaned_files")
     input_path = Path(input_dir)
     output_path = Path(output_dir)
-
     input_path.mkdir(parents=True, exist_ok=True)
     output_path.mkdir(parents=True, exist_ok=True)
 
