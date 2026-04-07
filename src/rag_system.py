@@ -6,9 +6,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def get_groq_client():
+    client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+    return client
+
 class FastRAG:
     def __init__(self, cleaned_folder="data/cleaned_files"):
-        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        self.client = get_groq_client()
         self.text = ""
 
         # Load all your cleaned files
