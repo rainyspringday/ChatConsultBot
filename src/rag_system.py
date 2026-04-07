@@ -2,8 +2,10 @@ import os
 from pathlib import Path
 from groq import Groq
 from dotenv import load_dotenv
+from langchain_community.callbacks.fiddler_callback import MODEL_NAME
 
 load_dotenv()
+load_dotenv('.env.example')
 
 
 def get_groq_client():
@@ -22,7 +24,7 @@ class FastRAG:
 
     def ask(self, question):
         response = self.client.chat.completions.create(
-            model="llama3-70b-8192",
+            model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": "Business consultant. Answer from documents only."},
                 {"role": "user", "content": f"Documents:\n{self.text}\n\nQuestion: {question}"}
