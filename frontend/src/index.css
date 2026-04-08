@@ -1,0 +1,26 @@
+:root {
+  --bg: #0f131a;
+  --panel: #171c24;
+  --panel-2: #1e2631;
+  --border: #2a3442;
+  --text: #e7eef7;
+  --muted: #a6b3c3;
+  --accent: #4f8cff;
+  --accent-soft: rgba(79, 140, 255, 0.35);
+  --user-bubble: #4f8cff;
+  --assistant-bubble: #202938;
+  font-family: Inter, Segoe UI, Roboto, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: radial-gradient(circle at top, #162133 0%, var(--bg) 55%);
+  min-height: 100vh;
+}
