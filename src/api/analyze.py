@@ -1,45 +1,10 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from src.rag_system import FastRAG
-import uvicorn
-from typing import List, Dict
+from typing import List
+from fastapi import Depends, APIRouter
 from pydantic import BaseModel
-rag = FastRAG()
+from src.api.deps import get_rag
+from src.services.RAGService import RAGService
 
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],  # Your frontend URL
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-class QuestionRequest(BaseModel):
-    question: str
-
-
-class AnswerResponse(BaseModel):
-    answer: str
-
-
-@app.post("/ask", response_model=AnswerResponse)
-def ask_question(request: QuestionRequest):
-    try:
-        # Get response from RAG
-        response = rag.ask(request.question)
-        return AnswerResponse(answer=response.strip())
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
-
+router=APIRouter()
 
 class CompanyAnalysisRequest(BaseModel):
     companyName: str
@@ -51,10 +16,10 @@ class CompanyAnalysisResponse(BaseModel):
     todoPlan: List[str]
 
 
-@app.post("/analyze-company", response_model=CompanyAnalysisResponse)
-def analyze_company(request: CompanyAnalysisRequest):
+@router.post("/analyze-company", response_model=CompanyAnalysisResponse)
+def analyze_company(request: CompanyAnalysisRequest,rag: RAGService=Depends(get_rag)):
     """
-    Analyze a company and return current state and todo plan using RAG
+    Analyze a company and return current state and  plan for using RAG
     """
     try:
         company = request.companyName
@@ -87,7 +52,7 @@ def analyze_company(request: CompanyAnalysisRequest):
                 if sentence.strip()
             ][:6]
 
-        # TODO Plan Generation
+        # Plan Generation
         todo_plan_prompt = f"""
         Based on the analysis of {company}, create a prioritized 30/60/90-day action plan including:
         1. Immediate fixes (next 30 days)
@@ -135,7 +100,3 @@ def analyze_company(request: CompanyAnalysisRequest):
             ]
         )
 
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
