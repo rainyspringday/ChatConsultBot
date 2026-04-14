@@ -1,6 +1,6 @@
 import re
 from typing import List, Dict
-from src.services.TextChunkerService import TextChunkerService
+from src.services.text_chunker_service import TextChunkerService
 
 
 class ChunkSearchService:

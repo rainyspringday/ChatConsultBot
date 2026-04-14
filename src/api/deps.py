@@ -1,6 +1,6 @@
-from src.services.RAGService import RAGService
-from src.services.TextChunkerService import TextChunkerService
-from src.services.ChunkSearchService import ChunkSearchService
+from src.services.rag_service import RAGService
+from src.services.text_chunker_service import TextChunkerService
+from src.services.chunk_search_service import ChunkSearchService
 
 
 def get_rag():

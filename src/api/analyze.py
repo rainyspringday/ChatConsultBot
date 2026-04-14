@@ -2,7 +2,7 @@ from typing import List
 from fastapi import Depends, APIRouter
 from pydantic import BaseModel
 from src.api.deps import get_rag
-from src.services.RAGService import RAGService
+from src.services.rag_service import RAGService
 
 router=APIRouter()
 

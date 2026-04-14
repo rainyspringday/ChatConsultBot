@@ -2,8 +2,8 @@ import os
 from pathlib import Path
 from groq import Groq
 
-from src.services.TextChunkerService import TextChunkerService
-from src.services.ChunkSearchService import ChunkSearchService
+from src.services.text_chunker_service import TextChunkerService
+from src.services.chunk_search_service import ChunkSearchService
 from src.core.config import Config
 
 
