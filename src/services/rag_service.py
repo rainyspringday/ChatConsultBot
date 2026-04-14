@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from groq import Groq
 
+from src.services.graph_rag_service import GraphRagService
 from src.services.text_chunker_service import TextChunkerService
 from src.services.chunk_search_service import ChunkSearchService
 from src.core.config import Config
@@ -11,15 +12,20 @@ class RAGService:
     def __init__(
         self,
         chunker: TextChunkerService,
-        search: ChunkSearchService
+        search: ChunkSearchService,
+        graph: GraphRagService
     ):
 
-        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
         self.chunker = chunker
         self.search = search
+        self.graph = graph
+        self.text = ""
+        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
+    def build(self):
         self.text = self._load_documents()
-        chunks=self.chunker.chunk_text(self.text)
+        chunks = self.chunker.chunk_text(self.text)
+        self.graph.build(chunks)
         self.search.build(chunks)
 
 
@@ -40,9 +46,10 @@ class RAGService:
         """Main RAG pipeline"""
 
         relevant_chunks = self.search.find_relevant(question)
-        context = "\n\n".join(chunk["text"] for chunk in relevant_chunks)
+        graph_context = self.graph.get_context(question)
+        vector_context = "\n\n".join(chunk["text"] for chunk in relevant_chunks)
 
-        if not context:
+        if not relevant_chunks and not graph_context:
             return "❌ No relevant information found in the documents."
 
         response = self.client.chat.completions.create(
@@ -50,11 +57,19 @@ class RAGService:
             messages=[
                 {
                     "role": "system",
-                    "content": "Business consultant. Answer ONLY from provided context."
+                    "content": f"""Business consultant.
+                    RULES:
+                    - Use ONLY the provided context
+                    - Prefer GRAPH KNOWLEDGE over DOCUMENT CONTEXT
+                    - If answer is missing, say "I don't know based on provided context"
+                    """
+
                 },
                 {
                     "role": "user",
-                    "content": f"Context:\n{context}\n\nQuestion: {question}"
+                    "content": f"DOCUMENT CONTEXT:\n{vector_context}\n\n"
+                               f"GRAPH KNOWLEDGE:\n{graph_context}\n\n"
+                               f"Question: {question}"
                 }
             ]
         )
