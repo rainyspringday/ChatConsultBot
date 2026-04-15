@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
 from groq import Groq
-
-from src.services.graph_rag_service import GraphRagService
 from src.services.text_chunker_service import TextChunkerService
 from src.services.chunk_search_service import ChunkSearchService
 from src.core.config import Config
@@ -13,20 +11,19 @@ class RAGService:
         self,
         chunker: TextChunkerService,
         search: ChunkSearchService,
-        graph: GraphRagService
     ):
 
         self.chunker = chunker
         self.search = search
-        self.graph = graph
+        self.graph = ""
         self.text = ""
         self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
     def build(self):
         self.text = self._load_documents()
         chunks = self.chunker.chunk_text(self.text)
-        self.graph.build(chunks)
         self.search.build(chunks)
+        self.graph = "1"
 
 
     def _load_documents(self) -> str:

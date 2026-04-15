@@ -2,7 +2,7 @@ from typing import List, Dict
 
 
 class TextChunkerService:
-    def __init__(self, chunk_size: int = 3000, overlap: int = 200):
+    def __init__(self, chunk_size: int = 1000, overlap: int = 100):
         self.chunk_size = chunk_size
         self.overlap = overlap
 

@@ -17,4 +17,3 @@ class Config:
     MODEL_NAME = os.getenv("MODEL_NAME")
     input_dir = os.getenv("INPUT_DIR", "../../data/input_files")
     output_dir = os.getenv("OUTPUT_DIR", "../../data/cleaned_files")
-

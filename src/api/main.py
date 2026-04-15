@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api import chat, analyze
 from src.services.chunk_search_service import ChunkSearchService
-from src.services.graph_rag_service import GraphRagService
 from src.services.rag_service import RAGService
 from src.services.text_chunker_service import TextChunkerService
 
@@ -24,7 +23,6 @@ def startup():
     rag = RAGService(
         chunker=TextChunkerService(),
         search=ChunkSearchService(),
-        graph=GraphRagService()
     )
     rag.build()
 
