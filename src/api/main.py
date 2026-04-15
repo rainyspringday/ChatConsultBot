@@ -15,16 +15,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-rag = None
 
 @app.on_event("startup")
 def startup():
-    global rag
     rag = RAGService(
         chunker=TextChunkerService(),
         search=ChunkSearchService(),
     )
     rag.build()
+    app.state.rag = rag
 
 
 

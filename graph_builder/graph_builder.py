@@ -174,13 +174,3 @@ TEXT:
             json.dump(self.graph, f, indent=2)
 
         print(f"✅ Saved graph → {out.resolve()}")
-
-
-# -------------------------
-# RUN
-# -------------------------
-if __name__ == "__main__":
-    import asyncio
-
-    asyncio.run(GraphRAG().build())
-    print("✅ DONE")

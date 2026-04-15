@@ -4,6 +4,7 @@ from groq import Groq
 from src.services.text_chunker_service import TextChunkerService
 from src.services.chunk_search_service import ChunkSearchService
 from src.core.config import Config
+import json
 
 
 class RAGService:
@@ -11,19 +12,33 @@ class RAGService:
         self,
         chunker: TextChunkerService,
         search: ChunkSearchService,
+
     ):
 
         self.chunker = chunker
         self.search = search
-        self.graph = ""
         self.text = ""
         self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        graph_path = Config.graph_dir / "graph.json"
+        with graph_path.open("r", encoding="utf-8") as f:
+            self.graph = json.load(f)
+
 
     def build(self):
         self.text = self._load_documents()
         chunks = self.chunker.chunk_text(self.text)
         self.search.build(chunks)
-        self.graph = "1"
+
+    def get_graph_context(self, query: str) -> str:
+        query = query.lower()
+
+        nodes = self.graph.get("nodes", [])
+
+        return "\n".join(
+            n["text"]
+            for n in nodes
+            if query in n["text"].lower()
+        )
 
 
     def _load_documents(self) -> str:
@@ -43,7 +58,7 @@ class RAGService:
         """Main RAG pipeline"""
 
         relevant_chunks = self.search.find_relevant(question)
-        graph_context = self.graph.get_context(question)
+        graph_context = self.get_graph_context(question)
         vector_context = "\n\n".join(chunk["text"] for chunk in relevant_chunks)
 
         if not relevant_chunks and not graph_context:
