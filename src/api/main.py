@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.api import chat, analyze
+from src.api import analyze, auth, chat_sessions
 from src.services.chunk_search_service import ChunkSearchService
 from src.services.rag_service import RAGService
 from src.services.text_chunker_service import TextChunkerService
@@ -27,8 +27,9 @@ def startup():
 
 
 
-app.include_router(chat.router)
 app.include_router(analyze.router)
+app.include_router(auth.router)
+app.include_router(chat_sessions.router)
 
 
 @app.get("/health")

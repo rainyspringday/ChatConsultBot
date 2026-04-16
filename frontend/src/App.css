@@ -14,6 +14,7 @@
   border: 1px solid var(--border);
   border-radius: 1rem;
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -27,6 +28,12 @@
   margin: 0;
   font-size: 1.05rem;
   font-weight: 700;
+}
+
+.user-badge {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
 }
 
 .sidebar nav {
@@ -55,8 +62,109 @@
   color: var(--text);
 }
 
+.logout-button {
+  margin-top: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--text);
+  padding: 0.65rem 0.8rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.logout-button:hover {
+  border-color: var(--accent);
+}
+
 .main-content {
   flex: 1;
+}
+
+.chat-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 1rem;
+  min-height: calc(100vh - 2.5rem);
+}
+
+.chat-list-panel {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.02));
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+.new-chat-button {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text);
+  font: inherit;
+  padding: 0.65rem;
+  cursor: pointer;
+}
+
+.new-chat-button:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.chat-list {
+  display: grid;
+  gap: 0.5rem;
+  overflow: auto;
+}
+
+.chat-item {
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.01);
+  color: var(--muted);
+  padding: 0.35rem 0.4rem 0.35rem 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.chat-item.active {
+  color: var(--text);
+  border-color: var(--accent);
+  background: rgba(79, 140, 255, 0.1);
+}
+
+.chat-item-title {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  flex: 1;
+  padding: 0.25rem 0;
+}
+
+.chat-delete-button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 0.45rem;
+  cursor: pointer;
+  line-height: 1;
+  font-size: 1.1rem;
+}
+
+.chat-delete-button:hover {
+  border-color: #b84c6a;
+  color: #ff9ab4;
+  background: rgba(184, 76, 106, 0.16);
 }
 
 .page-grid {
@@ -64,6 +172,10 @@
   grid-template-rows: auto auto 1fr auto;
   gap: 1rem;
   min-height: calc(100vh - 2.5rem);
+}
+
+.compact {
+  padding: 1rem;
 }
 
 .hero-card {
@@ -127,12 +239,13 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 1rem;
   padding: 1rem;
-  background: var(--panel);
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.015));
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   overflow: auto;
-  min-height: 50vh;
+  min-height: 62vh;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
 }
 
 .message {
@@ -168,7 +281,9 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 1rem;
   padding: 0.75rem;
-  background: var(--panel);
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.015));
+  grid-column: 1 / -1;
+  align-self: end;
 }
 
 .composer textarea {
@@ -176,8 +291,9 @@ h1 {
   width: 100%;
   border: 1px solid var(--border);
   border-radius: 0.8rem;
-  padding: 0.7rem 0.85rem;
+  padding: 0.85rem 0.95rem;
   font: inherit;
+  font-size: 1rem;
   color: var(--text);
   background: transparent;
 }
@@ -191,7 +307,7 @@ h1 {
   align-self: end;
   border: none;
   border-radius: 0.8rem;
-  padding: 0.7rem 1rem;
+  padding: 0.85rem 1.15rem;
   font: inherit;
   font-weight: 600;
   background: var(--accent);
@@ -267,6 +383,28 @@ h1 {
   gap: 0.9rem;
 }
 
+.saved-analysis-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.saved-analysis-item {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.saved-analysis-item span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 .panel {
   border: 1px solid var(--border);
   border-radius: 0.85rem;
@@ -285,6 +423,78 @@ h1 {
   padding-left: 1.2rem;
   display: grid;
   gap: 0.45rem;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+}
+
+.auth-card {
+  width: min(440px, 100%);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--panel);
+  padding: 1.1rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.auth-card h1 {
+  margin: 0.35rem 0 0.5rem;
+}
+
+.auth-card label {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.auth-card input {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+  color: var(--text);
+  background: transparent;
+}
+
+.auth-card input:focus {
+  outline: 2px solid var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.auth-card button {
+  border: none;
+  border-radius: 0.75rem;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+}
+
+.auth-card button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.auth-error {
+  margin: 0;
+  color: #ff8f8f;
+  font-size: 0.9rem;
+}
+
+.auth-footnote {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.auth-footnote a {
+  color: var(--accent);
 }
 
 @media (max-width: 980px) {
@@ -310,6 +520,10 @@ h1 {
 @media (max-width: 760px) {
   .stats-row,
   .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-layout {
     grid-template-columns: 1fr;
   }
 

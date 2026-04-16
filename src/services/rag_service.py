@@ -87,3 +87,35 @@ class RAGService:
         )
 
         return response.choices[0].message.content
+
+    def generate_chat_title(self, first_message: str) -> str:
+        """Create a short chat title from first user message."""
+        clean_message = first_message.strip()
+        if not clean_message:
+            return "New chat"
+
+        try:
+            response = self.client.chat.completions.create(
+                model=Config.MODEL_NAME,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You create very short chat titles. Return only one title, "
+                            "max 6 words, no quotes, no punctuation at the end."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Create a title for this message:\n{clean_message}",
+                    },
+                ],
+            )
+            title = (response.choices[0].message.content or "").strip()
+            if title:
+                return title[:80]
+        except Exception:
+            pass
+
+        fallback = " ".join(clean_message.split()[:6]).strip()
+        return fallback[:80] if fallback else "New chat"
