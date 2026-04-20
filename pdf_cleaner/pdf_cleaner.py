@@ -1,39 +1,82 @@
 import re
 import unicodedata
 from pathlib import Path
+from collections import Counter
+
 from langchain_community.document_loaders import PyPDFLoader
 from src.core.config import Config
 
+
+
 def clean_text(text):
-    # Normalize unicode
-    text = unicodedata.normalize('NFKD', text)
+    # --- Normalize unicode ---
+    text = unicodedata.normalize("NFKC", text)
 
-    # Remove control characters
-    text = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', text)
+    # --- Remove control characters ---
+    text = re.sub(r"[\x00-\x1f\x7f]", "", text)
 
-    # Fix hyphenated words broken across lines
-    text = re.sub(r'(\w+)-\n(\w+)', r'\1\2', text)
+    # --- Fix hyphenated line breaks ---
+    text = re.sub(r"(\w+)-\s*\n(\w+)", r"\1\2", text)
 
-    # Remove page numbers
-    text = re.sub(r'\n\s*\d+\s*\n', '\n', text)
-    text = re.sub(r'Page \d+ of \d+', '', text, flags=re.IGNORECASE)
-    text = re.sub(r'Page \d+', '', text, flags=re.IGNORECASE)
+    # --- Remove URLs & emails ---
+    text = re.sub(r"https?://\S+|www\.\S+", "", text)
+    text = re.sub(r"\S+@\S+\.\S+", "", text)
 
-    # Remove headers/footers
-    text = re.sub(r'© \d{4}.*$', '', text, flags=re.IGNORECASE | re.MULTILINE)
-    text = re.sub(r'Confidential.*$', '', text, flags=re.IGNORECASE | re.MULTILINE)
+    # --- Remove licensing / copyright / disclaimers ---
+    license_patterns = [
+        r"copyright © \d{4}.*",
+        r"creative commons.*",
+        r"all rights reserved.*",
+        r"licensed under.*",
+        r"this material is provided.*",
+        r"no part of this.*",
+        r"permission to reproduce.*",
+    ]
+    for pat in license_patterns:
+        text = re.sub(pat, "", text, flags=re.I)
 
-    # Fix spaces
-    text = re.sub(r' +', ' ', text)
+    # --- Remove page numbers ---
+    text = re.sub(r"Page \d+(\s+of\s+\d+)?", "", text, flags=re.I)
+    text = re.sub(r"\n\s*\d+\s*\n", "\n", text)
 
-    # Fix newlines
-    text = re.sub(r'\n\s*\n\s*\n+', '\n\n', text)
+    # --- Normalize bullet points ---
+    text = re.sub(r"[•·●◦]", "-", text)
 
-    # Clean each line
-    lines = [line.strip() for line in text.split('\n')]
-    text = '\n'.join(lines)
+    # --- Remove repeated headers/footers (business docs often repeat titles) ---
+    lines = [l.strip() for l in text.split("\n") if l.strip()]
+    freq = Counter(lines)
+    threshold = max(3, len(lines) * 0.10)  # appears on >10% of pages
+    lines = [l for l in lines if freq[l] < threshold]
+
+    # --- Rebuild paragraphs (simple, safe) ---
+    rebuilt = []
+    buffer = ""
+
+    for line in lines:
+        if not line:
+            if buffer:
+                rebuilt.append(buffer.strip())
+                buffer = ""
+            continue
+
+        # If line ends with punctuation, treat as paragraph end
+        if re.search(r"[.!?]$", line):
+            buffer += " " + line
+            rebuilt.append(buffer.strip())
+            buffer = ""
+        else:
+            buffer += " " + line
+
+    if buffer:
+        rebuilt.append(buffer.strip())
+
+    # --- Final cleanup ---
+    text = "\n\n".join(rebuilt)
+    text = re.sub(r" {2,}", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
 
     return text.strip()
+
 
 
 def clean_pdf_file(pdf_path, output_path):
@@ -53,11 +96,9 @@ def clean_pdf_file(pdf_path, output_path):
 
 
 def clean_all_pdfs():
-    project_root = Path(__file__).parent.parent
-    input_dir = Config.output_dir
-    output_dir = Config.output_dir
-    input_path = project_root/input_dir
-    output_path = project_root/output_dir
+    project_root = Config.root
+    input_path = project_root / Path(Config.input_dir)
+    output_path = project_root / Path(Config.output_dir)
 
     input_path.mkdir(parents=True, exist_ok=True)
     output_path.mkdir(parents=True, exist_ok=True)
@@ -66,7 +107,7 @@ def clean_all_pdfs():
     pdf_files = list(input_path.glob("*.pdf"))
 
     if not pdf_files:
-        print(f"⚠️ No PDF files found in {input_dir}")
+        print(f"⚠️ No PDF files found")
         print(f"   Please add PDF files to: {input_path.absolute()}")
         return []
 
@@ -81,6 +122,9 @@ def clean_all_pdfs():
         cleaned_files.append(str(output_file))
 
     print("-" * 40)
-    print(f"✅ Cleaned {len(cleaned_files)} file(s) to {output_dir}")
+    print(f"✅ Cleaned {len(cleaned_files)} file(s)")
 
     return cleaned_files
+
+if __name__ == "__main__":
+    clean_all_pdfs()
