@@ -19,4 +19,5 @@ class Config:
     input_dir = PROJECT_ROOT / os.getenv("INPUT_DIR", "data/input_files")
     output_dir = PROJECT_ROOT / os.getenv("OUTPUT_DIR", "data/cleaned_files")
     graph_dir = PROJECT_ROOT / os.getenv("GRAPH_DIR", "data/graph")
+    chroma_dir = PROJECT_ROOT / os.getenv("CHROMA_DIR", "data/chroma")
     root=PROJECT_ROOT

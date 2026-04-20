@@ -1,4 +1,8 @@
+from pathlib import Path
 from typing import List, Dict
+
+from src.core.config import Config
+from src.services.chroma_storage_service import ChromaStorageService
 
 
 class TextChunkerService:
@@ -36,3 +40,25 @@ class TextChunkerService:
             })
 
         return chunks
+
+    @staticmethod
+    def load_documents() -> str:
+        """Load all cleaned documents into one text blob"""
+        text = ""
+
+        project_root = Config.root
+        cleaned_folder = project_root / Config.output_dir
+
+        for file in Path(cleaned_folder).glob("*_cleaned.txt"):
+            text += f"\n\n--- {file.name} ---\n"
+            text += file.read_text(encoding="utf-8")
+
+        return text
+
+if __name__ == "__main__":
+    chroma=ChromaStorageService()
+    chunker=TextChunkerService()
+    text=chunker.load_documents()
+    chunks=chunker.chunk_text(text)
+    chroma.add_chunks(chunks)
+    print(f"Ingested {len(chunks)} chunks.")

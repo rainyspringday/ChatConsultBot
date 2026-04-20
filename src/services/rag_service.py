@@ -1,36 +1,21 @@
-import os
-from pathlib import Path
-from groq import Groq
-from langchain_classic.chains.question_answering.map_reduce_prompt import messages
-
-from src.prompts.prompt_library import PromptLibrary
-from src.services.text_chunker_service import TextChunkerService
-from src.services.chunk_search_service import ChunkSearchService
-from src.core.config import Config
 import json
+import os
+
+from groq import Groq
+from src.core.config import Config
+from src.prompts.prompt_library import PromptLibrary
 
 
 class RAGService:
-    def __init__(
-        self,
-        chunker: TextChunkerService,
-        search: ChunkSearchService,
+    def __init__(self, chroma):
 
-    ):
-
-        self.chunker = chunker
-        self.search = search
+        self.chroma = chroma
         self.text = ""
         self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
         graph_path = Config.graph_dir / "graph.json"
         with graph_path.open("r", encoding="utf-8") as f:
             self.graph = json.load(f)
 
-
-    def build(self):
-        self.text = self._load_documents()
-        chunks = self.chunker.chunk_text(self.text)
-        self.search.build(chunks)
 
     def get_graph_context(self, query: str) -> str:
         query = query.lower()
@@ -43,26 +28,19 @@ class RAGService:
             if query in n["text"].lower()
         )
 
-
-    def _load_documents(self) -> str:
-        """Load all cleaned documents into one text blob"""
-        text = ""
-
-        project_root = Path(__file__).parent.parent.parent
-        cleaned_folder = project_root / Config.output_dir
-
-        for file in Path(cleaned_folder).glob("*_cleaned.txt"):
-            text += f"\n\n--- {file.name} ---\n"
-            text += file.read_text(encoding="utf-8")
-
-        return text
-
     def ask(self, question: str, prompt_name:str| None = None) -> str:
         """Main RAG pipeline"""
 
-        relevant_chunks = self.search.find_relevant(question)
+        docs=self.chroma.search(question)
+        if not docs["documents"] or not docs["documents"][0]:
+            return "No relevant documents found."
+
+
+        relevant_chunks = docs["documents"][0]  # list of strings
+
+        vector_context = "\n\n".join(relevant_chunks)
+        
         graph_context = self.get_graph_context(question)
-        vector_context = "\n\n".join(chunk["text"] for chunk in relevant_chunks)
         system_prompt=PromptLibrary.get(prompt_name)
 
 

@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api import analyze, auth, chat_sessions
-from src.services.chunk_search_service import ChunkSearchService
+from src.services.chroma_storage_service import ChromaStorageService
 from src.services.rag_service import RAGService
-from src.services.text_chunker_service import TextChunkerService
 
 app = FastAPI()
 
@@ -18,11 +17,8 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup():
-    rag = RAGService(
-        chunker=TextChunkerService(),
-        search=ChunkSearchService(),
-    )
-    rag.build()
+    chroma = ChromaStorageService()
+    rag = RAGService(chroma)
     app.state.rag = rag
 
 
