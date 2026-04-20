@@ -114,7 +114,8 @@ TEXT:
     # -------------------------
     # PARSER
     # -------------------------
-    def parse(self, text):
+    @staticmethod
+    def parse(text):
         if not text:
             return []
 
@@ -142,7 +143,7 @@ TEXT:
             r = t.get("relation")
             o = t.get("object")
 
-            # SAFE GUARD (prevents crashes)
+            # SAFEGUARD (prevents crashes)
             if not s or not r or not o:
                 continue
 

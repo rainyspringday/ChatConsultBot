@@ -15,8 +15,6 @@ class ChunkSearchService:
 
     def _build_index(self):
         """Build keyword index (word -> chunk indices)"""
-        self.index = {}
-
         for idx, chunk in enumerate(self.chunks):
             words = set(re.findall(r'\b\w+\b', chunk['text'].lower()))
 

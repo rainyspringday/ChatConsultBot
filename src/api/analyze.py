@@ -58,20 +58,9 @@ def analyze_company(
     try:
         company = request.companyName
 
-        # Query RAG for company analysis
-        # Current State Analysis
-        current_state_prompt = f"""
-        Based on the available documents about {company}, provide a detailed analysis of their CURRENT STATE including:
-        1. Business operations status
-        2. Financial health indicators
-        3. Market position
-        4. Key challenges
-        5. Strengths and weaknesses
 
-        Format as 5-7 bullet points.
-        """
 
-        current_state_response = rag.ask(current_state_prompt)
+        current_state_response = rag.ask(company,"analyze-state")
         current_state_points = [
             point.strip("- •").strip()
             for point in current_state_response.split("\n")
@@ -86,17 +75,9 @@ def analyze_company(
                 if sentence.strip()
             ][:6]
 
-        # Plan Generation
-        todo_plan_prompt = f"""
-        Based on the analysis of {company}, create a prioritized 30/60/90-day action plan including:
-        1. Immediate fixes (next 30 days)
-        2. Strategic improvements (60 days)
-        3. Long-term initiatives (90 days)
 
-        Provide 5-7 specific, actionable recommendations.
-        """
 
-        todo_response = rag.ask(todo_plan_prompt)
+        todo_response = rag.ask(company,"analyze_plan")
         todo_points = [
             point.strip("- •").strip()
             for point in todo_response.split("\n")

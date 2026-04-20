@@ -23,7 +23,7 @@ def ask_question(
 ):
 
     try:
-        response = rag.ask(request.question)
+        response = rag.ask(request.question,"chat")
         return AnswerResponse(answer=response.strip())
 
     except Exception as e:

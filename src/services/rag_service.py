@@ -1,6 +1,9 @@
 import os
 from pathlib import Path
 from groq import Groq
+from langchain_classic.chains.question_answering.map_reduce_prompt import messages
+
+from src.prompts.prompt_library import PromptLibrary
 from src.services.text_chunker_service import TextChunkerService
 from src.services.chunk_search_service import ChunkSearchService
 from src.core.config import Config
@@ -54,36 +57,34 @@ class RAGService:
 
         return text
 
-    def ask(self, question: str) -> str:
+    def ask(self, question: str, prompt_name:str| None = None) -> str:
         """Main RAG pipeline"""
 
         relevant_chunks = self.search.find_relevant(question)
         graph_context = self.get_graph_context(question)
         vector_context = "\n\n".join(chunk["text"] for chunk in relevant_chunks)
+        system_prompt=PromptLibrary.get(prompt_name)
 
-        if not relevant_chunks and not graph_context:
-            return "❌ No relevant information found in the documents."
 
+        groq_messages=[]
+
+        if isinstance(system_prompt, str) and system_prompt.strip():
+            groq_messages.append({
+                "role": "system",
+                "content": system_prompt
+            })
+
+        groq_messages.append({
+            "role": "user",
+            "content": (
+                f"DOCUMENT CONTEXT:\n{vector_context}\n\n"
+                f"GRAPH KNOWLEDGE:\n{graph_context}\n\n"
+                f"Question: {question}"
+            )
+        })
         response = self.client.chat.completions.create(
             model=Config.MODEL_NAME,
-            messages=[
-                {
-                    "role": "system",
-                    "content": f"""Business consultant.
-                    RULES:
-                    - Use ONLY the provided context
-                    - Prefer GRAPH KNOWLEDGE over DOCUMENT CONTEXT
-                    - If answer is missing, say "I don't know based on provided context"
-                    """
-
-                },
-                {
-                    "role": "user",
-                    "content": f"DOCUMENT CONTEXT:\n{vector_context}\n\n"
-                               f"GRAPH KNOWLEDGE:\n{graph_context}\n\n"
-                               f"Question: {question}"
-                }
-            ]
+            messages=groq_messages
         )
 
         return response.choices[0].message.content
