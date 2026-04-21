@@ -1,177 +1,146 @@
+import os
 import json
 import asyncio
-import aiohttp
+import hashlib
 from pathlib import Path
+from typing import List, Dict
+
+import spacy
+
+from neo4j import GraphDatabase
 
 from src.core.config import Config
-from src.services.text_chunker_service import TextChunkerService
+from src.services.chroma_storage_service import ChromaStorageService
 
 
-class GraphRAG:
+# -------------------------
+# LOAD ENV
+# -------------------------
+
+
+NEO4J_URI = Config.NEO4J_URI        #
+NEO4J_USERNAME = Config.NEO4J_USERNAME
+NEO4J_PASSWORD = Config.NEO4J_PASSWORD
+
+
+# -------------------------
+# UTILS
+# -------------------------
+
+def md5(text: str) -> str:
+    return hashlib.md5(text.encode("utf-8")).hexdigest()
+
+
+# -------------------------
+# FAST EXTRACTOR
+# -------------------------
+
+class FastExtractor:
     def __init__(self):
-        self.graph = {}
+        self.nlp = spacy.load("en_core_web_sm")
 
-        # -------------------------
-        # FIXED ROOT (PROJECT ROOT)
-        # -------------------------
-        self.root = Path(__file__).resolve()
+    def extract(self, text: str) -> List[Dict[str, str]]:
+        triples = []
+        doc = self.nlp(text)
+        ents = [ent.text for ent in doc.ents]
 
-        # go up until we find "data" folder (project root detection)
-        while not (self.root / "data").exists():
-            self.root = self.root.parent
+        for i in range(len(ents) - 1):
+            triples.append({
+                "subject": ents[i],
+                "relation": "RELATED_TO",
+                "object": ents[i + 1]
+            })
 
-        print(f"📁 Project root resolved: {self.root}")
+        return triples
 
-        self.model = "phi3"
-        self.concurrency = 3
 
-        self.counter = 0
-        self.total = 0
+# -------------------------
+# MAIN GRAPH BUILDER
+# -------------------------
 
-    # -------------------------
-    # MAIN
-    # -------------------------
-    async def build(self):
-        print("🚀 GraphRAG START")
+class Graph:
+    def __init__(self):
+        self.extractor = FastExtractor()
+        self.chroma = ChromaStorageService()
+        self.triples = []
+        self.driver = None  # <-- IMPORTANT: no connection yet
 
-        text = self._load_documents()
+    # ---------------------------------------------------------
+    # STEP 1 — BUILD TRIPLES (NO NEO4J CONNECTION)
+    # ---------------------------------------------------------
+    async def build_triples(self):
+        print("🚀 Extracting triples...")
 
-        chunks = TextChunkerService().chunk_text(text)
-        self.total = len(chunks)
+        results = self.chroma.collection.get(include=["documents"])
+        chunks = results["documents"]
 
-        print(f"📦 Total chunks: {self.total}")
+        for i, text in enumerate(chunks):
+            extracted = self.extractor.extract(text)
+            self.triples.extend(extracted)
 
-        queue = asyncio.Queue()
+            if (i + 1) % 10 == 0:
+                print(f"⚙️ Extracted: {i+1}/{len(chunks)}")
 
-        for c in chunks:
-            queue.put_nowait(c["text"][:700])
-
-        async with aiohttp.ClientSession() as session:
-
-            workers = [
-                asyncio.create_task(self.worker(session, queue))
-                for _ in range(self.concurrency)
-            ]
-
-            await queue.join()
-
-            for w in workers:
-                w.cancel()
-
-        print(f"📊 FINAL GRAPH NODES: {len(self.graph)}")
-
+        print(f"📊 Total triples extracted: {len(self.triples)}")
         self.save()
 
-    # -------------------------
-    # WORKER
-    # -------------------------
-    async def worker(self, session, queue):
-        while True:
-            chunk = await queue.get()
+    # ---------------------------------------------------------
+    # SAVE TRIPLES LOCALLY
+    # ---------------------------------------------------------
+    def save(self):
+        save_path = f"{Config.graph_dir}/graph.json"
+        Path(save_path).write_text(json.dumps(self.triples, indent=2), encoding="utf-8")
+        print(f"💾 Saved triples → {save_path}")
 
-            try:
-                triples = await self.call_llm(session, chunk)
-                self.merge(triples)
-
-            except Exception as e:
-                print("❌ ERROR:", repr(e))
-
-            self.counter += 1
-            print(f"📈 {self.counter}/{self.total}")
-
-            queue.task_done()
-
-    # -------------------------
-    # LLM CALL
-    # -------------------------
-    async def call_llm(self, session, chunk):
-        prompt = f"""
-Extract ONLY JSON triples:
-
-[
-  {{"subject":"a","relation":"b","object":"c"}}
-]
-
-TEXT:
-{chunk}
-"""
-
-        async with session.post(
-            "http://127.0.0.1:11434/api/generate",
-            json={
-                "model": self.model,
-                "prompt": prompt,
-                "stream": False
-            },
-            timeout=120
-        ) as resp:
-
-            data = await resp.json()
-            text = data.get("response", "")
-
-            return self.parse(text)
-
-    # -------------------------
-    # PARSER
-    # -------------------------
-    @staticmethod
-    def parse(text):
-        if not text:
-            return []
+    # ---------------------------------------------------------
+    # STEP 2 — CONNECT TO NEO4J (ONLY WHEN CALLED)
+    # ---------------------------------------------------------
+    def connect(self):
+        print("🔌 Connecting to Neo4j...")
 
         try:
-            return json.loads(text)
-        except:
-            start = text.find("[")
-            end = text.rfind("]")
-            if start != -1 and end != -1:
-                try:
-                    return json.loads(text[start:end + 1])
-                except:
-                    return []
-        return []
+            self.driver = GraphDatabase.driver(
+                NEO4J_URI,
+                auth=(NEO4J_USERNAME, NEO4J_PASSWORD)
+            )
+            self.driver.verify_connectivity()
+            print("🟢 Connected to Neo4j")
+        except Exception as e:
+            print("🔴 Neo4j connection FAILED")
+            print(e)
+            raise
 
-    # -------------------------
-    # MERGE (SAFE)
-    # -------------------------
-    def merge(self, triples):
-        for t in triples:
-            if not isinstance(t, dict):
-                continue
+    # ---------------------------------------------------------
+    # STEP 3 — UPLOAD TRIPLES (ONLY WHEN CALLED)
+    # ---------------------------------------------------------
+    def upload(self, batch_size=1000):
+        if not self.driver:
+            raise RuntimeError("Call connect() before upload()")
 
-            s = t.get("subject")
-            r = t.get("relation")
-            o = t.get("object")
+        print("📡 Uploading triples to Neo4j...")
 
-            # SAFEGUARD (prevents crashes)
-            if not s or not r or not o:
-                continue
+        query = """
+        UNWIND $rows AS t
+        MERGE (s:Entity {name: t.subject})
+        MERGE (o:Entity {name: t.object})
+        MERGE (s)-[:RELATED_TO]->(o)
+        """
 
-            s = str(s).strip().lower()
-            r = str(r).strip().lower()
-            o = str(o).strip().lower()
+        with self.driver.session() as session:
+            for i in range(0, len(self.triples), batch_size):
+                batch = self.triples[i:i + batch_size]
 
-            self.graph.setdefault(s, []).append((r, o))
+                session.execute_write(lambda tx: tx.run(query, rows=batch))
 
-    # -------------------------
-    # LOAD
-    # -------------------------
-    def _load_documents(self):
-        folder = self.root / Config.output_dir
+                print(f"   ✅ Uploaded batch {i//batch_size + 1} ({len(batch)} triples)")
 
-        return "\n\n".join(
-            f.read_text(encoding="utf-8")
-            for f in folder.glob("*_cleaned.txt")
-        )
+        print("🎉 Upload complete!")
 
-    # -------------------------
-    # SAVE (FIXED PATH)
-    # -------------------------
-    def save(self):
-        out = self.root / "data/graph/graph.json"
-        out.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(out, "w", encoding="utf-8") as f:
-            json.dump(self.graph, f, indent=2)
+# -------------------------
+# RUN (EXAMPLE)
+# -------------------------
 
-        print(f"✅ Saved graph → {out.resolve()}")
+if __name__ == "__main__":
+    g = Graph()
+    asyncio.run(g.build_triples())
