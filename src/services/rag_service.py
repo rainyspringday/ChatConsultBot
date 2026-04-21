@@ -16,17 +16,21 @@ class RAGService:
         with graph_path.open("r", encoding="utf-8") as f:
             self.graph = json.load(f)
 
-
     def get_graph_context(self, query: str) -> str:
         query = query.lower()
 
-        nodes = self.graph.get("nodes", [])
+        triples = self.graph
 
-        return "\n".join(
-            n["text"]
-            for n in nodes
-            if query in n["text"].lower()
-        )
+        matched = []
+        for t in triples:
+            s = t["subject"].lower()
+            r = t["relation"].lower()
+            o = t["object"].lower()
+
+            if query in s or query in r or query in o:
+                matched.append(f"{t['subject']} -[{t['relation']}]-> {t['object']}")
+
+        return "\n".join(matched)
 
     def ask(self, question: str, prompt_name:str| None = None) -> str:
         """Main RAG pipeline"""
@@ -39,7 +43,7 @@ class RAGService:
         relevant_chunks = docs["documents"][0]  # list of strings
 
         vector_context = "\n\n".join(relevant_chunks)
-        
+
         graph_context = self.get_graph_context(question)
         system_prompt=PromptLibrary.get(prompt_name)
 
