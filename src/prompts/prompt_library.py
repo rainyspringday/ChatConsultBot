@@ -9,5 +9,7 @@ class PromptLibrary:
     }
 
     @staticmethod
-    def get(name: str) -> str | None:
+    def get(name: str | None = None) -> str | None:
+        if name is None:
+            return None
         return PromptLibrary.PROMPTS.get(name)

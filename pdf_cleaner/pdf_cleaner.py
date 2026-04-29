@@ -91,7 +91,7 @@ def clean_pdf_file(pdf_path, output_path):
             if cleaned:
                 f.write(f"[Page {i}]\n{cleaned}\n\n")
 
-    print(f"✅ Cleaned {len(docs)} pages from {Path(pdf_path).name}")
+    print(f" Cleaned {len(docs)} pages from {Path(pdf_path).name}")
     return output_path
 
 
@@ -107,11 +107,11 @@ def clean_all_pdfs():
     pdf_files = list(input_path.glob("*.pdf"))
 
     if not pdf_files:
-        print(f"⚠️ No PDF files found")
-        print(f"   Please add PDF files to: {input_path.absolute()}")
+        print(f"No PDF files found")
+        print(f"Please add PDF files to: {input_path.absolute()}")
         return []
 
-    print(f"📄 Found {len(pdf_files)} PDF(s) to clean")
+    print(f" Found {len(pdf_files)} PDF(s) to clean")
     print("-" * 40)
 
     # Clean each PDF
@@ -122,7 +122,7 @@ def clean_all_pdfs():
         cleaned_files.append(str(output_file))
 
     print("-" * 40)
-    print(f"✅ Cleaned {len(cleaned_files)} file(s)")
+    print(f"Cleaned {len(cleaned_files)} file(s)")
 
     return cleaned_files
 
