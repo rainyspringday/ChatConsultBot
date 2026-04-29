@@ -1,115 +1,199 @@
 import json
-import os
-from typing import List, Dict, Any
-
-from groq import Groq
+from typing import List, Dict, Any, Tuple
 from src.core.config import Config
 from src.prompts.prompt_library import PromptLibrary
 
 
 class RAGService:
-    def __init__(self, chroma) -> None:
+    def __init__(self, chroma, client) -> None:
         self.chroma = chroma
-        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        self.client = client
 
         self.graph = self._load_graph()
+        self.graph_index = self._build_graph_index()
+
         self.all_docs_cache = self._get_all_documents()
 
-    def _load_graph(self) -> List[Dict[str, str]]:
-        graph_path = Config.graph_dir / "graph.json"
-        with graph_path.open("r", encoding="utf-8") as f:
+    # ---------------------------
+    # GRAPH LOADING
+    # ---------------------------
+
+    @staticmethod
+    def _load_graph() -> List[Dict[str, str]]:
+        path = Config.graph_dir / "graph.json"
+        with path.open("r", encoding="utf-8") as f:
             return json.load(f)
+
+    def _build_graph_index(self) -> Dict[str, List[Dict[str, str]]]:
+        """
+        Maps entity -> list of triples containing that entity
+        """
+        index: Dict[str, List[Dict[str, str]]] = {}
+
+        for triple in self.graph:
+            subject = triple["subject"].lower()
+            obj = triple["object"].lower()
+
+            index.setdefault(subject, []).append(triple)
+            index.setdefault(obj, []).append(triple)
+
+        return index
+
+    # ---------------------------
+    # GRAPH RETRIEVAL (FIXED)
+    # ---------------------------
+
+    def _get_graph_context(self, query: str, max_results: int = 8) -> str:
+        STOPWORDS = {
+            "what", "is", "a", "an", "the", "how", "why",
+            "do", "does", "of", "in", "on", "for", "to", "and"
+        }
+
+        terms = [
+            t for t in query.lower().split()
+            if t not in STOPWORDS and len(t) > 1
+        ]
+
+        if not terms:
+            return ""
+
+        scored: Dict[Tuple[str, str, str], int] = {}
+
+        # 1. ENTITY MATCH (strong signal)
+        for term in terms:
+            if term in self.graph_index:
+                for triple in self.graph_index[term]:
+                    key = (triple["subject"], triple["relation"], triple["object"])
+                    scored[key] = scored.get(key, 0) + 3
+
+        # 2. FUZZY MATCH (weak fallback)
+        for triple in self.graph:
+            text = f"{triple['subject']} {triple['relation']} {triple['object']}".lower()
+
+            for term in terms:
+                if term in text:
+                    key = (triple["subject"], triple["relation"], triple["object"])
+                    scored[key] = scored.get(key, 0) + 1
+
+        ranked = sorted(scored.items(), key=lambda x: x[1], reverse=True)
+
+        top = ranked[:max_results]
+
+        return "\n".join(
+            f"{s} -[{r}]-> {o}"
+            for ((s, r, o), _) in top
+        )
+
+    # ---------------------------
+    # VECTOR + KEYWORD SEARCH
+    # ---------------------------
 
     def _get_all_documents(self, batch_size: int = 100) -> List[Dict[str, Any]]:
         collection = self.chroma.collection
-        results: List[Dict[str, Any]] = []
+        results = []
 
         offset = 0
         while True:
             batch = collection.get(limit=batch_size, offset=offset)
 
-            documents = batch.get("documents", [])
-            metadatas = batch.get("metadatas", [])
+            docs = batch.get("documents", [])
+            metas = batch.get("metadatas", [])
 
-            if not documents:
+            if not docs:
                 break
 
-            for doc, meta in zip(documents, metadatas):
-                results.append({
-                    "text": doc,
-                    "metadata": meta,
-                })
+            for d, m in zip(docs, metas):
+                results.append({"text": d, "metadata": m})
 
             offset += batch_size
 
         return results
 
     def _keyword_search(self, query: str, k: int = 5) -> List[str]:
-        query_terms = query.lower().split()
-        scored_results = []
+        terms = query.lower().split()
+        scored = []
 
         for doc in self.all_docs_cache:
             text = doc["text"].lower()
-            score = sum(term in text for term in query_terms)
+            score = sum(t in text for t in terms)
 
             if score > 0:
-                scored_results.append((score, doc["text"]))
+                scored.append((score, doc["text"]))
 
-        scored_results.sort(key=lambda x: x[0], reverse=True)
-        return [doc for _, doc in scored_results[:k]]
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return [d for _, d in scored[:k]]
 
     def _vector_search(self, query: str) -> List[str]:
-        results = self.chroma.search(query)
+        res = self.chroma.search(query)
 
-        if not results.get("documents"):
+        if not res.get("documents"):
             return []
 
-        documents = results["documents"]
-        if not documents or not documents[0]:
-            return []
-
-        return documents[0]
+        return res["documents"][0]
 
     def _hybrid_search(self, query: str, k: int = 5) -> List[str]:
-        keyword_docs = self._keyword_search(query, k)
-        vector_docs = self._vector_search(query)
+        vector = self._vector_search(query)
+        keyword = self._keyword_search(query, k)
 
-        combined: List[str] = []
         seen = set()
+        combined = []
 
-        for doc in keyword_docs + vector_docs:
+        for doc in keyword + vector:
             if doc not in seen:
                 seen.add(doc)
                 combined.append(doc)
 
         return combined[:k]
 
-    def _get_graph_context(self, query: str) -> str:
-        query_terms = query.lower().split()
-        matches = []
-
-        for triple in self.graph:
-            subject = triple["subject"].lower()
-            relation = triple["relation"].lower()
-            obj = triple["object"].lower()
-
-            if any(term in subject or term in relation or term in obj for term in query_terms):
-                matches.append(
-                    f"{triple['subject']} -[{triple['relation']}]-> {triple['object']}"
-                )
-
-        return "\n".join(matches)
+    # ---------------------------
+    # CONTEXT BUILDING
+    # ---------------------------
 
     @staticmethod
     def _build_context(chunks: List[str], max_chunks: int = 3) -> str:
         filtered = [c.strip() for c in chunks if len(c.strip()) > 50]
         return "\n\n".join(filtered[:max_chunks])
 
+    # ---------------------------
+    # RERANKING
+    # ---------------------------
+
+    def _rerank(self, query: str, chunks: List[str], top_k: int = 3) -> List[str]:
+        if not chunks:
+            return []
+
+        query_terms = set(query.lower().split())
+
+        scored = []
+
+        for chunk in chunks:
+            text = chunk.lower()
+
+            # keyword score
+            keyword_score = sum(term in text for term in query_terms)
+
+            # position bonus (earlier matches are slightly better)
+            position_score = sum(text.find(term) != -1 for term in query_terms)
+
+            score = keyword_score + 0.5 * position_score
+
+            scored.append((score, chunk))
+
+        scored.sort(key=lambda x: x[0], reverse=True)
+
+        return [c for _, c in scored[:top_k]]
+
+    # ---------------------------
+    # MAIN PIPELINE
+    # ---------------------------
+
     def ask(self, question: str, prompt_name: str | None = None) -> str:
-        chunks = self._hybrid_search(question, k=8)
+        chunks = self._hybrid_search(question, k=10)
 
         if not chunks:
             return "No relevant context found."
+
+        chunks = self._rerank(question, chunks, top_k=3)
 
         context = self._build_context(chunks)
         graph_context = self._get_graph_context(question)

@@ -1,5 +1,8 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from groq import Groq
 from src.api import analyze, auth, chat_sessions
 from src.services.chroma_storage_service import ChromaStorageService
 from src.services.rag_service import RAGService
@@ -18,7 +21,8 @@ app.add_middleware(
 @app.on_event("startup")
 def startup():
     chroma = ChromaStorageService()
-    rag = RAGService(chroma)
+    client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+    rag = RAGService(chroma,client)
     app.state.rag = rag
 
 
