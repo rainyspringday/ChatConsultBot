@@ -1,4 +1,6 @@
 import json
+import re
+from pathlib import Path
 from typing import List, Dict, Any, Tuple
 from src.core.config import Config
 from src.prompts.prompt_library import PromptLibrary
@@ -13,6 +15,7 @@ class RAGService:
         self.graph_index = self._build_graph_index()
 
         self.all_docs_cache = self._get_all_documents()
+        self.document_names_cache = self._infer_document_names()
 
     # ---------------------------
     # GRAPH LOADING
@@ -21,8 +24,16 @@ class RAGService:
     @staticmethod
     def _load_graph() -> List[Dict[str, str]]:
         path = Config.graph_dir / "graph.json"
-        with path.open("r", encoding="utf-8") as f:
-            return json.load(f)
+        if not path.exists():
+            return []
+
+        try:
+            with path.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            return []
+
+        return data if isinstance(data, list) else []
 
     def _build_graph_index(self) -> Dict[str, List[Dict[str, str]]]:
         """
@@ -123,6 +134,24 @@ class RAGService:
         scored.sort(key=lambda x: x[0], reverse=True)
         return [d for _, d in scored[:k]]
 
+    def _infer_document_names(self) -> List[str]:
+        names = {
+            file.name
+            for file in Path(Config.output_dir).glob("*_cleaned.txt")
+            if file.is_file()
+        }
+        if names:
+            return sorted(names)
+
+        pattern = re.compile(r"---\s*(.+?)\s*---")
+        for doc in self.all_docs_cache:
+            text = doc.get("text", "")
+            for match in pattern.findall(text):
+                cleaned = match.strip()
+                if cleaned:
+                    names.add(cleaned)
+        return sorted(names)
+
     def _vector_search(self, query: str) -> List[str]:
         res = self.chroma.search(query)
 
@@ -187,7 +216,25 @@ class RAGService:
     # MAIN PIPELINE
     # ---------------------------
 
-    def ask(self, question: str, prompt_name: str | None = None) -> str:
+    def ask(
+        self,
+        question: str,
+        prompt_name: str | None = None,
+        chat_history: List[Dict[str, str]] | None = None,
+    ) -> str:
+        normalized_question = question.lower()
+        if (
+            ("how many" in normalized_question or "count" in normalized_question)
+            and ("document" in normalized_question or "file" in normalized_question)
+        ):
+            self.document_names_cache = self._infer_document_names()
+            count = len(self.document_names_cache)
+            if count == 0:
+                return "I currently do not have any indexed documents."
+            names = ", ".join(self.document_names_cache[:8])
+            extra = "" if count <= 8 else f", and {count - 8} more"
+            return f"I have {count} indexed documents: {names}{extra}."
+
         chunks = self._hybrid_search(question, k=10)
 
         if not chunks:
@@ -197,6 +244,16 @@ class RAGService:
 
         context = self._build_context(chunks)
         graph_context = self._get_graph_context(question)
+        history_text = ""
+        if chat_history:
+            lines = []
+            for item in chat_history[-8:]:
+                role = item.get("role", "").strip().lower()
+                content = item.get("content", "").strip()
+                if role not in {"user", "assistant"} or not content:
+                    continue
+                lines.append(f"{role}: {content}")
+            history_text = "\n".join(lines)
 
         system_prompt = PromptLibrary.get(prompt_name)
 
@@ -211,6 +268,7 @@ class RAGService:
         messages.append({
             "role": "user",
             "content": (
+                f"RECENT CHAT HISTORY:\n{history_text or 'None'}\n\n"
                 f"DOCUMENT CONTEXT:\n{context}\n\n"
                 f"GRAPH KNOWLEDGE:\n{graph_context}\n\n"
                 f"Question: {question}"
