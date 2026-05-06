@@ -21,11 +21,9 @@ def ask_question(
     rag: RAGService = Depends(get_rag),
     username: str = Depends(get_current_user),
 ):
+    response = rag.ask(request.question, "chat")
 
-    try:
-        response = rag.ask(request.question,"chat")
-        return AnswerResponse(answer=response.strip())
+    if response == "INVALID_QUERY":
+        return AnswerResponse(answer="Invalid or unsafe query.")
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
+    return AnswerResponse(answer=response.strip())
