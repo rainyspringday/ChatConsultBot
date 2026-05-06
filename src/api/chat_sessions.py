@@ -24,6 +24,7 @@ class ChatMessage(BaseModel):
     id: int
     role: str
     content: str
+    rating: int | None = None
     createdAt: str
 
 
@@ -35,6 +36,26 @@ class ChatAnswerResponse(BaseModel):
     answer: str
     messageId: int
     chatTitle: str
+
+
+class ChatFeedbackRequest(BaseModel):
+    rating: int = Field(..., ge=-1, le=1)
+
+
+def _get_recent_chat_history(chat_id: int, limit: int = 8) -> list[dict[str, str]]:
+    with get_connection() as conn:
+        rows = conn.execute(
+            """
+            SELECT role, content
+            FROM chat_messages
+            WHERE chat_id = ?
+            ORDER BY id DESC
+            LIMIT ?
+            """,
+            (chat_id, limit),
+        ).fetchall()
+    ordered = list(reversed(rows))
+    return [{"role": row["role"], "content": row["content"]} for row in ordered]
 
 
 def _get_chat_for_user(chat_id: int, username: str):
@@ -88,18 +109,26 @@ def list_chat_messages(chat_id: int, username: str = Depends(get_current_user)):
     with get_connection() as conn:
         rows = conn.execute(
             """
-            SELECT id, role, content, created_at
-            FROM chat_messages
-            WHERE chat_id = ?
-            ORDER BY id ASC
+            SELECT
+                m.id,
+                m.role,
+                m.content,
+                m.created_at,
+                f.rating
+            FROM chat_messages m
+            LEFT JOIN chat_message_feedback f
+                ON f.message_id = m.id AND f.username = ?
+            WHERE m.chat_id = ?
+            ORDER BY m.id ASC
             """,
-            (chat_id,),
+            (username, chat_id),
         ).fetchall()
     return [
         ChatMessage(
             id=row["id"],
             role=row["role"],
             content=row["content"],
+            rating=row["rating"],
             createdAt=row["created_at"],
         )
         for row in rows
@@ -137,7 +166,8 @@ def send_message(
     if not question:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Question is required")
 
-    answer = rag.ask(question).strip()
+    history = _get_recent_chat_history(chat_id, limit=8)
+    answer = rag.ask(question, chat_history=history).strip()
     final_title = chat["title"]
     with get_connection() as conn:
         conn.execute(
@@ -168,3 +198,48 @@ def send_message(
         messageId=assistant_message_id,
         chatTitle=final_title,
     )
+
+
+@router.post("/{chat_id}/messages/{message_id}/feedback")
+def rate_message(
+    chat_id: int,
+    message_id: int,
+    payload: ChatFeedbackRequest,
+    username: str = Depends(get_current_user),
+):
+    if not _get_chat_for_user(chat_id, username):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Chat not found")
+
+    with get_connection() as conn:
+        msg = conn.execute(
+            "SELECT id, role FROM chat_messages WHERE id = ? AND chat_id = ?",
+            (message_id, chat_id),
+        ).fetchone()
+        if not msg:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Message not found",
+            )
+        if msg["role"] != "assistant":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Only assistant messages can be rated",
+            )
+
+        conn.execute(
+            """
+            INSERT INTO chat_message_feedback (message_id, username, rating)
+            VALUES (?, ?, ?)
+            ON CONFLICT(message_id, username)
+            DO UPDATE SET rating = excluded.rating
+            """,
+            (message_id, username, payload.rating),
+        )
+        conn.commit()
+
+    return {
+        "status": "saved",
+        "chatId": chat_id,
+        "messageId": message_id,
+        "rating": payload.rating,
+    }

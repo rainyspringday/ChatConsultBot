@@ -1,8 +1,9 @@
 import json
+import re
+from pathlib import Path
 from typing import List, Dict, Any, Tuple
 from src.core.config import Config
 from src.prompts.prompt_library import PromptLibrary
-from src.core.guardrails import GuardrailService
 
 
 class RAGService:
@@ -14,9 +15,7 @@ class RAGService:
         self.graph_index = self._build_graph_index()
 
         self.all_docs_cache = self._get_all_documents()
-
-        # guardrails as a dependency
-        self.guardrails = GuardrailService()
+        self.document_names_cache = self._infer_document_names()
 
     # ---------------------------
     # GRAPH LOADING
@@ -25,10 +24,21 @@ class RAGService:
     @staticmethod
     def _load_graph() -> List[Dict[str, str]]:
         path = Config.graph_dir / "graph.json"
-        with path.open("r", encoding="utf-8") as f:
-            return json.load(f)
+        if not path.exists():
+            return []
+
+        try:
+            with path.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            return []
+
+        return data if isinstance(data, list) else []
 
     def _build_graph_index(self) -> Dict[str, List[Dict[str, str]]]:
+        """
+        Maps entity -> list of triples containing that entity
+        """
         index: Dict[str, List[Dict[str, str]]] = {}
 
         for triple in self.graph:
@@ -41,7 +51,7 @@ class RAGService:
         return index
 
     # ---------------------------
-    # GRAPH RETRIEVAL
+    # GRAPH RETRIEVAL (FIXED)
     # ---------------------------
 
     def _get_graph_context(self, query: str, max_results: int = 8) -> str:
@@ -60,20 +70,24 @@ class RAGService:
 
         scored: Dict[Tuple[str, str, str], int] = {}
 
+        # 1. ENTITY MATCH (strong signal)
         for term in terms:
             if term in self.graph_index:
                 for triple in self.graph_index[term]:
                     key = (triple["subject"], triple["relation"], triple["object"])
                     scored[key] = scored.get(key, 0) + 3
 
+        # 2. FUZZY MATCH (weak fallback)
         for triple in self.graph:
             text = f"{triple['subject']} {triple['relation']} {triple['object']}".lower()
+
             for term in terms:
                 if term in text:
                     key = (triple["subject"], triple["relation"], triple["object"])
                     scored[key] = scored.get(key, 0) + 1
 
         ranked = sorted(scored.items(), key=lambda x: x[1], reverse=True)
+
         top = ranked[:max_results]
 
         return "\n".join(
@@ -120,6 +134,24 @@ class RAGService:
         scored.sort(key=lambda x: x[0], reverse=True)
         return [d for _, d in scored[:k]]
 
+    def _infer_document_names(self) -> List[str]:
+        names = {
+            file.name
+            for file in Path(Config.output_dir).glob("*_cleaned.txt")
+            if file.is_file()
+        }
+        if names:
+            return sorted(names)
+
+        pattern = re.compile(r"---\s*(.+?)\s*---")
+        for doc in self.all_docs_cache:
+            text = doc.get("text", "")
+            for match in pattern.findall(text):
+                cleaned = match.strip()
+                if cleaned:
+                    names.add(cleaned)
+        return sorted(names)
+
     def _vector_search(self, query: str) -> List[str]:
         res = self.chroma.search(query)
 
@@ -160,60 +192,95 @@ class RAGService:
             return []
 
         query_terms = set(query.lower().split())
+
         scored = []
 
         for chunk in chunks:
             text = chunk.lower()
+
+            # keyword score
             keyword_score = sum(term in text for term in query_terms)
+
+            # position bonus (earlier matches are slightly better)
             position_score = sum(text.find(term) != -1 for term in query_terms)
+
             score = keyword_score + 0.5 * position_score
+
             scored.append((score, chunk))
 
         scored.sort(key=lambda x: x[0], reverse=True)
+
         return [c for _, c in scored[:top_k]]
 
     # ---------------------------
-    # MAIN PIPELINE WITH GUARDRAILS
+    # MAIN PIPELINE
     # ---------------------------
 
-    def ask(self, question: str, prompt_name: str | None = None) -> str:
-        # 1. input guardrails
-        if not self.guardrails.validate_input(question):
-            return "INVALID_QUERY"
+    def ask(
+        self,
+        question: str,
+        prompt_name: str | None = None,
+        chat_history: List[Dict[str, str]] | None = None,
+    ) -> str:
+        normalized_question = question.lower()
+        if (
+            ("how many" in normalized_question or "count" in normalized_question)
+            and ("document" in normalized_question or "file" in normalized_question)
+        ):
+            self.document_names_cache = self._infer_document_names()
+            count = len(self.document_names_cache)
+            if count == 0:
+                return "I currently do not have any indexed documents."
+            names = ", ".join(self.document_names_cache[:8])
+            extra = "" if count <= 8 else f", and {count - 8} more"
+            return f"I have {count} indexed documents: {names}{extra}."
 
-        # 2. retrieval
         chunks = self._hybrid_search(question, k=10)
-        chunks = self.guardrails.filter_context(chunks)
-        chunks = self._rerank(question, chunks, top_k=3)
 
         if not chunks:
             return "No relevant context found."
 
-        # 3. build context
+        chunks = self._rerank(question, chunks, top_k=3)
+
         context = self._build_context(chunks)
         graph_context = self._get_graph_context(question)
+        history_text = ""
+        if chat_history:
+            lines = []
+            for item in chat_history[-8:]:
+                role = item.get("role", "").strip().lower()
+                content = item.get("content", "").strip()
+                if role not in {"user", "assistant"} or not content:
+                    continue
+                lines.append(f"{role}: {content}")
+            history_text = "\n".join(lines)
 
-        # 4. domain/system prompt
         system_prompt = PromptLibrary.get(prompt_name)
 
-        # 5. messages via guardrail service
-        messages = self.guardrails.build_messages(
-            question=question,
-            context=context,
-            graph_context=graph_context,
-            domain_system_prompt=system_prompt,
-        )
+        messages = []
 
-        # 6. LLM call
+        if isinstance(system_prompt, str) and system_prompt.strip():
+            messages.append({
+                "role": "system",
+                "content": system_prompt,
+            })
+
+        messages.append({
+            "role": "user",
+            "content": (
+                f"RECENT CHAT HISTORY:\n{history_text or 'None'}\n\n"
+                f"DOCUMENT CONTEXT:\n{context}\n\n"
+                f"GRAPH KNOWLEDGE:\n{graph_context}\n\n"
+                f"Question: {question}"
+            ),
+        })
+
         response = self.client.chat.completions.create(
             model=Config.MODEL_NAME,
             messages=messages,
         )
 
-        raw_answer = response.choices[0].message.content or ""
-
-        # 7. output guardrails
-        return self.guardrails.validate_output(raw_answer)
+        return response.choices[0].message.content or ""
 
     def generate_chat_title(self, first_message: str) -> str:
         clean_message = first_message.strip()

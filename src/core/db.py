@@ -66,4 +66,41 @@ def init_db():
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS chat_message_feedback (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                message_id INTEGER NOT NULL,
+                username TEXT NOT NULL,
+                rating INTEGER NOT NULL CHECK (rating IN (-1, 1)),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(message_id, username),
+                FOREIGN KEY(message_id) REFERENCES chat_messages(id)
+            )
+            """
+        )
+        columns = {
+            row["name"]
+            for row in conn.execute("PRAGMA table_info(company_analyses)").fetchall()
+        }
+        if "benchmark_company" not in columns:
+            conn.execute(
+                "ALTER TABLE company_analyses ADD COLUMN benchmark_company TEXT"
+            )
+        if "maturity_score" not in columns:
+            conn.execute(
+                "ALTER TABLE company_analyses ADD COLUMN maturity_score INTEGER"
+            )
+        if "focus_topics_json" not in columns:
+            conn.execute(
+                "ALTER TABLE company_analyses ADD COLUMN focus_topics_json TEXT"
+            )
+        if "revenue_series_json" not in columns:
+            conn.execute(
+                "ALTER TABLE company_analyses ADD COLUMN revenue_series_json TEXT"
+            )
+        if "user_rating" not in columns:
+            conn.execute(
+                "ALTER TABLE company_analyses ADD COLUMN user_rating INTEGER"
+            )
         conn.commit()

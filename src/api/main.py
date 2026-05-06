@@ -12,6 +12,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1|0\.0\.0\.0|\d{1,3}(?:\.\d{1,3}){3})(:\d+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -21,7 +22,7 @@ app.add_middleware(
 @app.on_event("startup")
 def startup():
     chroma = ChromaStorageService()
-    client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+    client = Groq(api_key=os.getenv("GROQ_API_KEY"), timeout=30.0)
     rag = RAGService(chroma,client)
     app.state.rag = rag
 

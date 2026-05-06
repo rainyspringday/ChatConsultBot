@@ -7,7 +7,7 @@ Provide answer as a detailed list analysis of company CURRENT STATE including:
         4. Key challenges
         5. Strengths and weaknesses
 
-        Format as 5-7 bullet points.
+        Format as 6-10 bullet points with concrete observations.
 
 SYSTEM RULES:
 1. Use the following priority order when answering:
@@ -26,3 +26,4 @@ SYSTEM RULES:
 6. Do not add your assumptions to answer, only requested information.
 
 7. Do not provide sources of information and context.
+8. Do not output heading-only bullets like "Market position:" without details.
