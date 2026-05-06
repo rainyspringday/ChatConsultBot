@@ -2,7 +2,16 @@ from __future__ import annotations
 from typing import List, Dict, Any
 
 
-class GuardrailService:
+class Guardrails:
+    """
+    A unified guardrail service providing:
+    - input filtering
+    - context filtering
+    - output filtering
+    - safety system prompt
+    - message builder for RAG
+    """
+
     def __init__(
         self,
         *,
@@ -10,6 +19,8 @@ class GuardrailService:
         blocked_context_terms: List[str] | None = None,
         blocked_output_terms: List[str] | None = None,
     ) -> None:
+
+        # Terms that should block the USER QUESTION
         self.blocked_input_terms = blocked_input_terms or [
             "how to make a bomb",
             "suicide",
@@ -19,12 +30,16 @@ class GuardrailService:
             "ignore previous instructions",
             "pretend to be",
         ]
+
+        # Terms that should block CONTEXT chunks
         self.blocked_context_terms = blocked_context_terms or [
             "kill",
             "hack",
             "explosive",
             "password dump",
         ]
+
+        # Terms that should block MODEL OUTPUT
         self.blocked_output_terms = blocked_output_terms or [
             "kill",
             "suicide",
@@ -33,27 +48,35 @@ class GuardrailService:
             "ignore previous instructions",
         ]
 
-    # ---------------------------
+    # -------------------------------------------------
     # INPUT GUARDRAILS
-    # ---------------------------
+    # -------------------------------------------------
 
-    def validate_input(self, question: str) -> bool:
+    def apply_input(self, question: str) -> str:
+        """
+        Returns:
+            - original question if safe
+            - "INVALID_QUERY" if unsafe
+        """
         q = question.lower().strip()
 
         if len(q) < 3:
-            return False
+            return "INVALID_QUERY"
 
         for term in self.blocked_input_terms:
             if term in q:
-                return False
+                return "INVALID_QUERY"
 
-        return True
+        return question
 
-    # ---------------------------
+    # -------------------------------------------------
     # CONTEXT GUARDRAILS
-    # ---------------------------
+    # -------------------------------------------------
 
-    def filter_context(self, chunks: List[str]) -> List[str]:
+    def apply_context(self, chunks: List[str]) -> List[str]:
+        """
+        Removes unsafe context chunks.
+        """
         safe: List[str] = []
 
         for c in chunks:
@@ -64,9 +87,9 @@ class GuardrailService:
 
         return safe
 
-    # ---------------------------
-    # PROMPT GUARDRAILS
-    # ---------------------------
+    # -------------------------------------------------
+    # SAFETY SYSTEM PROMPT
+    # -------------------------------------------------
 
     @staticmethod
     def safety_system_prompt() -> str:
@@ -79,6 +102,10 @@ class GuardrailService:
             "- Prefer grounded answers using DOCUMENT CONTEXT and GRAPH KNOWLEDGE.\n"
         )
 
+    # -------------------------------------------------
+    # MESSAGE BUILDER
+    # -------------------------------------------------
+
     def build_messages(
         self,
         *,
@@ -87,9 +114,10 @@ class GuardrailService:
         graph_context: str,
         domain_system_prompt: str | None = None,
     ) -> List[Dict[str, Any]]:
+
         messages: List[Dict[str, Any]] = []
 
-        # safety prompt first
+        # Safety prompt first
         messages.append(
             {
                 "role": "system",
@@ -97,7 +125,7 @@ class GuardrailService:
             }
         )
 
-        # domain/system prompt second
+        # Domain/system prompt second
         if isinstance(domain_system_prompt, str) and domain_system_prompt.strip():
             messages.append(
                 {
@@ -106,7 +134,7 @@ class GuardrailService:
                 }
             )
 
-        # user message with context
+        # User message with context
         messages.append(
             {
                 "role": "user",
@@ -120,17 +148,21 @@ class GuardrailService:
 
         return messages
 
-    # ---------------------------
+    # -------------------------------------------------
     # OUTPUT GUARDRAILS
-    # ---------------------------
+    # -------------------------------------------------
 
-    def validate_output(self, answer: str) -> str:
+    def apply_output(self, answer: str) -> str:
+        """
+        Returns sanitized answer if unsafe content is detected.
+        """
         text = (answer or "").lower()
 
+        # Block unsafe content
         if any(term in text for term in self.blocked_output_terms):
             return "The model generated unsafe content. Response blocked."
 
-        # simple leakage / meta detection
+        # Block internal leakage
         leakage_markers = [
             "as an ai language model",
             "as a large language model",

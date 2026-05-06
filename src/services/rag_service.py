@@ -2,8 +2,10 @@ import json
 import re
 from pathlib import Path
 from typing import List, Dict, Any, Tuple
+
 from src.core.config import Config
 from src.prompts.prompt_library import PromptLibrary
+from src.core.guardrails import Guardrails
 
 
 class RAGService:
@@ -11,6 +13,10 @@ class RAGService:
         self.chroma = chroma
         self.client = client
 
+        # unified guardrails service
+        self.guardrails = Guardrails()
+
+        # your improved logic
         self.graph = self._load_graph()
         self.graph_index = self._build_graph_index()
 
@@ -36,9 +42,6 @@ class RAGService:
         return data if isinstance(data, list) else []
 
     def _build_graph_index(self) -> Dict[str, List[Dict[str, str]]]:
-        """
-        Maps entity -> list of triples containing that entity
-        """
         index: Dict[str, List[Dict[str, str]]] = {}
 
         for triple in self.graph:
@@ -51,7 +54,7 @@ class RAGService:
         return index
 
     # ---------------------------
-    # GRAPH RETRIEVAL (FIXED)
+    # GRAPH RETRIEVAL
     # ---------------------------
 
     def _get_graph_context(self, query: str, max_results: int = 8) -> str:
@@ -70,24 +73,20 @@ class RAGService:
 
         scored: Dict[Tuple[str, str, str], int] = {}
 
-        # 1. ENTITY MATCH (strong signal)
         for term in terms:
             if term in self.graph_index:
                 for triple in self.graph_index[term]:
                     key = (triple["subject"], triple["relation"], triple["object"])
                     scored[key] = scored.get(key, 0) + 3
 
-        # 2. FUZZY MATCH (weak fallback)
         for triple in self.graph:
             text = f"{triple['subject']} {triple['relation']} {triple['object']}".lower()
-
             for term in terms:
                 if term in text:
                     key = (triple["subject"], triple["relation"], triple["object"])
                     scored[key] = scored.get(key, 0) + 1
 
         ranked = sorted(scored.items(), key=lambda x: x[1], reverse=True)
-
         top = ranked[:max_results]
 
         return "\n".join(
@@ -154,10 +153,8 @@ class RAGService:
 
     def _vector_search(self, query: str) -> List[str]:
         res = self.chroma.search(query)
-
         if not res.get("documents"):
             return []
-
         return res["documents"][0]
 
     def _hybrid_search(self, query: str, k: int = 5) -> List[str]:
@@ -192,24 +189,16 @@ class RAGService:
             return []
 
         query_terms = set(query.lower().split())
-
         scored = []
 
         for chunk in chunks:
             text = chunk.lower()
-
-            # keyword score
             keyword_score = sum(term in text for term in query_terms)
-
-            # position bonus (earlier matches are slightly better)
             position_score = sum(text.find(term) != -1 for term in query_terms)
-
             score = keyword_score + 0.5 * position_score
-
             scored.append((score, chunk))
 
         scored.sort(key=lambda x: x[0], reverse=True)
-
         return [c for _, c in scored[:top_k]]
 
     # ---------------------------
@@ -222,7 +211,14 @@ class RAGService:
         prompt_name: str | None = None,
         chat_history: List[Dict[str, str]] | None = None,
     ) -> str:
-        normalized_question = question.lower()
+
+        # 1. INPUT GUARDRAIL
+        safe_question = self.guardrails.apply_input(question)
+        if safe_question == "INVALID_QUERY":
+            return "INVALID_QUERY"
+
+        # special case: "how many documents"
+        normalized_question = safe_question.lower()
         if (
             ("how many" in normalized_question or "count" in normalized_question)
             and ("document" in normalized_question or "file" in normalized_question)
@@ -235,52 +231,41 @@ class RAGService:
             extra = "" if count <= 8 else f", and {count - 8} more"
             return f"I have {count} indexed documents: {names}{extra}."
 
-        chunks = self._hybrid_search(question, k=10)
+        # 2. RETRIEVAL
+        chunks = self._hybrid_search(safe_question, k=10)
+        chunks = self.guardrails.apply_context(chunks)
 
         if not chunks:
             return "No relevant context found."
 
-        chunks = self._rerank(question, chunks, top_k=3)
-
+        chunks = self._rerank(safe_question, chunks, top_k=3)
         context = self._build_context(chunks)
-        graph_context = self._get_graph_context(question)
-        history_text = ""
-        if chat_history:
-            lines = []
-            for item in chat_history[-8:]:
-                role = item.get("role", "").strip().lower()
-                content = item.get("content", "").strip()
-                if role not in {"user", "assistant"} or not content:
-                    continue
-                lines.append(f"{role}: {content}")
-            history_text = "\n".join(lines)
+        graph_context = self._get_graph_context(safe_question)
 
+        # 3. PROMPTS
         system_prompt = PromptLibrary.get(prompt_name)
 
-        messages = []
+        messages = self.guardrails.build_messages(
+            question=safe_question,
+            context=context,
+            graph_context=graph_context,
+            domain_system_prompt=system_prompt,
+        )
 
-        if isinstance(system_prompt, str) and system_prompt.strip():
-            messages.append({
-                "role": "system",
-                "content": system_prompt,
-            })
-
-        messages.append({
-            "role": "user",
-            "content": (
-                f"RECENT CHAT HISTORY:\n{history_text or 'None'}\n\n"
-                f"DOCUMENT CONTEXT:\n{context}\n\n"
-                f"GRAPH KNOWLEDGE:\n{graph_context}\n\n"
-                f"Question: {question}"
-            ),
-        })
-
+        # 4. MODEL CALL
         response = self.client.chat.completions.create(
             model=Config.MODEL_NAME,
             messages=messages,
         )
 
-        return response.choices[0].message.content or ""
+        raw_answer = response.choices[0].message.content or ""
+
+        # 5. OUTPUT GUARDRAIL
+        return self.guardrails.apply_output(raw_answer)
+
+    # ---------------------------
+    # CHAT TITLE
+    # ---------------------------
 
     def generate_chat_title(self, first_message: str) -> str:
         clean_message = first_message.strip()

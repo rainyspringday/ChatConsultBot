@@ -23,6 +23,9 @@ def _normalize_item(text: str) -> str:
 
 
 def _extract_points(raw_text: str, max_points: int = 10) -> List[str]:
+    if raw_text.strip().startswith("{"):
+        return []
+
     points: List[str] = []
     for line in raw_text.splitlines():
         stripped = line.strip()
@@ -85,7 +88,7 @@ def _parse_metrics(raw_text: str) -> tuple[int | None, List[str], List[RevenuePo
     try:
         data = json.loads(raw_text)
     except json.JSONDecodeError:
-        match = re.search(r"\{.*\}", raw_text, re.DOTALL)
+        match = re.search(r"\{[\s\S]*?\}", raw_text)
         if not match:
             return None, [], []
         try:
@@ -216,44 +219,67 @@ def analyze_company(
         benchmark_company = company if normalized in leaders else "Microsoft"
         mode = "leader_optimization" if normalized in leaders else "benchmark_catchup"
 
+        # -----------------------
+        # CURRENT STATE
+        # -----------------------
         state_query = (
             f"Target company: {company}\n"
             f"Benchmark company: {benchmark_company}\n"
             f"Mode: {mode}\n"
             "Provide concrete analysis points only."
         )
-        current_state_response = rag.ask(state_query, "analyze_state")
+        current_state_response = rag.guardrails.apply_output(
+            rag.ask(state_query, "analyze_state")
+        )
         current_state_points = _extract_points(current_state_response, max_points=10)
 
+        # -----------------------
+        # PLAN
+        # -----------------------
         plan_query = (
             f"Target company: {company}\n"
             f"Benchmark company: {benchmark_company}\n"
             f"Mode: {mode}\n"
             "Return prioritized improvements for 30/60/90 days."
         )
-        todo_response = rag.ask(plan_query, "analyze_plan")
+        todo_response = rag.guardrails.apply_output(
+            rag.ask(plan_query, "analyze_plan")
+        )
         todo_points = _extract_points(todo_response, max_points=10)
 
         final_current_state = current_state_points[:10]
         final_todo = [] if mode == "leader_optimization" else todo_points[:10]
+
         if not final_current_state:
             final_current_state = [
                 "No strong evidence found in current context for a detailed state profile."
             ]
+
+        if mode == "leader_optimization" and not final_todo:
+            final_todo = ["No major improvements required for industry leaders."]
+
         if mode != "leader_optimization" and not final_todo:
             final_todo = [
                 "No concrete initiatives were extracted from current context. Add more company-specific material."
             ]
 
+        # -----------------------
+        # METRICS
+        # -----------------------
         metrics_query = (
             f"Target company: {company}\n"
             f"Benchmark company: {benchmark_company}\n"
             f"Mode: {mode}\n"
             "Generate maturity and revenue trajectory metrics."
         )
-        metrics_raw = rag.ask(metrics_query, "analyze_metrics")
+        metrics_raw = rag.guardrails.apply_output(
+            rag.ask(metrics_query, "analyze_metrics")
+        )
         maturity_score, focus_topics, revenue_series = _parse_metrics(metrics_raw)
 
+        # -----------------------
+        # SAVE TO DB
+        # -----------------------
         with get_connection() as conn:
             cursor = conn.execute(
                 """
