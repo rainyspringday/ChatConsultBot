@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List, Dict, Any
+import re
 
 
 class Guardrails:
@@ -29,6 +30,24 @@ class Guardrails:
             "jailbreak",
             "ignore previous instructions",
             "pretend to be",
+            "how to evade law",
+            "avoid the law",
+            "bypass compliance",
+            "how to hack",
+            "steal data",
+            "dump database",
+            "get admin access",
+            "extract all documents",
+            "list all documents",
+            "how many documents",
+            "count documents",
+            "show all files",
+            "list files in database",
+            "export all data",
+            "reveal private data",
+            "show passwords",
+            "api keys",
+            "access tokens",
         ]
 
         # Terms that should block CONTEXT chunks
@@ -46,6 +65,18 @@ class Guardrails:
             "bomb",
             "hack",
             "ignore previous instructions",
+            "api key",
+            "password",
+            "access token",
+        ]
+
+        self.blocked_input_patterns = [
+            re.compile(r"\bhow\s+many\s+(documents|docs|files)\b"),
+            re.compile(r"\bcount\s+(documents|docs|files)\b"),
+            re.compile(r"\b(list|show|export|dump)\s+(all\s+)?(documents|docs|files|data)\b"),
+            re.compile(r"\b(avoid|evade|bypass)\s+(the\s+)?law\b"),
+            re.compile(r"\b(bypass|evade)\s+(compliance|policy|rules?)\b"),
+            re.compile(r"\b(passwords?|tokens?|api\s*keys?)\b"),
         ]
 
     # -------------------------------------------------
@@ -65,6 +96,9 @@ class Guardrails:
 
         for term in self.blocked_input_terms:
             if term in q:
+                return "INVALID_QUERY"
+        for pattern in self.blocked_input_patterns:
+            if pattern.search(q):
                 return "INVALID_QUERY"
 
         return question
@@ -113,6 +147,7 @@ class Guardrails:
         context: str,
         graph_context: str,
         domain_system_prompt: str | None = None,
+        chat_history: List[Dict[str, str]] | None = None,
     ) -> List[Dict[str, Any]]:
 
         messages: List[Dict[str, Any]] = []
@@ -133,6 +168,13 @@ class Guardrails:
                     "content": domain_system_prompt,
                 }
             )
+
+        if chat_history:
+            for entry in chat_history:
+                role = (entry.get("role") or "").strip()
+                content = (entry.get("content") or "").strip()
+                if role in {"user", "assistant"} and content:
+                    messages.append({"role": role, "content": content})
 
         # User message with context
         messages.append(

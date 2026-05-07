@@ -166,7 +166,7 @@ def send_message(
     if not question:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Question is required")
 
-    history = _get_recent_chat_history(chat_id, limit=8)
+    history = _get_recent_chat_history(chat_id, limit=4)
     answer = rag.ask(question, chat_history=history).strip()
     final_title = chat["title"]
     with get_connection() as conn:

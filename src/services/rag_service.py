@@ -215,7 +215,7 @@ class RAGService:
         # 1. INPUT GUARDRAIL
         safe_question = self.guardrails.apply_input(question)
         if safe_question == "INVALID_QUERY":
-            return "INVALID_QUERY"
+            return "I cannot help with that request."
 
         # special case: "how many documents"
         normalized_question = safe_question.lower()
@@ -223,13 +223,7 @@ class RAGService:
             ("how many" in normalized_question or "count" in normalized_question)
             and ("document" in normalized_question or "file" in normalized_question)
         ):
-            self.document_names_cache = self._infer_document_names()
-            count = len(self.document_names_cache)
-            if count == 0:
-                return "I currently do not have any indexed documents."
-            names = ", ".join(self.document_names_cache[:8])
-            extra = "" if count <= 8 else f", and {count - 8} more"
-            return f"I have {count} indexed documents: {names}{extra}."
+            return "I cannot disclose indexed document inventory."
 
         # 2. RETRIEVAL
         chunks = self._hybrid_search(safe_question, k=10)
@@ -244,12 +238,14 @@ class RAGService:
 
         # 3. PROMPTS
         system_prompt = PromptLibrary.get(prompt_name)
+        recent_history = (chat_history or [])[-4:]
 
         messages = self.guardrails.build_messages(
             question=safe_question,
             context=context,
             graph_context=graph_context,
             domain_system_prompt=system_prompt,
+            chat_history=recent_history,
         )
 
         # 4. MODEL CALL
