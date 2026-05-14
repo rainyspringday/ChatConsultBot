@@ -496,7 +496,6 @@ function ChatPage({
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [copiedMessageId, setCopiedMessageId] = useState<number | null>(null)
   const [messageRatings, setMessageRatings] = useState<Record<number, number>>({})
-  const [skipNextLoadForChatId, setSkipNextLoadForChatId] = useState<number | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const activeRequestRef = useRef<AbortController | null>(null)
   const streamingTimerRef = useRef<number | null>(null)
@@ -513,10 +512,7 @@ function ChatPage({
         setMessages([])
         return
       }
-      if (skipNextLoadForChatId === activeChatId) {
-        setSkipNextLoadForChatId(null)
-        return
-      }
+      if (isLoading) return
       const response = await fetch(`${apiBase}/chats/${activeChatId}/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -535,7 +531,7 @@ function ChatPage({
       )
     }
     loadMessages()
-  }, [activeChatId, token, skipNextLoadForChatId])
+  }, [activeChatId, token, isLoading])
 
   const copyMessage = async (messageId: number, content: string) => {
     try {
@@ -580,13 +576,16 @@ function ChatPage({
     event.preventDefault()
     const content = question.trim()
     if (!content || isLoading) return
+    setIsLoading(true)
 
     let targetChatId = activeChatId
     if (!targetChatId) {
       targetChatId = await onEnsureChat()
-      if (targetChatId) setSkipNextLoadForChatId(targetChatId)
     }
-    if (!targetChatId) return
+    if (!targetChatId) {
+      setIsLoading(false)
+      return
+    }
 
     const optimisticUserMessage: ChatMessage = {
       id: Date.now(),
@@ -596,7 +595,6 @@ function ChatPage({
     }
     setMessages((prev) => [...prev, optimisticUserMessage])
     setQuestion('')
-    setIsLoading(true)
 
     try {
       activeRequestRef.current?.abort()
@@ -620,9 +618,13 @@ function ChatPage({
         throw new Error(detail)
       }
 
-      const data = (await response.json()) as { answer?: string; chatTitle?: string }
+      const data = (await response.json()) as {
+        answer?: string
+        chatTitle?: string
+        messageId?: number
+      }
       const answer = data.answer?.trim() || 'No answer returned.'
-      const assistantId = Date.now() + 1
+      const assistantId = data.messageId ?? Date.now() + 1
       setMessages((prev) => [
         ...prev,
         {
@@ -657,6 +659,20 @@ function ChatPage({
         }
       }, 22)
       await onRefreshChats()
+      const syncResponse = await fetch(`${apiBase}/chats/${targetChatId}/messages`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (syncResponse.ok) {
+        const synced = (await syncResponse.json()) as ChatMessage[]
+        setMessages(synced)
+        setMessageRatings(
+          Object.fromEntries(
+            synced
+              .filter((item) => item.role === 'assistant' && typeof item.rating === 'number')
+              .map((item) => [item.id, Number(item.rating)]),
+          ),
+        )
+      }
     } catch (error) {
       const message =
         error instanceof DOMException && error.name === 'AbortError'
