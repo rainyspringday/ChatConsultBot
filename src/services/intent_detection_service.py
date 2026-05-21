@@ -15,13 +15,35 @@ class IntentDetectionService:
             "blue ocean", "errc", "eliminate reduce raise create"
         ]
 
-        # --- GENERIC FRAMEWORK INDICATORS ---
-        # These catch ANY framework-like query
+        # --- STRUCTURAL FRAMEWORK INDICATORS (safe + future-proof) ---
+        # These detect ANY framework-like query without false positives.
         self.generic_framework_indicators = [
-            "framework", "model", "matrix", "analysis", "tool",
-            "strategic", "strategy tool", "evaluation tool",
-            "diagnostic tool", "business tool", "consulting tool",
-            "methodology", "approach", "conceptual model"
+            # Matrix-type frameworks
+            "matrix",            # GE–McKinsey, BCG, Ansoff, etc.
+
+            # Canvas-type frameworks
+            "canvas",            # BMC, Lean Canvas
+
+            # Forces-type frameworks
+            "forces",            # Porter’s Five Forces
+
+            # 7S-type frameworks
+            "7s", "7-s",
+
+            # Blue Ocean Strategy markers
+            "value curve",
+            "strategic canvas",
+
+            # Additional well-known frameworks (future-proofing)
+            "vrio",
+            "pestel", "pestle",
+            "kano",
+            "ansoff",
+            "bcg",
+            "balanced scorecard",
+            "okrs", "okr",
+            "value chain",
+            "growth-share",
         ]
 
         # --- FRAMEWORK COMPONENTS (your 6 frameworks only) ---
@@ -50,39 +72,18 @@ class IntentDetectionService:
             "differentiation strategy"
         ]
 
-        # --- CONSULTING PHRASES THAT IMPLY FRAMEWORK USE ---
+        # --- CONSULTING PHRASES (high precision only) ---
         self.consulting_phrases = [
-            "analyze my business model",
-            "analyze my market",
-            "evaluate my strategy",
-            "diagnose my organization",
-            "competitive pressure",
-            "market structure",
-            "industry analysis",
-            "organizational misalignment",
-            "business model redesign",
-            "innovation strategy",
-            "create a new market",
-            "find competitive advantage",
-            "framework for",
             "which framework",
             "what framework should i use",
-            "how to analyze",
-            "how to evaluate",
-            "how to assess",
-            "strategic decision",
-            "portfolio analysis",
-            "resource allocation",
-            "market attractiveness",
-            "competitive strength"
+            "recommend a framework",
+            "best framework for",
+            "framework for",
+            "analyze using a framework",
+            "apply a framework",
         ]
 
     def detect(self, question: str) -> str:
-        """
-        Returns:
-            "FRAMEWORK" → use frameworks DB
-            "REPORT"     → use economic reports DB
-        """
         q = question.lower()
 
         # 1. Direct matches to your 6 frameworks
@@ -93,7 +94,7 @@ class IntentDetectionService:
         if any(k in q for k in self.framework_components):
             return "FRAMEWORK"
 
-        # 3. Generic framework-like language
+        # 3. Structural indicators for ANY framework
         if any(k in q for k in self.generic_framework_indicators):
             return "FRAMEWORK"
 
