@@ -225,6 +225,46 @@ class RAGService:
         return [c for _, c in scored[:top_k]]
 
     # ---------------------------
+    # RELEVANCE CHECK
+    # ---------------------------
+
+    def _is_relevant(self, chunks: List[str], question: str) -> bool:
+        q = question.lower()
+        joined = " ".join(chunks).lower()
+
+        # Competition → must retrieve Porter content
+        if "competition" in q or "competitive" in q:
+            return any(k in joined for k in [
+                "porter",
+                "five forces",
+                "rivalry",
+                "bargaining power",
+                "substitutes",
+                "industry structure",
+            ])
+
+        # Business model → must retrieve BMC or Lean Canvas
+        if "business model" in q:
+            return any(k in joined for k in [
+                "business model canvas",
+                "lean canvas",
+                "value proposition",
+                "customer segments",
+            ])
+
+        # Strategy → must retrieve Blue Ocean or Porter
+        if "strategy" in q:
+            return any(k in joined for k in [
+                "blue ocean",
+                "porter",
+                "five forces",
+                "strategic canvas",
+            ])
+
+        # Default: require at least one keyword overlap
+        return any(word in joined for word in q.split())
+
+    # ---------------------------
     # MAIN PIPELINE
     # ---------------------------
 
@@ -254,15 +294,15 @@ class RAGService:
             return "No framework detected in provided context."
 
         active_db = (
-            self.chroma_frameworks if intent == "FRAMEWORK"
+            self.chroma_frameworks if intent in ("FRAMEWORK", "ANALYSIS")
             else self.chroma_reports
         )
 
         chunks = self._hybrid_search(safe_question, k=10, db=active_db)
         chunks = self.guardrails.apply_context(chunks)
 
-        if not chunks:
-            return "I don't know based on provided context"
+        if not chunks or not self._is_relevant(chunks, safe_question):
+            return "I don't know based on provided context."
 
         chunks = self._rerank(safe_question, chunks, top_k=3)
         context = self._build_context(chunks)

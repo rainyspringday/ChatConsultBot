@@ -1,11 +1,37 @@
 class IntentDetectionService:
     """
-    Scaled rule-based intent classifier for routing queries
+    Clean, safe, and correct intent classifier for routing queries
     to the correct Chroma DB (frameworks vs economic reports).
     """
 
     def __init__(self):
-        # --- DIRECT FRAMEWORK NAMES (your 6 frameworks) ---
+        # --- WHITELIST: ONLY THESE FRAMEWORKS ARE ALLOWED ---
+        self.allowed_frameworks = [
+            "swot",
+            "porter",
+            "five forces",
+            "business model canvas",
+            "lean canvas",
+            "mckinsey 7s",
+            "7s",
+            "blue ocean",
+        ]
+
+        # --- ANALYSIS INDICATORS (highest priority) ---
+        # These mean: "User wants to CHOOSE a framework"
+        self.analysis_indicators = [
+            "which framework should i use",
+            "what framework should i use",
+            "recommend a framework",
+            "help me choose a framework",
+            "analyze my problem",
+            "analyze my business",
+            "what should i analyze",
+            "how do i understand this problem",
+            "how do i solve this problem",
+        ]
+
+        # --- DIRECT FRAMEWORK NAMES (for EXPLANATION intent) ---
         self.direct_frameworks = [
             "swot", "s.w.o.t",
             "porter", "five forces", "5 forces",
@@ -13,37 +39,6 @@ class IntentDetectionService:
             "lean canvas",
             "mckinsey 7s", "7s", "7-s", "seven s",
             "blue ocean", "errc", "eliminate reduce raise create"
-        ]
-
-        # --- STRUCTURAL FRAMEWORK INDICATORS (safe + future-proof) ---
-        # These detect ANY framework-like query without false positives.
-        self.generic_framework_indicators = [
-            # Matrix-type frameworks
-            "matrix",            # GE–McKinsey, BCG, Ansoff, etc.
-
-            # Canvas-type frameworks
-            "canvas",            # BMC, Lean Canvas
-
-            # Forces-type frameworks
-            "forces",            # Porter’s Five Forces
-
-            # 7S-type frameworks
-            "7s", "7-s",
-
-            # Blue Ocean Strategy markers
-            "value curve",
-            "strategic canvas",
-
-            # Additional well-known frameworks (future-proofing)
-            "vrio",
-            "pestel", "pestle",
-            "kano",
-            "ansoff",
-            "bcg",
-            "balanced scorecard",
-            "okrs", "okr",
-            "value chain",
-            "growth-share",
         ]
 
         # --- FRAMEWORK COMPONENTS (your 6 frameworks only) ---
@@ -72,51 +67,32 @@ class IntentDetectionService:
             "differentiation strategy"
         ]
 
-        # --- CONSULTING PHRASES (high precision only) ---
-        self.consulting_phrases = [
-            "which framework",
-            "what framework should i use",
-            "recommend a framework",
-            "best framework for",
-            "framework for",
-            "analyze using a framework",
-            "apply a framework",
+        # --- EXPLANATION PHRASES ---
+        self.explanation_phrases = [
+            "explain",
+            "describe",
+            "what is",
+            "define",
+            "tell me about",
         ]
-
-    def detect(self, question: str) -> str:
-        q = question.lower()
-
-        # 1. Direct matches to your 6 frameworks
-        if any(k in q for k in self.direct_frameworks):
-            return "FRAMEWORK"
-
-        # 2. Mentions of components of your frameworks
-        if any(k in q for k in self.framework_components):
-            return "FRAMEWORK"
-
-        # 3. Structural indicators for ANY framework
-        if any(k in q for k in self.generic_framework_indicators):
-            return "FRAMEWORK"
-
-        # 4. Consulting-style phrasing
-        if any(k in q for k in self.consulting_phrases):
-            return "FRAMEWORK"
-
-        return "REPORT"
 
     @staticmethod
-    def is_known_framework(question: str) -> bool:
+    def detect(question: str) -> str:
         q = question.lower()
 
-        known = [
-            "swot",
-            "porter",
-            "five forces",
-            "business model canvas",
-            "lean canvas",
-            "mckinsey 7s",
-            "7s",
-            "blue ocean",
-        ]
+        # ANALYSIS: user wants to choose a framework
+        if "which framework" in q or "what framework" in q or "choose a framework" in q:
+            return "ANALYSIS"
 
-        return any(k in q for k in known)
+        # FRAMEWORK: user wants to explain a framework
+        if any(p in q for p in ["explain", "describe", "define", "what is"]):
+            return "FRAMEWORK"
+
+        # Default: economic report
+        return "REPORT"
+
+    # ---------------------------------------------------------
+    # WHITELIST CHECK
+    def is_known_framework(self, question: str) -> bool:
+        q = question.lower()
+        return any(k in q for k in self.allowed_frameworks)
