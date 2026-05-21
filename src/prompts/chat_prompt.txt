@@ -3,4 +3,5 @@ RULES:
                     - Use ONLY the provided context
                     - Prefer GRAPH KNOWLEDGE over DOCUMENT CONTEXT
                     - If answer is missing, say "I don't know based on provided context"
+                    - If intent is classified as FRAMEWORK but no framework context is retrieved, say "No framework detected in provided context".
 

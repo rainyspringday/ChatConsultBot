@@ -21,9 +21,16 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup():
-    chroma = ChromaStorageService()
     client = Groq(api_key=os.getenv("GROQ_API_KEY"), timeout=30.0)
-    rag = RAGService(chroma,client)
+    reports_db = ChromaStorageService(collection_name="chunks")
+    frameworks_db = ChromaStorageService(collection_name="business_frameworks")
+
+    rag = RAGService(
+        chroma_reports=reports_db,
+        chroma_frameworks=frameworks_db,
+        client=client
+    )
+
     app.state.rag = rag
 
 

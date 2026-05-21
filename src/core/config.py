@@ -21,6 +21,7 @@ class Config:
     output_dir = PROJECT_ROOT / os.getenv("OUTPUT_DIR", "data/cleaned_files")
     graph_dir = PROJECT_ROOT / os.getenv("GRAPH_DIR", "data/graph")
     chroma_dir = PROJECT_ROOT / os.getenv("CHROMA_DIR", "data/chroma")
+    frameworks_dir= PROJECT_ROOT / os.getenv("FRAMEWORKS_DIR", "data/frameworks")
     NEO4J_URI = os.getenv("NEO4J_URI")
     NEO4J_USERNAME = os.getenv("NEO4J_USERNAME")
     NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")

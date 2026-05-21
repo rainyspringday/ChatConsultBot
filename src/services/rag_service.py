@@ -6,21 +6,27 @@ from typing import List, Dict, Any, Tuple
 from src.core.config import Config
 from src.prompts.prompt_library import PromptLibrary
 from src.core.guardrails import Guardrails
+from src.services.intent_detection_service import IntentDetectionService
 
 
 class RAGService:
-    def __init__(self, chroma, client) -> None:
-        self.chroma = chroma
+    def __init__(self, chroma_reports, chroma_frameworks, client) -> None:
+        self.chroma_reports = chroma_reports
+        self.chroma_frameworks = chroma_frameworks
         self.client = client
+        self.intent_detector = IntentDetectionService()
 
         # unified guardrails service
         self.guardrails = Guardrails()
 
-        # your improved logic
+        # graph
         self.graph = self._load_graph()
         self.graph_index = self._build_graph_index()
 
-        self.all_docs_cache = self._get_all_documents()
+        # SEPARATE CACHES
+        self.reports_cache = self._get_all_documents(self.chroma_reports)
+        self.frameworks_cache = self._get_all_documents(self.chroma_frameworks)
+
         self.document_names_cache = self._infer_document_names()
 
     # ---------------------------
@@ -98,8 +104,9 @@ class RAGService:
     # VECTOR + KEYWORD SEARCH
     # ---------------------------
 
-    def _get_all_documents(self, batch_size: int = 100) -> List[Dict[str, Any]]:
-        collection = self.chroma.collection
+    def _get_all_documents(self, db, batch_size: int = 100) -> List[Dict[str, Any]]:
+        """Loads all documents from a specific Chroma DB."""
+        collection = db.collection
         results = []
 
         offset = 0
@@ -119,11 +126,12 @@ class RAGService:
 
         return results
 
-    def _keyword_search(self, query: str, k: int = 5) -> List[str]:
+    def _keyword_search(self, query: str, cache, k: int = 5) -> List[str]:
+        """Keyword search using the correct cache (reports or frameworks)."""
         terms = query.lower().split()
         scored = []
 
-        for doc in self.all_docs_cache:
+        for doc in cache:
             text = doc["text"].lower()
             score = sum(t in text for t in terms)
 
@@ -133,33 +141,24 @@ class RAGService:
         scored.sort(key=lambda x: x[0], reverse=True)
         return [d for _, d in scored[:k]]
 
-    def _infer_document_names(self) -> List[str]:
-        names = {
-            file.name
-            for file in Path(Config.output_dir).glob("*_cleaned.txt")
-            if file.is_file()
-        }
-        if names:
-            return sorted(names)
-
-        pattern = re.compile(r"---\s*(.+?)\s*---")
-        for doc in self.all_docs_cache:
-            text = doc.get("text", "")
-            for match in pattern.findall(text):
-                cleaned = match.strip()
-                if cleaned:
-                    names.add(cleaned)
-        return sorted(names)
-
-    def _vector_search(self, query: str) -> List[str]:
-        res = self.chroma.search(query)
+    def _vector_search(self, query: str, db) -> List[str]:
+        """Vector search using the correct DB."""
+        res = db.search(query)
         if not res.get("documents"):
             return []
         return res["documents"][0]
 
-    def _hybrid_search(self, query: str, k: int = 5) -> List[str]:
-        vector = self._vector_search(query)
-        keyword = self._keyword_search(query, k)
+    def _hybrid_search(self, query: str, k: int = 5, db=None) -> List[str]:
+        """Hybrid search that uses the correct DB + correct keyword cache."""
+        db = db or self.chroma_reports
+
+        cache = (
+            self.frameworks_cache if db is self.chroma_frameworks
+            else self.reports_cache
+        )
+
+        vector = self._vector_search(query, db)
+        keyword = self._keyword_search(query, cache, k)
 
         seen = set()
         combined = []
@@ -170,6 +169,30 @@ class RAGService:
                 combined.append(doc)
 
         return combined[:k]
+
+    # ---------------------------
+    # DOCUMENT NAME INFERENCE
+    # ---------------------------
+
+    def _infer_document_names(self) -> List[str]:
+        """Infer names only from REPORTS (frameworks don't have names)."""
+        names = {
+            file.name
+            for file in Path(Config.output_dir).glob("*_cleaned.txt")
+            if file.is_file()
+        }
+        if names:
+            return sorted(names)
+
+        pattern = re.compile(r"---\s*(.+?)\s*---")
+        for doc in self.reports_cache:
+            text = doc.get("text", "")
+            for match in pattern.findall(text):
+                cleaned = match.strip()
+                if cleaned:
+                    names.add(cleaned)
+
+        return sorted(names)
 
     # ---------------------------
     # CONTEXT BUILDING
@@ -217,7 +240,6 @@ class RAGService:
         if safe_question == "INVALID_QUERY":
             return "I cannot help with that request."
 
-        # special case: "how many documents"
         normalized_question = safe_question.lower()
         if (
             ("how many" in normalized_question or "count" in normalized_question)
@@ -225,12 +247,22 @@ class RAGService:
         ):
             return "I cannot disclose indexed document inventory."
 
-        # 2. RETRIEVAL
-        chunks = self._hybrid_search(safe_question, k=10)
+        # 2. INTENT ROUTING
+        intent = self.intent_detector.detect(safe_question)
+
+        if intent == "FRAMEWORK" and not self.intent_detector.is_known_framework(safe_question):
+            return "No framework detected in provided context."
+
+        active_db = (
+            self.chroma_frameworks if intent == "FRAMEWORK"
+            else self.chroma_reports
+        )
+
+        chunks = self._hybrid_search(safe_question, k=10, db=active_db)
         chunks = self.guardrails.apply_context(chunks)
 
         if not chunks:
-            return "No relevant context found."
+            return "I don't know based on provided context"
 
         chunks = self._rerank(safe_question, chunks, top_k=3)
         context = self._build_context(chunks)
