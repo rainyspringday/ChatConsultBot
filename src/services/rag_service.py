@@ -10,31 +10,42 @@ from src.services.intent_detection_service import IntentDetectionService
 
 
 class RAGService:
+    """
+    Main RAG service responsible for:
+    - intent detection
+    - hybrid retrieval (vector + keyword)
+    - graph-based context enrichment
+    - guardrails (input + output)
+    - prompt construction
+    - LLM call orchestration
+    """
+
     def __init__(self, chroma_reports, chroma_frameworks, client) -> None:
         self.chroma_reports = chroma_reports
         self.chroma_frameworks = chroma_frameworks
         self.client = client
-        self.intent_detector = IntentDetectionService()
 
-        # unified guardrails service
+        self.intent_detector = IntentDetectionService()
         self.guardrails = Guardrails()
 
-        # graph
+        # Load graph and build index
         self.graph = self._load_graph()
         self.graph_index = self._build_graph_index()
 
-        # SEPARATE CACHES
+        # Cache documents for keyword search
         self.reports_cache = self._get_all_documents(self.chroma_reports)
         self.frameworks_cache = self._get_all_documents(self.chroma_frameworks)
 
+        # Infer document names (reports only)
         self.document_names_cache = self._infer_document_names()
 
-    # ---------------------------
+    # -------------------------------------------------------------------------
     # GRAPH LOADING
-    # ---------------------------
+    # -------------------------------------------------------------------------
 
     @staticmethod
     def _load_graph() -> List[Dict[str, str]]:
+        """Load graph triplets from graph.json."""
         path = Config.graph_dir / "graph.json"
         if not path.exists():
             return []
@@ -42,12 +53,12 @@ class RAGService:
         try:
             with path.open("r", encoding="utf-8") as f:
                 data = json.load(f)
+                return data if isinstance(data, list) else []
         except (json.JSONDecodeError, OSError):
             return []
 
-        return data if isinstance(data, list) else []
-
     def _build_graph_index(self) -> Dict[str, List[Dict[str, str]]]:
+        """Build an inverted index for fast graph lookup."""
         index: Dict[str, List[Dict[str, str]]] = {}
 
         for triple in self.graph:
@@ -59,11 +70,12 @@ class RAGService:
 
         return index
 
-    # ---------------------------
+    # -------------------------------------------------------------------------
     # GRAPH RETRIEVAL
-    # ---------------------------
+    # -------------------------------------------------------------------------
 
     def _get_graph_context(self, query: str, max_results: int = 8) -> str:
+        """Retrieve relevant graph triplets based on query terms."""
         STOPWORDS = {
             "what", "is", "a", "an", "the", "how", "why",
             "do", "does", "of", "in", "on", "for", "to", "and"
@@ -79,12 +91,14 @@ class RAGService:
 
         scored: Dict[Tuple[str, str, str], int] = {}
 
+        # Direct term match
         for term in terms:
             if term in self.graph_index:
                 for triple in self.graph_index[term]:
                     key = (triple["subject"], triple["relation"], triple["object"])
                     scored[key] = scored.get(key, 0) + 3
 
+        # Fuzzy match
         for triple in self.graph:
             text = f"{triple['subject']} {triple['relation']} {triple['object']}".lower()
             for term in terms:
@@ -100,19 +114,18 @@ class RAGService:
             for ((s, r, o), _) in top
         )
 
-    # ---------------------------
-    # VECTOR + KEYWORD SEARCH
-    # ---------------------------
+    # -------------------------------------------------------------------------
+    # DOCUMENT LOADING
+    # -------------------------------------------------------------------------
 
     def _get_all_documents(self, db, batch_size: int = 100) -> List[Dict[str, Any]]:
-        """Loads all documents from a specific Chroma DB."""
+        """Load all documents from a Chroma collection."""
         collection = db.collection
         results = []
 
         offset = 0
         while True:
             batch = collection.get(limit=batch_size, offset=offset)
-
             docs = batch.get("documents", [])
             metas = batch.get("metadatas", [])
 
@@ -126,15 +139,18 @@ class RAGService:
 
         return results
 
+    # -------------------------------------------------------------------------
+    # SEARCH METHODS
+    # -------------------------------------------------------------------------
+
     def _keyword_search(self, query: str, cache, k: int = 5) -> List[str]:
-        """Keyword search using the correct cache (reports or frameworks)."""
+        """Simple keyword search over cached documents."""
         terms = query.lower().split()
         scored = []
 
         for doc in cache:
             text = doc["text"].lower()
             score = sum(t in text for t in terms)
-
             if score > 0:
                 scored.append((score, doc["text"]))
 
@@ -142,14 +158,14 @@ class RAGService:
         return [d for _, d in scored[:k]]
 
     def _vector_search(self, query: str, db) -> List[str]:
-        """Vector search using the correct DB."""
+        """Vector search using Chroma."""
         res = db.search(query)
         if not res.get("documents"):
             return []
         return res["documents"][0]
 
     def _hybrid_search(self, query: str, k: int = 5, db=None) -> List[str]:
-        """Hybrid search that uses the correct DB + correct keyword cache."""
+        """Hybrid search combining vector + keyword search."""
         db = db or self.chroma_reports
 
         cache = (
@@ -170,20 +186,22 @@ class RAGService:
 
         return combined[:k]
 
-    # ---------------------------
+    # -------------------------------------------------------------------------
     # DOCUMENT NAME INFERENCE
-    # ---------------------------
+    # -------------------------------------------------------------------------
 
     def _infer_document_names(self) -> List[str]:
-        """Infer names only from REPORTS (frameworks don't have names)."""
+        """Infer document names from cleaned report files."""
         names = {
             file.name
             for file in Path(Config.output_dir).glob("*_cleaned.txt")
             if file.is_file()
         }
+
         if names:
             return sorted(names)
 
+        # Fallback: extract names from document headers
         pattern = re.compile(r"---\s*(.+?)\s*---")
         for doc in self.reports_cache:
             text = doc.get("text", "")
@@ -194,20 +212,22 @@ class RAGService:
 
         return sorted(names)
 
-    # ---------------------------
+    # -------------------------------------------------------------------------
     # CONTEXT BUILDING
-    # ---------------------------
+    # -------------------------------------------------------------------------
 
     @staticmethod
     def _build_context(chunks: List[str], max_chunks: int = 3) -> str:
+        """Join top chunks into a single context block."""
         filtered = [c.strip() for c in chunks if len(c.strip()) > 50]
         return "\n\n".join(filtered[:max_chunks])
 
-    # ---------------------------
+    # -------------------------------------------------------------------------
     # RERANKING
-    # ---------------------------
+    # -------------------------------------------------------------------------
 
     def _rerank(self, query: str, chunks: List[str], top_k: int = 3) -> List[str]:
+        """Simple keyword-based reranking."""
         if not chunks:
             return []
 
@@ -224,49 +244,41 @@ class RAGService:
         scored.sort(key=lambda x: x[0], reverse=True)
         return [c for _, c in scored[:top_k]]
 
-    # ---------------------------
-    # RELEVANCE CHECK
-    # ---------------------------
+    # -------------------------------------------------------------------------
+    # RELEVANCE FILTER (Option A)
+    # -------------------------------------------------------------------------
 
     def _is_relevant(self, chunks: List[str], question: str) -> bool:
+        """Relevance filter used ONLY for framework + analysis queries."""
         q = question.lower()
         joined = " ".join(chunks).lower()
 
         # Competition → must retrieve Porter content
         if "competition" in q or "competitive" in q:
             return any(k in joined for k in [
-                "porter",
-                "five forces",
-                "rivalry",
-                "bargaining power",
-                "substitutes",
-                "industry structure",
+                "porter", "five forces", "rivalry",
+                "bargaining power", "substitutes", "industry structure"
             ])
 
         # Business model → must retrieve BMC or Lean Canvas
         if "business model" in q:
             return any(k in joined for k in [
-                "business model canvas",
-                "lean canvas",
-                "value proposition",
-                "customer segments",
+                "business model canvas", "lean canvas",
+                "value proposition", "customer segments"
             ])
 
         # Strategy → must retrieve Blue Ocean or Porter
         if "strategy" in q:
             return any(k in joined for k in [
-                "blue ocean",
-                "porter",
-                "five forces",
-                "strategic canvas",
+                "blue ocean", "porter", "five forces", "strategic canvas"
             ])
 
         # Default: require at least one keyword overlap
         return any(word in joined for word in q.split())
 
-    # ---------------------------
+    # -------------------------------------------------------------------------
     # MAIN PIPELINE
-    # ---------------------------
+    # -------------------------------------------------------------------------
 
     def ask(
         self,
@@ -281,6 +293,8 @@ class RAGService:
             return "I cannot help with that request."
 
         normalized_question = safe_question.lower()
+
+        # Prevent document inventory disclosure
         if (
             ("how many" in normalized_question or "count" in normalized_question)
             and ("document" in normalized_question or "file" in normalized_question)
@@ -290,25 +304,28 @@ class RAGService:
         # 2. INTENT ROUTING
         intent = self.intent_detector.detect(safe_question)
 
-        if intent == "FRAMEWORK" and not self.intent_detector.is_known_framework(safe_question):
-            return "No framework detected in provided context."
-
         active_db = (
             self.chroma_frameworks if intent in ("FRAMEWORK", "ANALYSIS")
             else self.chroma_reports
         )
 
+        # 3. RETRIEVAL
         chunks = self._hybrid_search(safe_question, k=10, db=active_db)
         chunks = self.guardrails.apply_context(chunks)
 
-        if not chunks or not self._is_relevant(chunks, safe_question):
+        if not chunks:
             return "I don't know based on provided context."
+
+        # Relevance filtering ONLY for framework + analysis
+        if intent in ("FRAMEWORK", "ANALYSIS"):
+            if not self._is_relevant(chunks, safe_question):
+                return "I don't know based on provided context."
 
         chunks = self._rerank(safe_question, chunks, top_k=3)
         context = self._build_context(chunks)
         graph_context = self._get_graph_context(safe_question)
 
-        # 3. PROMPTS
+        # 4. PROMPT CONSTRUCTION
         system_prompt = PromptLibrary.get(prompt_name)
         recent_history = (chat_history or [])[-4:]
 
@@ -320,7 +337,7 @@ class RAGService:
             chat_history=recent_history,
         )
 
-        # 4. MODEL CALL
+        # 5. MODEL CALL
         response = self.client.chat.completions.create(
             model=Config.MODEL_NAME,
             messages=messages,
@@ -328,14 +345,15 @@ class RAGService:
 
         raw_answer = response.choices[0].message.content or ""
 
-        # 5. OUTPUT GUARDRAIL
+        # 6. OUTPUT GUARDRAIL
         return self.guardrails.apply_output(raw_answer)
 
-    # ---------------------------
+    # -------------------------------------------------------------------------
     # CHAT TITLE
-    # ---------------------------
+    # -------------------------------------------------------------------------
 
     def generate_chat_title(self, first_message: str) -> str:
+        """Generate a short chat title using the LLM."""
         clean_message = first_message.strip()
         if not clean_message:
             return "New chat"
@@ -351,10 +369,7 @@ class RAGService:
                             "No quotes. No trailing punctuation."
                         ),
                     },
-                    {
-                        "role": "user",
-                        "content": clean_message,
-                    },
+                    {"role": "user", "content": clean_message},
                 ],
             )
 
