@@ -253,6 +253,22 @@ class RAGService:
         q = question.lower()
         joined = " ".join(chunks).lower()
 
+        # If the user query includes a whitelisted framework name, require that
+        # at least one framework signal shows up in retrieved text. This avoids
+        # false negatives on short prompts like "Explain SWOT".
+        framework_signals = [k for k in self.intent_detector.allowed_frameworks if k and k in q]
+        component_signals = [c for c in self.intent_detector.framework_components if c and c in q]
+
+        # If the user is clearly asking about a whitelisted framework or one of its components,
+        # require retrieval to contain at least a framework-level signal. Component terms can be
+        # missing due to chunk boundaries; framework name match is sufficient.
+        if framework_signals or component_signals:
+            if any(fw in joined for fw in self.intent_detector.allowed_frameworks):
+                return True
+            # Otherwise fall back to stricter match against the specific signals present in query.
+            required_terms = framework_signals + component_signals
+            return any(term in joined for term in required_terms)
+
         # Competition → must retrieve Porter content
         if "competition" in q or "competitive" in q:
             return any(k in joined for k in [
@@ -274,7 +290,60 @@ class RAGService:
             ])
 
         # Default: require at least one keyword overlap
-        return any(word in joined for word in q.split())
+        stop = {
+            "explain", "describe", "define", "what", "is", "are", "the", "a", "an",
+            "tell", "me", "about", "please", "in", "on", "of", "to", "and", "or",
+            "for", "with"
+        }
+        terms = [w for w in re.findall(r"[a-z0-9]+", q) if w not in stop and len(w) > 2]
+        return any(word in joined for word in terms)
+
+    def _is_unknown_framework_query(self, question: str) -> bool:
+        """
+        Detect explicit requests for non-whitelisted frameworks.
+        This is independent from intent routing, so unsupported framework
+        prompts are rejected consistently.
+        """
+        q = question.lower()
+
+        recommendation_requests = (
+            "which framework" in q
+            or "what framework should i use" in q
+            or "choose a framework" in q
+            or "recommend a framework" in q
+            or "suggest framework" in q
+        )
+        if recommendation_requests:
+            return False
+
+        asks_to_explain = any(
+            phrase in q for phrase in ("explain", "describe", "define", "what is", "tell me about")
+        )
+        framework_like = ("framework" in q) or ("matrix" in q)
+        if not asks_to_explain or not framework_like:
+            return False
+
+        return not self.intent_detector.is_known_framework(q)
+
+    @staticmethod
+    def _is_report_query_relevant(chunks: List[str], question: str) -> bool:
+        """
+        Basic domain gate for REPORT queries to prevent out-of-domain answers.
+        """
+        q = question.lower()
+        domain_terms = (
+            "econom", "oecd", "imf", "world bank", "undp", "gdp", "inflation",
+            "productivity", "growth", "policy", "development", "market", "business",
+            "sales", "competition", "customer", "churn", "company", "revenue",
+            "cost", "profit", "strategy", "report"
+        )
+
+        if not any(term in q for term in domain_terms):
+            return False
+
+        joined = " ".join(chunks).lower()
+        query_words = [w for w in re.findall(r"[a-z0-9]+", q) if len(w) > 2]
+        return any(word in joined for word in query_words)
 
     # -------------------------------------------------------------------------
     # MAIN PIPELINE
@@ -304,6 +373,22 @@ class RAGService:
         # 2. INTENT ROUTING
         intent = self.intent_detector.detect(safe_question)
 
+        # Reject unsupported frameworks even if intent was classified as REPORT.
+        if self._is_unknown_framework_query(normalized_question):
+            return "No framework detected in provided context."
+
+        # For ANALYSIS queries, the user often asks "what framework should I use"
+        # without naming one. That should be allowed. Only reject when the user is
+        # explicitly asking to explain an unsupported framework.
+        if intent == "FRAMEWORK":
+            asked_to_explain = any(
+                phrase in normalized_question
+                for phrase in ("explain", "describe", "define", "what is", "tell me about")
+            )
+            if asked_to_explain and ("framework" in normalized_question or "matrix" in normalized_question):
+                if not self.intent_detector.is_known_framework(normalized_question):
+                    return "No framework detected in provided context."
+
         active_db = (
             self.chroma_frameworks if intent in ("FRAMEWORK", "ANALYSIS")
             else self.chroma_reports
@@ -319,6 +404,9 @@ class RAGService:
         # Relevance filtering ONLY for framework + analysis
         if intent in ("FRAMEWORK", "ANALYSIS"):
             if not self._is_relevant(chunks, safe_question):
+                return "I don't know based on provided context."
+        elif intent == "REPORT":
+            if not self._is_report_query_relevant(chunks, safe_question):
                 return "I don't know based on provided context."
 
         chunks = self._rerank(safe_question, chunks, top_k=3)

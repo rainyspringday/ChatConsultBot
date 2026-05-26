@@ -76,19 +76,46 @@ class IntentDetectionService:
             "tell me about",
         ]
 
-    @staticmethod
-    def detect(question: str) -> str:
-        q = question.lower()
+    def detect(self, question: str) -> str:
+        """
+        Returns one of: FRAMEWORK, ANALYSIS, REPORT
 
-        # ANALYSIS: user wants to choose a framework
+        Design goals (from PDD):
+        - ANALYSIS: user wants a framework recommendation / mapping
+        - FRAMEWORK: user wants explanation of a WHITELISTED framework/component
+        - REPORT: everything else (including out-of-domain)
+        """
+        q = (question or "").lower().strip()
+        if not q:
+            return "REPORT"
+
+        # -----------------------
+        # ANALYSIS (highest priority)
+        # -----------------------
+        if any(indicator in q for indicator in self.analysis_indicators):
+            return "ANALYSIS"
         if "which framework" in q or "what framework" in q or "choose a framework" in q:
             return "ANALYSIS"
+        if "suggest framework" in q or "recommend framework" in q:
+            return "ANALYSIS"
 
-        # FRAMEWORK: user wants to explain a framework
-        if any(p in q for p in ["explain", "describe", "define", "what is"]):
+        # -----------------------
+        # FRAMEWORK (only if whitelisted signal is present)
+        # -----------------------
+        explanation_requested = any(p in q for p in self.explanation_phrases)
+        component_requested = any(comp in q for comp in self.framework_components)
+        framework_signal = (
+            self.is_known_framework(q)
+            or any(name in q for name in self.direct_frameworks)
+            or ("framework" in q and self.is_known_framework(q))
+        )
+        # Component clarification (PDD user story) should route to FRAMEWORK
+        # even if the user didn't use "explain/define/what is" phrasing.
+        if framework_signal and (explanation_requested or component_requested):
             return "FRAMEWORK"
 
-        # Default: economic report
+        # If user explicitly asks about "a framework" but none is whitelisted, treat as REPORT.
+        # (Whitelist rejection is handled in the RAG pipeline for clearer messaging.)
         return "REPORT"
 
     # ---------------------------------------------------------

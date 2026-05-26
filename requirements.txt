@@ -10,3 +10,4 @@ aiohttp
 chromadb
 spacy
 protobuf
+pytest
