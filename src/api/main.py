@@ -12,7 +12,15 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1|0\.0\.0\.0|\d{1,3}(?:\.\d{1,3}){3})(:\d+)?$",
+    allow_origin_regex=(
+        r"^https?://("
+        r"localhost|127\.0\.0\.1|0\.0\.0\.0|\d{1,3}(?:\.\d{1,3}){3}"
+        r"|[a-z0-9-]+\.ngrok-free\.app"
+        r"|[a-z0-9-]+\.ngrok-free\.dev"
+        r"|[a-z0-9-]+\.ngrok\.io"
+        r"|[a-z0-9-]+\.ngrok\.app"
+        r")(:\d+)?$"
+    ),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -38,6 +46,15 @@ def startup():
 app.include_router(analyze.router)
 app.include_router(auth.router)
 app.include_router(chat_sessions.router)
+
+
+@app.get("/")
+def root():
+    return {
+        "message": "ChatConsultBot API is running.",
+        "hint": "Open the frontend ngrok URL in your browser (port 5173 tunnel), not this backend URL.",
+        "health": "/health",
+    }
 
 
 @app.get("/health")

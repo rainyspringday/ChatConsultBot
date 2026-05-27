@@ -25,7 +25,7 @@ type AnalysisResult = {
   createdAt?: string
 }
 
-const apiBase = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'
+const apiBase = import.meta.env.VITE_API_BASE_URL ?? ''
 const authTokenKey = 'chatconsultbot_auth_token'
 const usernameKey = 'chatconsultbot_username'
 
